@@ -44,7 +44,7 @@ return {
         end
     },
     {
-        "AstroNvim/astroui",
+        "hyasysu/astroui",
         ---@type AstroUIOpts
         opts = {
             -- change colorscheme

@@ -1,6 +1,6 @@
 return {
     {
-        "AstroNvim/astroui",
+        "hyasysu/astroui",
         lazy = true,
         ---@type AstroUIOpts
         opts = {
@@ -128,8 +128,8 @@ return {
         },
     },
     {
-        "AstroNvim/astrocore",
-        dependencies = { "AstroNvim/astroui" },
+        "hyasysu/astrocore",
+        dependencies = { "hyasysu/astroui" },
         lazy = false,
         priority = 10000,
         opts = function(_, opts)
