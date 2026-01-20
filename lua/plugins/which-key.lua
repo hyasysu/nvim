@@ -7,10 +7,11 @@ return {
 		local get_icon = require("util.icons").get_icon
 		wk.setup(opts)
 		wk.add({
-			{ "<leader>e", group = " Neotree", icon = get_icon("ui", "NeoTree") },
-			{ "<leader>f", group = "Find",     icon = get_icon("ui", "Search") },
-			{ "<leader>t", group = "Terminal", icon = get_icon("ui", "Terminal") },
-			{ "<leader>l", group = "LSP",      icon = get_icon("ui", "ActiveLSP") },
+			{ "<leader>e", group = " Neotree", icon = get_icon("ui", "NeoTree", 1) },
+			{ "<leader>f", group = "Find",     icon = get_icon("ui", "Search", 1) },
+			{ "<leader>t", group = "Terminal", icon = get_icon("ui", "Terminal", 1) },
+			{ "<leader>l", group = "LSP",      icon = get_icon("ui", "ActiveLSP", 1) },
+			{ "<leader>u", group = "UI/UX",    icon = get_icon("ui", "Window", 1) },
 		}, {
 			mode = { "n", "v" },
 		})
