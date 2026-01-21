@@ -117,6 +117,7 @@ local M = {
             NeoTree           = "",
             ActiveLSP         = "",
             Window            = "",
+            Buffer            = "󰓩",
         },
         diagnostics = {
             General = "󰒡",

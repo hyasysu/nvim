@@ -12,6 +12,7 @@ return {
 			{ "<leader>t", group = "Terminal", icon = get_icon("ui", "Terminal", 1) },
 			{ "<leader>l", group = "LSP",      icon = get_icon("ui", "ActiveLSP", 1) },
 			{ "<leader>u", group = "UI/UX",    icon = get_icon("ui", "Window", 1) },
+			{ "<leader>b", group = "Buffers",  icon = get_icon("ui", "Buffer", 1) },
 		}, {
 			mode = { "n", "v" },
 		})

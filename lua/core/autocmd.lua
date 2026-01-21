@@ -56,3 +56,40 @@ vim.api.nvim_create_autocmd("TermClose", {
         end
     end,
 })
+
+
+-- BufferlineAutoCmds
+
+local bufferline_group = vim.api.nvim_create_augroup("BufferlineAutoCmds", { clear = true })
+
+-- Function to close empty and unnamed buffers
+local function close_empty_unnamed_buffers()
+    -- Get a list of all buffers
+    local buffers = vim.api.nvim_list_bufs()
+
+    -- Iterate over each buffer
+    for _, bufnr in ipairs(buffers) do
+        -- Check if the buffer is empty and doesn't have a name
+        if vim.api.nvim_buf_is_loaded(bufnr) and vim.api.nvim_buf_get_name(bufnr) == '' and
+            -- vim.api.nvim_buf_get_option(bufnr, 'buftype') == ''
+            vim.bo[bufnr].buftype == '' then
+            -- Close the buffer if it's empty:
+            if vim.api.nvim_buf_line_count(bufnr) == 1 then
+                local lines = vim.api.nvim_buf_get_lines(bufnr, 0, 1, false)
+                if #lines == 0 or lines[0] == nil or #lines[0] == 0 then
+                    vim.api.nvim_buf_delete(bufnr, {
+                        force = true,
+                    })
+                end
+            end
+        end
+    end
+end
+
+-- Clear the mandatory, empty, unnamed buffer when a real file is opened:
+-- vim.api.nvim_command('autocmd BufReadPost * lua require("config.bufferline_setup").close_empty_unnamed_buffers()')
+vim.api.nvim_create_autocmd("BufReadPost", {
+    group = bufferline_group,
+    desc = "Close empty and unnamed buffers when a real file is opened",
+    callback = close_empty_unnamed_buffers,
+})
