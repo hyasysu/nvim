@@ -13,8 +13,9 @@ return {
 			{ "<leader>l", group = "LSP",      icon = get_icon("ui", "ActiveLSP", 1) },
 			{ "<leader>u", group = "UI/UX",    icon = get_icon("ui", "Window", 1) },
 			{ "<leader>b", group = "Buffers",  icon = get_icon("ui", "Buffer", 1) },
+			{ "<leader>g", group = "Git",      icon = get_icon("git", "Git", 1) },
 		}, {
-			mode = { "n", "v" },
+			mode = { "n", "v", "i", "t" },
 		})
 	end,
 }
