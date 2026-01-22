@@ -1,6 +1,7 @@
 return {
     {
         'hrsh7th/nvim-cmp',
+        event = "InsertEnter",
         dependencies = {
             "hrsh7th/cmp-nvim-lsp",
             'hrsh7th/cmp-nvim-lsp-signature-help',
@@ -38,7 +39,7 @@ return {
                 local line = cursor[1]
                 local col = cursor[2]
                 return col ~= 0 and
-                vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+                    vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
             end
 
             cmp.setup {
