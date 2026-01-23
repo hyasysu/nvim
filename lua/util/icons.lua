@@ -134,6 +134,7 @@ local M = {
             Arch = "󰣇 ",
         },
         cmake = {
+            Default = "",
             CMake = "",
             Build = "",
             Run = "",

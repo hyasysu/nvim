@@ -1,6 +1,53 @@
+local function get_jobs_number()
+    -- 首先尝试使用vim.loop.available_parallelism
+    if vim.loop and vim.loop.available_parallelism then
+        return tonumber(vim.loop.available_parallelism()) or 4
+    end
+
+    -- 备选方案：根据操作系统执行命令获取核心数
+    local os_name = vim.loop.os_uname().sysname
+    local cmd
+
+    if os_name == "Linux" then
+        cmd = "nproc"
+    elseif os_name == "Darwin" then
+        cmd = "sysctl -n hw.ncpu"
+    elseif os_name == "Windows_NT" then
+        cmd = "wmic cpu get NumberOfCores"
+    else
+        return 4 -- 默认值
+    end
+
+    local handle = io.popen(cmd)
+    if handle then
+        local result = handle:read("*a")
+        handle:close()
+
+        -- 解析结果，对于Windows，命令输出包含标题行，我们需要提取数字
+        if os_name == "Windows_NT" then
+            -- 匹配数字，Windows命令输出可能有多行，我们取最后一个数字（跳过标题行）
+            local cores = result:match("%d+")
+            if cores then
+                return tonumber(cores)
+            end
+        else
+            -- Linux和macOS的命令输出直接是数字
+            local cores = result:match("%d+")
+            if cores then
+                return tonumber(cores)
+            end
+        end
+    end
+
+    return 4 -- 如果所有方法都失败，返回默认值
+end
+
 return {
     "Civitasv/cmake-tools.nvim",
     ft = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
+    opts = {
+        cmake_build_options = { "-j", get_jobs_number() },
+    },
     config = function()
         require("cmake-tools").setup {
             cmake_command = "cmake",          -- thie is used to specify cmake command path
@@ -9,7 +56,7 @@ return {
                 "-GNinja",
                 "-DCMAKE_EXPORT_COMPILE_COMMANDS=1"
             },
-            cmake_build_options = { "" },                -- this will be passed when invoke `CMakeBuild` command
+            cmake_build_options = { "-j", get_jobs_number() },         -- this will be passed when invoke `CMakeBuild` command
             cmake_build_directory = "build",             -- this is used to specify build directory
             cmake_soft_link_compile_commands = false,    -- this will automatically make a soft link from compile commands file to project root dir
             cmake_compile_commands_from_lsp = true,      -- this will automatically set compile commands file location using lsp, to use it, please set `cmake_soft_link_compile_commands` to false

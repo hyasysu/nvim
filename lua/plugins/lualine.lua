@@ -1,5 +1,10 @@
 local cmake_callback = function(res)
-    vim.notify(res.message, vim.log.levels.WARN)
+    local get_icon = require("util.icons").get_icon
+    if res.code == 0 then
+        vim.notify("Build successful", vim.log.levels.INFO, { title = get_icon("cmake", "Default") .. " CMake" })
+    else
+        vim.notify(res.message, vim.log.levels.WARN, { title = get_icon("cmake", "Default") .. " CMake" })
+    end
 end
 
 return {
