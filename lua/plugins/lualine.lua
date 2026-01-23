@@ -1,3 +1,7 @@
+local cmake_callback = function(res)
+    vim.notify(res.message, vim.log.levels.WARN)
+end
+
 return {
     'nvim-lualine/lualine.nvim',
     event = { "BufReadPost", "BufNewFile" },
@@ -63,16 +67,16 @@ return {
                             if not b_target then
                                 local l_target = cmake.get_launch_target()
                                 if l_target then
-                                    cmake.build {
+                                    cmake.build({
                                         target = l_target,
-                                    }
+                                    }, cmake_callback)
                                     return
                                 end
-                                cmake.build {
+                                cmake.build({
                                     target = 'all',
-                                }
+                                }, cmake_callback)
                             else
-                                cmake.build {}
+                                cmake.build({}, cmake_callback)
                             end
                         elseif (mouse == "r") then
                             cmake.select_build_target()

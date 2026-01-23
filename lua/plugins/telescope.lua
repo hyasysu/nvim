@@ -1,15 +1,17 @@
 return {
     {
         "rcarriga/nvim-notify",
-        lazy = true,
-        keys = {
-            {
-                "<Leader>uD",
-                function() require("notify").dismiss { pending = true, silent = true } end,
-                mode = { "n" },
-                desc = "Dismiss notifications",
+        events = { "VimEnter" },
+        enabled = not require("core.options").disable_notify,
+        config = function()
+            local notify = require("notify")
+            vim.notify = notify
+            notify.setup {
+                background_colour = "#202020",
+                timeout = 2000,
+                stages = "fade_in_slide_out",
             }
-        }
+        end
     },
     {
         "nvim-telescope/telescope.nvim",
@@ -144,7 +146,7 @@ return {
             { "<Leader>fh", function() require("telescope.builtin").help_tags() end,   mode = { "n" }, desc = "Find help" },
             { "<Leader>fk", function() require("telescope.builtin").keymaps() end,     mode = { "n" }, desc = "Find keymaps" },
             { "<Leader>fM", function() require("telescope.builtin").man_pages() end,   mode = { "n" }, desc = "Find man pages" },
-            { "<Leader>fm", function() require("telescope.builtin").marks() end,   mode = { "n" }, desc = "Find marks" },
+            { "<Leader>fm", function() require("telescope.builtin").marks() end,       mode = { "n" }, desc = "Find marks" },
             {
                 "<Leader>fn",
                 function()
@@ -175,5 +177,17 @@ return {
                 desc = "Search symbols",
             },
         },
-    }
+    },
+    {
+        "ibhagwan/fzf-lua",
+        -- optional for icon support
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+        -- or if using mini.icons/mini.nvim
+        -- dependencies = { "nvim-mini/mini.icons" },
+        ---@module "fzf-lua"
+        ---@type fzf-lua.Config|{}
+        ---@diagnostic disable: missing-fields
+        opts = {}
+        ---@diagnostic enable: missing-fields
+    },
 }

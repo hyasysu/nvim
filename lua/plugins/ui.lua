@@ -48,4 +48,10 @@ return {
         lazy = false,
         priority = 1000,
     },
+    {
+        "glepnir/zephyr-nvim",
+    },
+    {
+        "shaunsingh/nord.nvim",
+    }
 }

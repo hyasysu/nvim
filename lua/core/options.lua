@@ -23,7 +23,7 @@ vim.opt.undofile = true -- Enable persistent undofile
 
 local default_opts = {
     nerd_fonts = true,
-    disable_notify = true,
+    disable_notify = false,
     transparent_color = true,
     more_cpp_ftdetect = true,
     enable_signature_help = false,

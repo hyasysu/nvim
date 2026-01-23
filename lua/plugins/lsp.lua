@@ -18,6 +18,11 @@ return {
         end
     },
     {
+        'dgagn/diagflow.nvim',
+        event = 'LspAttach',
+        opts = {}
+    },
+    {
         "mason-org/mason-lspconfig.nvim",
         opts = {
             ensure_installed = {},
@@ -47,6 +52,8 @@ return {
         opts = {
             -- add any options here
         }
+    },
+    {
+        "jakemason/ouroboros",
     }
-
 }

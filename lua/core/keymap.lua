@@ -9,6 +9,10 @@ map({ "i", "n", "v", "s" }, "<C-s>", "<Cmd>w<CR>", { desc = "Save file", silent 
 
 -- map({ "i", "n" }, "<C-a>", "<Cmd>normal! ggVG<CR>", { silent = true, desc = "Select all" })
 
+-- Notify
+map({ "n" }, "<Leader>uD", function() require("notify").dismiss { pending = true, silent = true } end,
+    { desc = "Dismiss notifications", })
+
 -- LSP
 map({ "n", "x" }, "<Leader>la", function() vim.lsp.buf.code_action() end, { desc = "LSP code action" })
 map({ "n" }, "<Leader>lA", function() vim.lsp.buf.code_action { context = { only = { "source" }, diagnostics = {} } } end,
@@ -26,6 +30,8 @@ map({ "n", "v" }, "<leader>lr", lsp_references, { desc = "LSP references" })
 
 -- Rename symbol
 map({ 'v', 'n' }, 'gn', function() return ":IncRename " .. vim.fn.expand("<cword>") end,
+    { expr = true, desc = 'Rename symbol' })
+map({ 'v', 'n' }, '<F2>', function() return ":IncRename " .. vim.fn.expand("<cword>") end,
     { expr = true, desc = 'Rename symbol' })
 map({ 'v', 'n' }, 'gN', function() return ":IncRename " end, { expr = true, desc = 'Rename symbol' })
 map({ "n" }, "grn", function() vim.lsp.buf.rename() end, { desc = "Rename current symbol" })
