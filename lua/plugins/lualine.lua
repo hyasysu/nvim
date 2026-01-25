@@ -293,9 +293,9 @@ return {
                 lualine_a = { 'mode' },
                 lualine_b = { opencode, branch, diagnostics },
                 lualine_c = { filename },
-                lualine_x = { encoding, --[['fileformat', diff,--]] filetype },
-                lualine_y = { 'searchcount', 'quickfix', 'progress' },
-                lualine_z = { 'location' },
+                lualine_x = { encoding, --[['fileformat', diff,--]] filetype, "lsp_status" },
+                lualine_y = { 'searchcount', 'quickfix' },
+                lualine_z = { 'progress', 'location' },
             },
             inactive_sections = {
                 lualine_a = {},
