@@ -96,22 +96,22 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 
 
 -- Set up CursorHold autocommand to show diagnostics on hover
-vim.api.nvim_create_autocmd("CursorHold", {
-    callback = function()
-        vim.diagnostic.open_float({
-            focusable = false,
-            close_events = {
-                "BufLeave",
-                "CursorMoved",
-                "InsertEnter",
-                "FocusLost"
-            },
-            border = "rounded", -- Changed from "rounded" to "none"
-            source = "if_many",
-            prefix = "",
-        })
-    end
-})
+-- vim.api.nvim_create_autocmd("CursorHold", {
+--     callback = function()
+--         vim.diagnostic.open_float({
+--             focusable = false,
+--             close_events = {
+--                 "BufLeave",
+--                 "CursorMoved",
+--                 "InsertEnter",
+--                 "FocusLost"
+--             },
+--             border = "rounded", -- Changed from "rounded" to "none"
+--             source = "if_many",
+--             prefix = "",
+--         })
+--     end
+-- })
 
 -- Set up LspAttach autocmd for per-buffer configuration
 vim.api.nvim_create_autocmd('LspAttach', {
