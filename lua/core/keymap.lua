@@ -103,7 +103,7 @@ map({ "v", "n" }, "<leader>li", function()
 end, { desc = "Toggle inlay hint" })
 
 -- Lookup hover details
-map({ 'v', 'n' }, 'K', function() vim.lsp.buf.hover() end, { desc = "Hover symbol details" })
+map({ 'v', 'n' }, 'K', function() vim.lsp.buf.hover({ border = "rounded" }) end, { desc = "Hover symbol details" })
 -- Function signature help
 map({ 'v', 'n' }, 'gK', function() vim.lsp.buf.signature_help() end, { desc = "Signature help" })
 map({ 'n' }, '<leader>lh', function() vim.lsp.buf.signature_help() end, { desc = "Signature help" })

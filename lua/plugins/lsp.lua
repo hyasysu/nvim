@@ -5,18 +5,6 @@ return {
             use_diagnostic_signs = true,
         },
     },
-    {
-        "ray-x/lsp_signature.nvim",
-        event = "VeryLazy",
-        config = function()
-            require("lsp_signature").setup({
-                bind = true,
-                handler_opts = {
-                    border = "rounded"
-                }
-            })
-        end
-    },
     -- {
     --     -- It shows diagnostics in virtual text at the top-right corner of your screen,
     --     -- only when the cursor is positioned over the problematic code or across an entire line, according to your preference.
