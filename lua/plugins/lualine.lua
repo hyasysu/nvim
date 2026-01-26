@@ -1,10 +1,22 @@
-local cmake_callback = function(res)
+local cmake_callback = function(res, title)
     local get_icon = require("util.icons").get_icon
     if res.code == 0 then
-        vim.notify("Build successful", vim.log.levels.INFO, { title = get_icon("cmake", "Default") .. " CMake" })
+        vim.notify("Successful", vim.log.levels.INFO, { icon = get_icon("cmake", "Default"), title = title })
     else
-        vim.notify(res.message, vim.log.levels.WARN, { title = get_icon("cmake", "Default") .. " CMake" })
+        vim.notify(res.message, vim.log.levels.WARN, { icon = get_icon("cmake", "Default"), title = title })
     end
+end
+
+local cmake_generate_callback = function(res)
+    cmake_callback(res, "CMake Generate")
+end
+
+local cmake_build_callback = function(res)
+    cmake_callback(res, "CMake Build")
+end
+
+local cmake_clean_callback = function(res)
+    cmake_callback(res, "CMake Clean")
 end
 
 return {
@@ -43,7 +55,7 @@ return {
                 on_click = function(n, mouse)
                     if (n == 1) then
                         if (mouse == "l") then
-                            cmake.generate {}
+                            cmake.generate({}, cmake_generate_callback)
                         elseif (mouse == "r") then
                             if cmake.has_cmake_preset() then
                                 cmake.select_build_preset()
@@ -77,14 +89,14 @@ return {
                                 if l_target then
                                     cmake.build({
                                         target = l_target,
-                                    }, cmake_callback)
+                                    }, cmake_build_callback)
                                     return
                                 end
                                 cmake.build({
                                     target = 'all',
-                                }, cmake_callback)
+                                }, cmake_build_callback)
                             else
-                                cmake.build({}, cmake_callback)
+                                cmake.build({}, cmake_build_callback)
                             end
                         elseif (mouse == "r") then
                             cmake.select_build_target()
@@ -110,6 +122,21 @@ return {
                     end
                 end
             },
+            clean = {
+                function()
+                    return get_icon("cmake", "Reset")
+                end,
+                cond = function()
+                    return cmake.is_cmake_project() and vim.bo.buftype == ''
+                end,
+                on_click = function(n, mouse)
+                    if (n == 1) then
+                        if (mouse == "l") then
+                            cmake.clean(cmake_clean_callback)
+                        end
+                    end
+                end
+            },
             debug = {
                 function()
                     return get_icon("cmake", "Debug")
@@ -120,18 +147,27 @@ return {
                 on_click = function(n, mouse)
                     if (n == 1) then
                         if (mouse == "l") then
-                            -- local l_target = cmake.get_launch_target()
-                            -- if not l_target then
-                            --     local b_target = cmake.get_build_target()
-                            --     if b_target then
-                            --         cmake.debug {
-                            --             target = b_target,
-                            --         }
-                            --         return
-                            --     end
-                            -- end
-                            -- cmake.debug {}
-                            vim.cmd("CMakeDebug")
+                            if cmake.debug == nil then
+                                vim.notify(
+                                    "CMake debug function not found. Please check the `dap` is already installed.",
+                                    vim.log.levels.WARN,
+                                    {
+                                        icon = get_icon("cmake", "Default"),
+                                        title = "CMake Debug"
+                                    })
+                                return
+                            end
+                            local l_target = cmake.get_launch_target()
+                            if not l_target then
+                                local b_target = cmake.get_build_target()
+                                if b_target then
+                                    cmake.debug {
+                                        target = b_target,
+                                    }
+                                    return
+                                end
+                            end
+                            cmake.debug {}
                         elseif (mouse == "r") then
                             cmake.select_launch_target()
                         end
@@ -381,7 +417,7 @@ return {
             tabline = {},
             winbar = {
                 lualine_a = {},
-                lualine_b = { cmake_component.preset_or_build_type, cmake_component.build_target, cmake_component.kit },
+                lualine_b = { cmake_component.preset_or_build_type, cmake_component.build_target, cmake_component.kit, cmake_component.clean },
                 lualine_c = { cmake_component.debug, cmake_component.run },
                 lualine_x = { aerial },
                 lualine_y = {},

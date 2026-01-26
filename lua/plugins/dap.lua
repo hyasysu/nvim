@@ -117,7 +117,7 @@ return {
             local parsed_ok, parsed = pcall(parser, str)
             if not parsed_ok then
                 vim.notify("Error parsing `.vscode/launch.json`.", vim.log.levels.ERROR,
-                    { title = require('util.icons').get_icon("dap", "Debugger", 1) .. " DAP" })
+                    { icon = require('util.icons').get_icon("dap", "Debugger"), title = "DAP" })
                 parsed = {}
             end
             return parsed
