@@ -10,7 +10,7 @@ return {
     },
     opts = {
         size = 10,
-        open_mapping = [[<C-\>]], -- Switch terminal with Ctrl-\
+        -- open_mapping = [[<C-\>]], -- Switch terminal with Ctrl-\
         hide_numbers = true,      -- hide the number column in toggleterm buffers
         -- shade_filetypes = {},
         autochdir = true,

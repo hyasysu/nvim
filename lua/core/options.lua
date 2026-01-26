@@ -21,6 +21,8 @@ vim.opt.sidescrolloff = 8 -- Minimum number of screen columns to keep to the lef
 
 vim.opt.undofile = true -- Enable persistent undofile
 
+vim.opt.laststatus = 2 -- Always show the status line
+
 local default_opts = {
     nerd_fonts = true,
     disable_notify = false,

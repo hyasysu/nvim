@@ -139,7 +139,25 @@ local M = {
             Build = "",
             Run = "",
             Debug = "",
+            Delete = "",
+            Reset = "",
+            Target = "",
         },
+        dap = {
+            Debugger = "",
+            Breakpoint = " ",
+            BreakpointCondition = " ",
+            BreakpointRejected = " ",
+            LogPoint = " ",
+            Stopped = " ",
+            Step = " ",
+            Pause = " ",
+            Play = " ",
+            RunLast = " ",
+            StepBack = " ",
+            StepInto = " ",
+            StepOut = " ",
+        }
     }
 }
 

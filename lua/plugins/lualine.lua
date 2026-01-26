@@ -20,20 +20,20 @@ return {
         end
         local get_icon = require("util.icons").get_icon
         local cmake_component = {
-            {
+            preset_or_build_type = {
                 function()
                     if cmake.has_cmake_preset() then
                         local b_preset = cmake.get_build_preset()
                         if not b_preset then
-                            return get_icon("cmake", "CMake")
+                            return get_icon("cmake", "Build")
                         end
-                        return get_icon("cmake", "CMake") .. string.format(" [%s]", b_preset)
+                        return get_icon("cmake", "Build") .. string.format(" [%s]", b_preset)
                     else
                         local b_type = cmake.get_build_type()
                         if not b_type then
-                            return get_icon("cmake", "CMake")
+                            return get_icon("cmake", "Build")
                         end
-                        return get_icon("cmake", "CMake") .. string.format(" [%s]", b_type)
+                        return get_icon("cmake", "Build") .. string.format(" [%s]", b_type)
                     end
                 end,
                 cond = function()
@@ -54,13 +54,16 @@ return {
                     end
                 end
             },
-            {
+            build_target = {
                 function()
                     local b_target = cmake.get_build_target()
-                    if not b_target or b_target == 'all' then
-                        return get_icon("cmake", "Build")
+                    if not b_target then
+                        return get_icon("cmake", "Target")
                     end
-                    return get_icon("cmake", "Build") .. string.format(" [%s]", b_target)
+                    if type(b_target) == "table" then
+                        b_target = table.concat(b_target, ", ")
+                    end
+                    return get_icon("cmake", "Target") .. string.format(" [%s]", b_target)
                 end,
                 cond = function()
                     return cmake.is_cmake_project() and vim.bo.buftype == ''
@@ -89,7 +92,25 @@ return {
                     end
                 end
             },
-            {
+            kit = {
+                function()
+                    local kit = cmake.get_kit()
+                    return "[" .. (kit and kit or "X") .. "]"
+                end,
+                icon = get_icon("cmake", "CMake"),
+                cond = function()
+                    return cmake.is_cmake_project() and not cmake.has_cmake_preset() and cmake.get_kit() ~= nil and
+                        vim.bo.buftype == ''
+                end,
+                on_click = function(n, mouse)
+                    if (n == 1) then
+                        if (mouse == "l") then
+                            vim.cmd("CMakeSelectKit")
+                        end
+                    end
+                end
+            },
+            debug = {
                 function()
                     return get_icon("cmake", "Debug")
                 end,
@@ -99,24 +120,25 @@ return {
                 on_click = function(n, mouse)
                     if (n == 1) then
                         if (mouse == "l") then
-                            local l_target = cmake.get_launch_target()
-                            if not l_target then
-                                local b_target = cmake.get_build_target()
-                                if b_target then
-                                    cmake.debug {
-                                        target = b_target,
-                                    }
-                                    return
-                                end
-                            end
-                            cmake.debug {}
+                            -- local l_target = cmake.get_launch_target()
+                            -- if not l_target then
+                            --     local b_target = cmake.get_build_target()
+                            --     if b_target then
+                            --         cmake.debug {
+                            --             target = b_target,
+                            --         }
+                            --         return
+                            --     end
+                            -- end
+                            -- cmake.debug {}
+                            vim.cmd("CMakeDebug")
                         elseif (mouse == "r") then
                             cmake.select_launch_target()
                         end
                     end
                 end
             },
-            {
+            run = {
                 function()
                     local l_target = cmake.get_launch_target()
                     if not l_target then
@@ -161,7 +183,7 @@ return {
             file_status = true,
             path = 1,
             cond = function()
-                return vim.bo.buftype == ''
+                return vim.fn.empty(vim.fn.expand("%:t")) ~= 1
             end,
             -- shorting_target = 50,
             fmt = function(str)
@@ -174,6 +196,7 @@ return {
                     end
                 end
             end,
+            color = { gui = "bold" },
         }
         local diagnostics = {
             'diagnostics',
@@ -260,6 +283,16 @@ return {
                 end
             end,
         }
+        local lsp_status = {
+            "lsp_status",
+            on_click = function(n, mouse)
+                if (n == 1) then
+                    if (mouse == "l") then
+                        vim.cmd [[LspInfo]]
+                    end
+                end
+            end,
+        }
 
         if require("core.options").nerd_fonts then
             -- diagnostics.symbols = { error = icons.diagnostics.Error, warn = icons.diagnostics.Warning, info = icons.diagnostics.Information, hint = icons.diagnostics.Question }
@@ -288,12 +321,52 @@ return {
                 section_separators = '',   -- not require("core.options").nerd_fonts and '' or nil,
                 -- component_separators = { left = '', right = '' },
                 -- section_separators = { left = '', right = '' },
+                disabled_filetypes = {
+                    -- "dashboard",
+                    -- "lspinfo",
+                    -- "mason",
+                    -- "startuptime",
+                    -- "checkhealth",
+                    -- "help",
+                    -- "toggleterm",
+                    -- "alpha",
+                    -- "lazy",
+                    -- "packer",
+                    -- "NvimTree",
+                    -- "neo-tree",
+                    -- "sagaoutline",
+                    -- "TelescopePrompt",
+                    "dap-repl",
+                    "dapui_watches",
+                    "dapui_console",
+                    "dapui_scopes",
+                    "dapui_breakpoints",
+                    "dapui_stacks",
+                },
+                -- disable_filetypes = {
+                --     winbar = {
+                --         "dap-repl",
+                --         "dapui_watches",
+                --         "dapui_console",
+                --         "dapui_scopes",
+                --         "dapui_breakpoints",
+                --         "dapui_stacks",
+                --     },
+                --     inactive_winbar = {
+                --         "dap-repl",
+                --         "dapui_watches",
+                --         "dapui_console",
+                --         "dapui_scopes",
+                --         "dapui_breakpoints",
+                --         "dapui_stacks",
+                --     },
+                -- },
             },
             sections = {
                 lualine_a = { 'mode' },
                 lualine_b = { opencode, branch, diagnostics },
                 lualine_c = { filename },
-                lualine_x = { encoding, --[['fileformat', diff,--]] filetype, "lsp_status" },
+                lualine_x = { encoding, --[['fileformat', diff,--]] 'filetype', lsp_status },
                 lualine_y = { 'searchcount', 'quickfix' },
                 lualine_z = { 'progress', 'location' },
             },
@@ -308,14 +381,17 @@ return {
             tabline = {},
             winbar = {
                 lualine_a = {},
-                lualine_b = { cmake_component[1], cmake_component[2] },
-                lualine_c = { cmake_component[3], cmake_component[4] },
+                lualine_b = { cmake_component.preset_or_build_type, cmake_component.build_target, cmake_component.kit },
+                lualine_c = { cmake_component.debug, cmake_component.run },
                 lualine_x = { aerial },
                 lualine_y = {},
                 lualine_z = {},
             },
             inactive_winbar = {},
-            extensions = {},
+            extensions = {
+                'nvim-dap-ui',
+                'neo-tree',
+            },
         }
     end,
 }

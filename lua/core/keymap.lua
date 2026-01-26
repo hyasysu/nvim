@@ -109,7 +109,7 @@ map({ 'v', 'n' }, 'gK', function() vim.lsp.buf.signature_help() end, { desc = "S
 map({ 'n' }, '<leader>lh', function() vim.lsp.buf.signature_help() end, { desc = "Signature help" })
 
 map({ "n" }, "<Leader>lf", function() vim.lsp.buf.format() end, { desc = "Format buffer", })
-map({ "n" }, "<A-S-f>", function() vim.lsp.buf.format() end, { desc = "Format buffer", })
+map({ "n", "i", "v" }, "<A-S-f>", function() vim.lsp.buf.format() end, { desc = "Format buffer", })
 map({ "v" }, "<Leader>lf", function() vim.lsp.buf.format() end, { desc = "Format range buffer", })
 
 map({ "n" }, "<Leader>/", "gcc", { remap = true, desc = "Toggle comment line" })
