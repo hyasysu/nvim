@@ -1,6 +1,7 @@
 return {
     "lukas-reineke/indent-blankline.nvim",
     event = { "BufReadPost", "BufNewFile", "BufWritePost" },
+    enabled = false,
     cmd = { "IBLEnable", "IBLDisable", "IBLToggle", "IBLEnableScope", "IBLDisableScope", "IBLToggleScope" },
     keys = { { "<Leader>u|", "<Cmd>IBLToggle<CR>", desc = "Toggle indent guides" } },
     main = "ibl",

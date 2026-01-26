@@ -254,7 +254,7 @@ return {
             on_click = function(n, mouse)
                 if (n == 1) then
                     if (mouse == "l") then
-                        vim.cmd [[LazyGit]]
+                        require('snacks').lazygit()
                     end
                 end
             end,

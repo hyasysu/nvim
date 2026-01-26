@@ -81,6 +81,11 @@ return {
 
             -- (Default) Only show the documentation popup when manually triggered
             completion = {
+                list = {
+                    selection = {
+                        preselect = false,
+                    },
+                },
                 keyword = {
                     range = 'full', -- 'full' or 'prefix' to match against the full word or only the prefix
                 },

@@ -1,5 +1,6 @@
 return {
     "kdheepak/lazygit.nvim",
+    enabled = false, -- Because I'm using folke/snacks.nvim's lazygit integration
     cmd = {
         "LazyGit",
         "LazyGitConfig",
