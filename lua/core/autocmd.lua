@@ -93,3 +93,32 @@ vim.api.nvim_create_autocmd("BufReadPost", {
     desc = "Close empty and unnamed buffers when a real file is opened",
     callback = close_empty_unnamed_buffers,
 })
+
+
+-- Set up CursorHold autocommand to show diagnostics on hover
+vim.api.nvim_create_autocmd("CursorHold", {
+    callback = function()
+        vim.diagnostic.open_float({
+            focusable = false,
+            close_events = {
+                "BufLeave",
+                "CursorMoved",
+                "InsertEnter",
+                "FocusLost"
+            },
+            border = "rounded", -- Changed from "rounded" to "none"
+            source = "if_many",
+            prefix = "",
+        })
+    end
+})
+
+-- Set up LspAttach autocmd for per-buffer configuration
+vim.api.nvim_create_autocmd('LspAttach', {
+    desc = 'LSP actions',
+    callback = function(event)
+        local client = vim.lsp.get_client_by_id(event.data.client_id)
+        vim.notify("LSP attached " .. client.name .. ".", vim.log.levels.INFO,
+            { icon = require("util.icons").get_icon("ui", "ActiveLSP"), title = "LSP" })
+    end
+})
