@@ -28,7 +28,6 @@ return {
         event = "VeryLazy",
         enabled = require("core.options").ai_assistant == "copilot.lua",
         cmd = "Copilot",
-        event = "InsertEnter",
         opts = {
 
         }
