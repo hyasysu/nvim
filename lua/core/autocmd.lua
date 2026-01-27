@@ -122,3 +122,31 @@ vim.api.nvim_create_autocmd('LspAttach', {
             { icon = require("util.icons").get_icon("ui", "ActiveLSP"), title = "LSP" })
     end
 })
+
+-- Dashboard footer autocommand
+local function show_dashboard()
+    if vim.fn.argc() == 0 and vim.bo.filetype == "" then
+        -- Only show dashboard if no files are opened
+        vim.schedule(function()
+            -- 使用 pcall 避免函数不存在时报错
+            local ok, result = pcall(function()
+                return Snacks.dashboard()
+            end)
+
+            if not ok then
+                -- dashboard failed to load, notify the user
+                vim.notify("Failed to load Snacks dashboard: " .. result, vim.log.levels.ERROR, {
+                    title = "Snacks Dashboard",
+                })
+            end
+        end)
+    end
+end
+
+-- 创建 User 事件
+vim.api.nvim_create_autocmd("User", {
+    pattern = "LazyVimStarted", -- Custom event name
+    desc = "Add snacks.nvim dashboard footer",
+    once = true,
+    callback = show_dashboard,
+})

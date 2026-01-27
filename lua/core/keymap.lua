@@ -7,7 +7,40 @@ map({ "n" }, "<leader>q", "<cmd>wqa!<CR>", { desc = "Force quit Neovim" })
 
 map({ "i", "n", "v", "s" }, "<C-s>", "<Cmd>w<CR>", { desc = "Save file", silent = true })
 
+-- Ctrl+Insert Copy; Shift+Insert Paste
+map({ "n", "v" }, "<C-Insert>", "\"+y", { silent = true, desc = "Copy to system clipboard" })
+map("i", "<C-Insert>", "<Esc>\"+yya", { silent = true, desc = "Copy to system clipboard" })
+map({ "n", "v" }, "<S-Insert>", "\"+p", { silent = true, desc = "Paste from system clipboard" })
+map("i", "<S-Insert>", "<C-r>+", { silent = true, desc = "Paste from system clipboard" })
+
 -- map({ "i", "n" }, "<C-a>", "<Cmd>normal! ggVG<CR>", { silent = true, desc = "Select all" })
+
+if not pcall(require, 'tmux') then
+    map({ 'v', 'n', 'i', 't' }, '<C-h>', [[<Cmd>wincmd h<CR>]], { desc = "Move to left window" })
+    map({ 'v', 'n', 'i', 't' }, '<C-j>', [[<Cmd>wincmd j<CR>]], { desc = "Move to bottom window" })
+    map({ 'v', 'n', 'i', 't' }, '<C-k>', [[<Cmd>wincmd k<CR>]], { desc = "Move to top window" })
+    map({ 'v', 'n', 'i', 't' }, '<C-l>', [[<Cmd>wincmd l<CR>]], { desc = "Move to right window" })
+else
+    map({ 'v', 'i', 't' }, '<C-h>', [[<Cmd>lua require'tmux'.move_left()<CR>]], { desc = "Move to left tmux pane" })
+    map({ 'v', 'i', 't' }, '<C-j>', [[<Cmd>lua require'tmux'.move_bottom()<CR>]], { desc = "Move to bottom tmux pane" })
+    map({ 'v', 'i', 't' }, '<C-k>', [[<Cmd>lua require'tmux'.move_top()<CR>]], { desc = "Move to top tmux pane" })
+    map({ 'v', 'i', 't' }, '<C-l>', [[<Cmd>lua require'tmux'.move_right()<CR>]], { desc = "Move to right tmux pane" })
+end
+map({ 'v', 'n', 'i', 't' }, '<C-S-h>', [[<Cmd>wincmd H<CR>]], { desc = "Move window to left" })
+map({ 'v', 'n', 'i', 't' }, '<C-S-j>', [[<Cmd>wincmd J<CR>]], { desc = "Move window to bottom" })
+map({ 'v', 'n', 'i', 't' }, '<C-S-k>', [[<Cmd>wincmd K<CR>]], { desc = "Move window to top" })
+map({ 'v', 'n', 'i', 't' }, '<C-S-l>', [[<Cmd>wincmd L<CR>]], { desc = "Move window to right" })
+map({ 'v', 'n', 'i', 't' }, '<M-r>', [[<Cmd>wincmd r<CR>]], { desc = "Rotate windows" })
+map({ 'v', 'n', 'i', 't' }, '<M-x>', [[<Cmd>wincmd x<CR>]], { desc = "Swap windows" })
+map({ 'v', 'n', 'i', 't' }, '<M-s>', [[<Cmd>wincmd s<CR>]], { desc = "Split window horizontally" })
+map({ 'v', 'n', 'i', 't' }, '<M-v>', [[<Cmd>wincmd v<CR>]], { desc = "Split window vertically" })
+map({ 'v', 'n', 'i', 't' }, '<M-=>', [[<Cmd>wincmd +<CR>]], { desc = "Increase window height" })
+map({ 'v', 'n', 'i', 't' }, '<M-->', [[<Cmd>wincmd -<CR>]], { desc = "Decrease window height" })
+map({ 'v', 'n', 'i', 't' }, '<M-,>', [[<Cmd>wincmd <Lt><CR>]], { desc = "Decrease window width" })
+map({ 'v', 'n', 'i', 't' }, '<M-.>', [[<Cmd>wincmd ><CR>]], { desc = "Increase window width" })
+map({ 'v', 'n', 'i', 't' }, '<M-q>', [[<Cmd>wincmd q<CR>]], { desc = "Close current window" })
+map('n', '<Esc>', [[<Cmd>nohls<CR><Esc>]], { noremap = true, desc = "Clear search highlighting" })
+map('t', '<Esc>', [[<C-\><C-n>]], { noremap = true, desc = "Exit terminal mode" })
 
 -- Notify
 map({ "n" }, "<Leader>uD", function() require("notify").dismiss { pending = true, silent = true } end,
