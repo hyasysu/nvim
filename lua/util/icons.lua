@@ -118,6 +118,7 @@ local M = {
             ActiveLSP         = "",
             Window            = "",
             Buffer            = "󰓩",
+            Session           = "󱂬",
         },
         diagnostics = {
             General = "󰒡",

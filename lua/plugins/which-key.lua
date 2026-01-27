@@ -16,6 +16,7 @@ return {
 			{ "<leader>b", group = "Buffers",  icon = get_icon("ui", "Buffer", 1) },
 			{ "<leader>g", group = "Git",      icon = get_icon("git", "Git", 1) },
 			{ "<leader>d", group = "Debugger", icon = get_icon("dap", "Debugger", 1) },
+			{ "<leader>s", group = "Session",  icon = get_icon("ui", "Session", 1) },
 		}, {
 			mode = { "n", "v", "i", "t" },
 		})

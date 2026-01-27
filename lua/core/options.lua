@@ -25,6 +25,9 @@ vim.opt.laststatus = 2                          -- Always show the status line
 
 vim.opt.formatoptions:remove({ "c", "r", "o" }) -- Do not continue comments on new lines
 
+-- ,globals,options,localoptions
+vim.o.sessionoptions = "buffers,curdir,folds,help,tabpages,winsize,winpos,terminal"
+
 local default_opts = {
     nerd_fonts = true,
     disable_notify = false,

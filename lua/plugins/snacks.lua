@@ -124,12 +124,12 @@ return {
         },
     },
     keys = {
-        -- {
-        --     "<leader>gg",
-        --     function()
-        --         require('snacks').lazygit()
-        --     end,
-        --     desc = "Open LazyGit"
-        -- },
+        {
+            "<leader>gg",
+            function()
+                require('snacks').lazygit()
+            end,
+            desc = "Open LazyGit"
+        },
     },
 }

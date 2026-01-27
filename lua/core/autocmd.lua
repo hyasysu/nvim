@@ -124,20 +124,54 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 
 -- Dashboard footer autocommand
-local function show_dashboard()
-    if vim.fn.argc() == 0 and vim.bo.filetype == "" then
-        -- Only show dashboard if no files are opened
-        vim.schedule(function()
-            -- 使用 pcall 避免函数不存在时报错
-            local ok, result = pcall(function()
-                return Snacks.dashboard()
-            end)
+-- local function show_dashboard()
+--     if vim.fn.argc() == 0 and vim.bo.filetype == "" then
+--         -- Only show dashboard if no files are opened
+--         vim.schedule(function()
+--             -- 使用 pcall 避免函数不存在时报错
+--             local ok, result = pcall(function()
+--                 return Snacks.dashboard()
+--             end)
 
-            if not ok then
-                -- dashboard failed to load, notify the user
-                vim.notify("Failed to load Snacks dashboard: " .. result, vim.log.levels.ERROR, {
-                    title = "Snacks Dashboard",
-                })
+--             if not ok then
+--                 -- dashboard failed to load, notify the user
+--                 vim.notify("Failed to load Snacks dashboard: " .. result, vim.log.levels.ERROR, {
+--                     title = "Snacks Dashboard",
+--                 })
+--             end
+--         end)
+--     end
+-- end
+local function show_dashboard()
+    -- 只有在没有传递参数给neovim时才考虑session和dashboard
+    if vim.fn.argc() == 0 then
+        -- 检查persistence.nvim是否可用
+        local has_persistence, persistence = pcall(require, "persistence")
+        local has_session = false
+
+        if has_persistence then
+            -- 获取当前目录
+            local cwd = persistence.current()
+            if vim.fn.filereadable(cwd) == 0 then
+                cwd = persistence.current({ branch = false })
+            end
+            -- 获取所有session
+            local sessions = persistence.list()
+            if cwd and vim.fn.filereadable(cwd) ~= 0 then
+                vim.schedule(function()
+                    persistence.load()
+                end)
+                return
+            end
+        end
+
+        vim.schedule(function()
+            -- 使用pcall安全地调用dashboard
+            if Snacks and Snacks.dashboard then
+                Snacks.dashboard()
+            else
+                -- 后备方案，比如显示一个空缓冲区或者什么都不做
+                print("No session found and Snacks.dashboard not available")
             end
         end)
     end
@@ -149,4 +183,32 @@ vim.api.nvim_create_autocmd("User", {
     desc = "Add snacks.nvim dashboard footer",
     once = true,
     callback = show_dashboard,
+})
+
+-- vim.api.nvim_create_autocmd("User", {
+--     pattern = "PersistenceLoadPost",
+--     desc = "Open Neo-Tree after loading session",
+--     callback = function()
+--         vim.cmd [[Neotree]]
+--         if vim.bo.filetype == "neo-tree" then
+--             vim.cmd.wincmd "p"
+--         end
+--     end
+-- })
+
+-- 确保 normal 模式的函数
+local function ensure_normal_mode()
+    local mode = vim.api.nvim_get_mode().mode
+    if mode == "i" or mode == "t" then
+        vim.cmd("stopinsert")
+    end
+end
+
+-- 监听 session 加载完成事件
+vim.api.nvim_create_autocmd("User", {
+    pattern = "PersistenceLoadPost",
+    desc = "Ensure normal mode after loading session",
+    callback = function()
+        vim.defer_fn(ensure_normal_mode, 1000)
+    end,
 })
