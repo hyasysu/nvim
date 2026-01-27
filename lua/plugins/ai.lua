@@ -1,6 +1,7 @@
 return {
     {
         "github/copilot.vim",
+        event = "VeryLazy",
         enabled = require("core.options").ai_assistant == "copilot",
         config = function()
             vim.g.copilot_enabled = true
@@ -24,6 +25,7 @@ return {
     },
     {
         "zbirenbaum/copilot.lua",
+        event = "VeryLazy",
         enabled = require("core.options").ai_assistant == "copilot.lua",
         cmd = "Copilot",
         event = "InsertEnter",
