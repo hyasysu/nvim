@@ -13,6 +13,7 @@ return {
                     require("lspkind").init()
                 end
             },
+            "fang2hou/blink-copilot"
         },
         -- use a release tag to download pre-built binaries
         version = '1.*',
@@ -67,12 +68,11 @@ return {
             cmdline = {
                 completion = {
                     menu = {
-                        auto_show = true,
-                        -- auto_show = function(ctx)
-                        --     return vim.fn.getcmdtype() == ':'
-                        --     -- enable for inputs as well, with:
-                        --     -- or vim.fn.getcmdtype() == '@'
-                        -- end,
+                        auto_show = function(ctx)
+                            return vim.fn.getcmdtype() == ':'
+                            -- enable for inputs as well, with:
+                            -- or vim.fn.getcmdtype() == '@'
+                        end,
                     },
                     ghost_text = {
                         enabled = false,
@@ -100,7 +100,9 @@ return {
                             kind_icon = {
                                 text = function(ctx)
                                     local icon = ctx.kind_icon
-                                    if vim.tbl_contains({ "Path" }, ctx.source_name) then
+                                    if icon then
+                                        -- Do nothing
+                                    elseif vim.tbl_contains({ "Path" }, ctx.source_name) then
                                         local dev_icon, _ = require("nvim-web-devicons").get_icon(ctx.label)
                                         if dev_icon then
                                             icon = dev_icon
@@ -117,7 +119,9 @@ return {
                                 -- keep the highlight groups in sync with the icons.
                                 highlight = function(ctx)
                                     local hl = ctx.kind_hl
-                                    if vim.tbl_contains({ "Path" }, ctx.source_name) then
+                                    if hl then
+                                        -- Do nothing
+                                    elseif vim.tbl_contains({ "Path" }, ctx.source_name) then
                                         local dev_icon, dev_hl = require("nvim-web-devicons").get_icon(ctx.label)
                                         if dev_icon then
                                             hl = dev_hl
@@ -136,8 +140,8 @@ return {
                             },
                         },
                         columns = {
-                            { "kind_icon",  "kind",              gap = 1 },
                             { "label",      "label_description", gap = 1 },
+                            { "kind_icon",  "kind",              gap = 1 },
                             { "source_name" },
                         },
                     },
@@ -162,7 +166,19 @@ return {
             -- Default list of enabled providers defined so that you can extend it
             -- elsewhere in your config, without redefining it, due to `opts_extend`
             sources = {
-                default = { 'lsp', 'path', 'snippets', 'buffer' },
+                default = { 'copilot', 'lsp', 'path', 'snippets', 'buffer' },
+                providers = {
+                    copilot = {
+                        name = "copilot",
+                        module = "blink-copilot",
+                        score_offset = 100,
+                        async = true,
+                        opts = {
+                            kind_icon = "",
+                            kind_hl = "DevIconCopilot",
+                        },
+                    },
+                },
             },
 
             -- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
