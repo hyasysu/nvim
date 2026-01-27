@@ -39,8 +39,8 @@ local default_opts = {
     enable_signature_help = false,
     enable_inlay_hint = true,
     enable_clipboard = true,
-    ai_assistant = "copilot.lua", -- "none", "copilot", "copilot.lua", "chatgpt"
-    cmp = "blink",                -- The engineer of cmp ["blink", "nvim.cmp"]
+    ai_assistant = "avante", -- "none", "copilot", "copilot.lua", "chatgpt"
+    cmp = "blink",           -- The engineer of cmp ["blink", "nvim.cmp"]
 }
 
 return default_opts

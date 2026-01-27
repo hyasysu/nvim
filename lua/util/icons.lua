@@ -120,6 +120,7 @@ local M = {
             Buffer            = "󰓩",
             Session           = "󱂬",
             AI                = "󰚩",
+            Avante            = "󰫮",
         },
         diagnostics = {
             General = "󰒡",
