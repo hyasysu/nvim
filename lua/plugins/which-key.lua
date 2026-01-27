@@ -7,16 +7,17 @@ return {
 		local get_icon = require("util.icons").get_icon
 		wk.setup(opts)
 		wk.add({
-			{ "<leader>e", group = " Neotree", icon = get_icon("ui", "NeoTree", 1) },
-			{ "<leader>f", group = "Find",     icon = get_icon("ui", "Search", 1) },
-			{ "<leader>t", group = "Terminal", icon = get_icon("ui", "Terminal", 1) },
-			{ "<leader>l", group = "LSP",      icon = get_icon("ui", "ActiveLSP", 1) },
-			{ "gr",        group = "LSP",      icon = get_icon("ui", "ActiveLSP", 1) },
-			{ "<leader>u", group = "UI/UX",    icon = get_icon("ui", "Window", 1) },
-			{ "<leader>b", group = "Buffers",  icon = get_icon("ui", "Buffer", 1) },
-			{ "<leader>g", group = "Git/Copilot",      icon = get_icon("git", "Git", 1) },
-			{ "<leader>d", group = "Debugger", icon = get_icon("dap", "Debugger", 1) },
-			{ "<leader>s", group = "Session",  icon = get_icon("ui", "Session", 1) },
+			{ "<leader>e", group = " Neotree",    icon = get_icon("ui", "NeoTree", 1) },
+			{ "<leader>f", group = "Find",        icon = get_icon("ui", "Search", 1) },
+			{ "<leader>t", group = "Terminal",    icon = get_icon("ui", "Terminal", 1) },
+			{ "<leader>l", group = "LSP",         icon = get_icon("ui", "ActiveLSP", 1) },
+			{ "gr",        group = "LSP",         icon = get_icon("ui", "ActiveLSP", 1) },
+			{ "<leader>u", group = "UI/UX",       icon = get_icon("ui", "Window", 1) },
+			{ "<leader>b", group = "Buffers",     icon = get_icon("ui", "Buffer", 1) },
+			{ "<leader>g", group = "Git/Copilot", icon = get_icon("git", "Git", 1) },
+			{ "<leader>d", group = "Debugger",    icon = get_icon("dap", "Debugger", 1) },
+			{ "<leader>s", group = "Session",     icon = get_icon("ui", "Session", 1) },
+			{ "<leader>c", group = "AI",          icon = get_icon("ui", "AI", 1) },
 		}, {
 			mode = { "n", "v", "i", "t" },
 		})

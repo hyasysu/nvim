@@ -31,5 +31,52 @@ return {
         opts = {
 
         }
-    }
+    },
+    {
+        "olimorris/codecompanion.nvim",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "nvim-treesitter/nvim-treesitter",
+            "echasnovski/mini.diff",
+            "j-hui/fidget.nvim",
+        },
+        init = function()
+            require("util.codecompanion_fidget_spinner"):init()
+        end,
+
+        -- stylua: ignore
+        keys = {
+            { "<leader>ca", "<CMD>CodeCompanionActions<CR>",     mode = { "n", "v" }, noremap = true, silent = true, desc = "CodeCompanion actions" },
+            { "<leader>ci", "<CMD>CodeCompanion<CR>",            mode = { "n", "v" }, noremap = true, silent = true, desc = "CodeCompanion inline" },
+            { "<leader>cc", "<CMD>CodeCompanionChat Toggle<CR>", mode = { "n", "v" }, noremap = true, silent = true, desc = "CodeCompanion chat (toggle)" },
+            { "<leader>cp", "<CMD>CodeCompanionChat Add<CR>",    mode = { "v" },      noremap = true, silent = true, desc = "CodeCompanion chat add code" },
+        },
+
+        opts = {
+            display = {
+            },
+
+            interactions = {
+                -- chat = { adapter = "copilot" },
+                inline = {
+                    -- adapter = "copilot",
+                    keymaps = {
+                        accept_change = {
+                            modes = { n = "gca" }, -- Remember this as DiffAccept
+                        },
+                        reject_change = {
+                            modes = { n = "gcr" }, -- Remember this as DiffReject
+                        },
+                        always_accept = {
+                            modes = { n = "gcy" }, -- Remember this as DiffYolo
+                        },
+                    },
+                },
+            },
+
+            opts = {
+                language = "English", -- "English"|"Chinese"
+            },
+        },
+    },
 }

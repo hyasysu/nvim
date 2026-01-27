@@ -19,10 +19,18 @@ local cmake_clean_callback = function(res)
     cmake_callback(res, "CMake Clean")
 end
 
+local get_dependencies = function()
+    local dependencies = { 'nvim-tree/nvim-web-devicons' }
+    if require("core.options").ai_assistant == "copilot.lua" then
+        table.insert(dependencies, "AndreM222/copilot-lualine")
+    end
+    return dependencies
+end
+
 return {
     'nvim-lualine/lualine.nvim',
     event = { "BufReadPost", "BufNewFile" },
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    dependencies = get_dependencies(),
     config = function(_, opts)
         local found_cmake, cmake = pcall(require, "cmake-tools")
         if not found_cmake then
@@ -401,7 +409,7 @@ return {
             sections = {
                 lualine_a = { 'mode' },
                 lualine_b = { opencode, branch, diagnostics },
-                lualine_c = { filename },
+                lualine_c = { filename, 'copilot' },
                 lualine_x = { encoding, --[['fileformat', diff,--]] 'filetype', lsp_status },
                 lualine_y = { 'searchcount', 'quickfix' },
                 lualine_z = { 'progress', 'location' },

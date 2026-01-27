@@ -119,6 +119,7 @@ local M = {
             Window            = "",
             Buffer            = "󰓩",
             Session           = "󱂬",
+            AI                = "󰚩",
         },
         diagnostics = {
             General = "󰒡",
