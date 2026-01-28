@@ -27,10 +27,29 @@ local get_dependencies = function()
     return dependencies
 end
 
+local lualine_winbar_enabled = false
+local function switch_winbar()
+    lualine_winbar_enabled = not lualine_winbar_enabled
+    if lualine_winbar_enabled then
+        require('lualine').hide({
+            place = { 'winbar' }, -- The segment this change applies to.
+            unhide = true,        -- whether to re-enable lualine again/
+        })
+    else
+        require('lualine').hide({
+            place = { 'winbar' }, -- The segment this change applies to.
+            unhide = false,       -- whether to re-enable lualine again/
+        })
+    end
+end
+
 return {
     'nvim-lualine/lualine.nvim',
     event = { "BufReadPost", "BufNewFile" },
     dependencies = get_dependencies(),
+    keys = {
+        { "<leader>ws", switch_winbar, desc = "Toggle Lualine Winbar" },
+    },
     config = function(_, opts)
         local found_cmake, cmake = pcall(require, "cmake-tools")
         if not found_cmake then
@@ -338,6 +357,48 @@ return {
             end,
         }
 
+        local venv_component = {
+            'venv-selector',
+            -- icon = get_icon("ui", "Python"),
+            on_click = function(n, mouse)
+                if (n == 1) then
+                    if (mouse == "l") then
+                        vim.cmd [[VenvSelect]]
+                    end
+                end
+            end,
+        }
+
+        local switch_winbar_component = {
+            function()
+                return "Nav"
+            end,
+            icon = get_icon("ui", "Drop"),
+            cond = function()
+                return vim.bo.buftype == ''
+            end,
+            on_click = function(n, mouse)
+                if (n == 1) then
+                    switch_winbar()
+                end
+            end,
+        }
+
+        local switch_winbar_section_component = {
+            function()
+                return "WinBar"
+            end,
+            icon = get_icon("ui", "SwitchOff"),
+            cond = function()
+                return vim.bo.buftype == '' and not lualine_winbar_enabled
+            end,
+            on_click = function(n, mouse)
+                if (n == 1) then
+                    switch_winbar()
+                end
+            end,
+        }
+
         if require("core.options").nerd_fonts then
             -- diagnostics.symbols = { error = icons.diagnostics.Error, warn = icons.diagnostics.Warning, info = icons.diagnostics.Information, hint = icons.diagnostics.Question }
             branch.icon = get_icon("git", "Branch")
@@ -358,7 +419,7 @@ return {
             branch.icon = ''
         end
 
-        require 'lualine'.setup {
+        local opts = {
             options = {
                 theme = 'auto',
                 component_separators = '', -- not require("core.options").nerd_fonts and '' or nil,
@@ -391,30 +452,12 @@ return {
                         "NvimTree",
                     }
                 },
-                -- disable_filetypes = {
-                --     winbar = {
-                --         "dap-repl",
-                --         "dapui_watches",
-                --         "dapui_console",
-                --         "dapui_scopes",
-                --         "dapui_breakpoints",
-                --         "dapui_stacks",
-                --     },
-                --     inactive_winbar = {
-                --         "dap-repl",
-                --         "dapui_watches",
-                --         "dapui_console",
-                --         "dapui_scopes",
-                --         "dapui_breakpoints",
-                --         "dapui_stacks",
-                --     },
-                -- },
             },
             sections = {
                 lualine_a = { 'mode' },
                 lualine_b = { opencode, branch, diagnostics },
-                lualine_c = { filename, 'copilot' },
-                lualine_x = { encoding, --[['fileformat', diff,--]] 'filetype', lsp_status },
+                lualine_c = { filename, switch_winbar_section_component, 'copilot' },
+                lualine_x = { encoding, --[['fileformat', diff,--]] 'filetype', lsp_status, venv_component },
                 lualine_y = { 'searchcount', 'quickfix' },
                 lualine_z = { 'progress', 'location' },
             },
@@ -428,7 +471,7 @@ return {
             },
             tabline = {},
             winbar = {
-                lualine_a = {},
+                lualine_a = { switch_winbar_component },
                 lualine_b = { cmake_component.preset_or_build_type, cmake_component.build_target, cmake_component.kit, cmake_component.clean },
                 lualine_c = { cmake_component.debug, cmake_component.run },
                 lualine_x = { aerial },
@@ -441,5 +484,15 @@ return {
                 'neo-tree',
             },
         }
+
+        require 'lualine'.setup(opts)
+        if not lualine_winbar_enabled then
+            vim.defer_fn(function()
+                require('lualine').hide({
+                    place = { 'winbar' }, -- The segment this change applies to.
+                    unhide = false,   -- whether to re-enable lualine again/
+                })
+            end, 100)
+        end
     end,
 }

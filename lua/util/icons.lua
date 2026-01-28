@@ -121,6 +121,10 @@ local M = {
             Session           = "󱂬",
             AI                = "󰚩",
             Avante            = "󰫮",
+            Venv              = "󰉣",
+            Python            = "",
+            Drop              = "󰁚",
+            SwitchOff         = "󰨙",
         },
         diagnostics = {
             General = "󰒡",

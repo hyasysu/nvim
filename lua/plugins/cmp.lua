@@ -81,8 +81,8 @@ return {
                 ['<S-tab>'] = { 'select_prev', 'fallback_to_mappings' },
                 ['<tab>'] = { 'select_next', 'fallback_to_mappings' },
 
-                ['<C-b>'] = { 'scroll_documentation_up', 'fallback' },
-                ['<C-f>'] = { 'scroll_documentation_down', 'fallback' },
+                ['<C-u>'] = { 'scroll_documentation_up', 'fallback' },
+                ['<C-d>'] = { 'scroll_documentation_down', 'fallback' },
 
                 -- ['<C-e>'] = { 'snippet_forward', 'fallback' },
                 -- ['<C-u>'] = { 'snippet_backward', 'fallback' },

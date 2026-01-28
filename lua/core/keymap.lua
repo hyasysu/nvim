@@ -46,7 +46,7 @@ map('t', '<Esc>', [[<C-\><C-n>]], { noremap = true, desc = "Exit terminal mode" 
 map({ "n" }, "<Leader>uD", function() require("notify").dismiss { pending = true, silent = true } end,
     { desc = "Dismiss notifications", })
 
--- LSP
+-- LSP, default `gra`
 map({ "n", "x" }, "<Leader>la", function() vim.lsp.buf.code_action() end, { desc = "LSP code action" })
 map({ "n" }, "<Leader>lA", function() vim.lsp.buf.code_action { context = { only = { "source" }, diagnostics = {} } } end,
     { desc = "LSP source action", })

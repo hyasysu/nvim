@@ -5,6 +5,19 @@ vim.opt.signcolumn = "yes"     -- Always show the sign column
 vim.opt.ignorecase = true      -- Ignore case in search patterns
 vim.opt.smartcase = true       -- Override 'ignorecase' if search pattern contains uppercase letters
 
+vim.opt.tabstop = 4            -- Number of spaces that a <Tab> counts formatted
+vim.opt.shiftwidth = 4         -- Number of spaces to use for each step of (auto)indent
+vim.opt.expandtab = true       -- Use spaces instead of tabs
+
+-- custom paste function
+local function paste_from_unnamed()
+    local lines = vim.split(vim.fn.getreg(""), "\n", { plain = true })
+    if #lines == 0 then
+        lines = { "" }
+    end
+    local rtype = vim.fn.getregtype(""):sub(1, 1)
+    return { lines, rtype }
+end
 
 local function my_paste(reg)
     return function(lines)

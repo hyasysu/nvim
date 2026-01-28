@@ -1,7 +1,10 @@
 return {
     'stevearc/aerial.nvim',
     event = { "LspAttach" },
-    keys = { { "<F12>", "<Cmd>AerialToggle!<CR>", desc = "Toggle Aerial" } },
+    keys = {
+        { "<F12>",      "<Cmd>AerialToggle!<CR>", desc = "Toggle Aerial" },
+        { "<leader>lo", "<Cmd>AerialToggle!<CR>", desc = "Toggle Aerial" },
+    },
     opts = {
         -- optionally use on_attach to set keymaps when aerial has attached to a buffer
         -- on_attach = function(bufnr)
