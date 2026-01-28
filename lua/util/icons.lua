@@ -125,6 +125,7 @@ local M = {
             Python            = "",
             Drop              = "󰁚",
             SwitchOff         = "󰨙",
+            Tools             = "",
         },
         diagnostics = {
             General = "󰒡",

@@ -27,6 +27,27 @@ local get_dependencies = function()
     return dependencies
 end
 
+local function switch_tabstop()
+    vim.ui.select({ "Spaces:2", "Spaces:4", "Spaces:8", "Tab:2", "Tab:4", "Tab:8" }, {
+        prompt = "Select tabstop setting:",
+    }, function(choice, idx)
+        if idx == nil then
+            return
+        end
+        if choice:find("Spaces") then
+            local ts = tonumber(choice:match("Spaces:(%d+)"))
+            vim.bo.expandtab = true
+            vim.bo.tabstop = ts
+            vim.bo.shiftwidth = ts
+        elseif choice:find("Tab") then
+            local ts = tonumber(choice:match("Tab:(%d+)"))
+            vim.bo.expandtab = false
+            vim.bo.tabstop = ts
+            vim.bo.shiftwidth = ts
+        end
+    end)
+end
+
 local lualine_winbar_enabled = false
 local function switch_winbar()
     lualine_winbar_enabled = not lualine_winbar_enabled
@@ -48,7 +69,8 @@ return {
     event = { "BufReadPost", "BufNewFile" },
     dependencies = get_dependencies(),
     keys = {
-        { "<leader>ws", switch_winbar, desc = "Toggle Lualine Winbar" },
+        { "<leader>ws", switch_winbar,  desc = "Toggle Lualine Winbar" },
+        { "<leader>wt", switch_tabstop, desc = "Change Tabstop" },
     },
     config = function(_, opts)
         local found_cmake, cmake = pcall(require, "cmake-tools")
@@ -399,6 +421,22 @@ return {
             end,
         }
 
+        local switch_tabstop_component = {
+            function()
+                local expandtab = vim.bo.expandtab and "Spaces:" or "Tab:"
+                local tabstop = vim.bo.tabstop
+                return string.format("%s%d", expandtab, tabstop)
+            end,
+            cond = function()
+                return vim.bo.buftype == ''
+            end,
+            on_click = function(n, mouse)
+                if (n == 1) then
+                    switch_tabstop()
+                end
+            end,
+        }
+
         if require("core.options").nerd_fonts then
             -- diagnostics.symbols = { error = icons.diagnostics.Error, warn = icons.diagnostics.Warning, info = icons.diagnostics.Information, hint = icons.diagnostics.Question }
             branch.icon = get_icon("git", "Branch")
@@ -422,10 +460,13 @@ return {
         local opts = {
             options = {
                 theme = 'auto',
-                component_separators = '', -- not require("core.options").nerd_fonts and '' or nil,
-                section_separators = '',   -- not require("core.options").nerd_fonts and '' or nil,
-                -- component_separators = { left = '', right = '' },
+                -- component_separators = '', -- not require("core.options").nerd_fonts and '' or nil,
+                -- section_separators = '',   -- not require("core.options").nerd_fonts and '' or nil,
+                component_separators = { left = '', right = '' },
                 -- section_separators = { left = '', right = '' },
+                -- section_separators = { left = '', right = '' },
+                section_separators = { left = '', right = '' },
+                -- component_separators = { left = '', right = '' },
                 disabled_filetypes = {
                     -- "dashboard",
                     -- "lspinfo",
@@ -457,15 +498,15 @@ return {
                 lualine_a = { 'mode' },
                 lualine_b = { opencode, branch, diagnostics },
                 lualine_c = { filename, switch_winbar_section_component, 'copilot' },
-                lualine_x = { encoding, --[['fileformat', diff,--]] 'filetype', lsp_status, venv_component },
+                lualine_x = { encoding, 'filetype', lsp_status, venv_component },
                 lualine_y = { 'searchcount', 'quickfix' },
-                lualine_z = { 'progress', 'location' },
+                lualine_z = { switch_tabstop_component, 'progress', 'location' },
             },
             inactive_sections = {
                 lualine_a = {},
                 lualine_b = {},
                 lualine_c = { filename },
-                lualine_x = { location },
+                lualine_x = { location, 'filetype' },
                 lualine_y = {},
                 lualine_z = {},
             },
@@ -490,7 +531,7 @@ return {
             vim.defer_fn(function()
                 require('lualine').hide({
                     place = { 'winbar' }, -- The segment this change applies to.
-                    unhide = false,   -- whether to re-enable lualine again/
+                    unhide = false,       -- whether to re-enable lualine again/
                 })
             end, 100)
         end

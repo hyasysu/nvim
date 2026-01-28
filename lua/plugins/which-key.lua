@@ -20,6 +20,7 @@ return {
 			{ "<leader>c", group = "AI",          icon = get_icon("ui", "AI", 1) },
 			{ "<leader>a", group = "Avante",      icon = get_icon("ui", "Avante", 1) },
 			{ "<leader>v", group = "venv",        icon = get_icon("ui", "Venv", 1) },
+			{ "<leader>w", group = "Tools",       icon = get_icon("ui", "Tools", 1) },
 		}, {
 			mode = { "n", "v", "i", "t" },
 		})
