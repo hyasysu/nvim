@@ -39,6 +39,7 @@ map({ 'v', 'n', 'i', 't' }, '<M-->', [[<Cmd>wincmd -<CR>]], { desc = "Decrease w
 map({ 'v', 'n', 'i', 't' }, '<M-,>', [[<Cmd>wincmd <Lt><CR>]], { desc = "Decrease window width" })
 map({ 'v', 'n', 'i', 't' }, '<M-.>', [[<Cmd>wincmd ><CR>]], { desc = "Increase window width" })
 map({ 'v', 'n', 'i', 't' }, '<M-q>', [[<Cmd>wincmd q<CR>]], { desc = "Close current window" })
+
 map('n', '<Esc>', [[<Cmd>nohls<CR><Esc>]], { noremap = true, desc = "Clear search highlighting" })
 map('t', '<Esc>', [[<C-\><C-n>]], { noremap = true, desc = "Exit terminal mode" })
 

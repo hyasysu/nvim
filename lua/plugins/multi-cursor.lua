@@ -59,7 +59,9 @@ return {
             elseif mc.hasCursors() then
                 mc.clearCursors()
             else
-                -- Default <esc> handler.
+                -- Default <esc> handler and nohls.
+                vim.cmd("nohls")
+                vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), "n", true)
             end
         end, { desc = "Clear multicursors or exit insert mode", noremap = true, silent = true })
     end,
