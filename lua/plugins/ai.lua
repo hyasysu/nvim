@@ -2,7 +2,7 @@ return {
     {
         "github/copilot.vim",
         event = "VeryLazy",
-        enabled = require("core.options").ai_assistant == "copilot",
+        enabled = require("core.options").ai_assistant.copilot.enabled,
         config = function()
             vim.g.copilot_enabled = true
             vim.g.copilot_no_tab_map = true
@@ -26,7 +26,7 @@ return {
     {
         "zbirenbaum/copilot.lua",
         event = "VeryLazy",
-        enabled = require("core.options").ai_assistant == "copilot.lua",
+        enabled = require("core.options").ai_assistant.copilot_lua.enabled,
         cmd = "Copilot",
         opts = {
 
@@ -34,7 +34,7 @@ return {
     },
     {
         "olimorris/codecompanion.nvim",
-        enabled = require("core.options").ai_assistant == "copilot.lua",
+        enabled = require("core.options").ai_assistant.codecompanion.enabled,
         dependencies = {
             "nvim-lua/plenary.nvim",
             "nvim-treesitter/nvim-treesitter",
@@ -81,45 +81,9 @@ return {
     },
     {
         "yetone/avante.nvim",
-        enabled = require("core.options").ai_assistant == "avante",
+        enabled = require("core.options").ai_assistant.avante.enabled,
         event = "VeryLazy",
         version = false, -- Never set this value to "*"! Never!
-        opts = {
-            behaviour = {
-                enable_cursor_planning_mode = true, -- enable cursor planning mode!
-            },
-            provider  = "openrouter",
-            providers = {
-                openrouter = {
-                    __inherited_from = "openai",
-                    disable_tools = true,
-                    endpoint = "https://openrouter.ai/api/v1",
-                    api_key_name = "OPENROUTER_API_KEY",
-                    model = "tngtech/deepseek-r1t2-chimera:free",
-                    -- model = "deepseek/deepseek-chat-v3-0324:free",
-                },
-            },
-            -- provider = "deepseek",
-            -- vendors = {
-            -- 	deepseek = {
-            -- 		__inherited_from = "openai",
-            -- 		api_key_name = "DEEPSEEK_API_KEY",
-            -- 		endpoint = "https://api.deepseek.com",
-            -- 		model = "deepseek-chat",
-            -- 	},
-            -- },
-            -- The system_prompt type supports both a string and a function that returns a string. Using a function here allows dynamically updating the prompt with mcphub
-            -- system_prompt = function()
-            -- 	local hub = require("mcphub").get_hub_instance()
-            -- 	return hub:get_active_servers_prompt()
-            -- end,
-            -- -- The custom_tools type supports both a list and a function that returns a list. Using a function here prevents requiring mcphub before it's loaded
-            -- custom_tools = function()
-            -- 	return {
-            -- 		require("mcphub.extensions.avante").mcp_tool(),
-            -- 	}
-            -- end,
-        },
         -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
         -- ⚠️ must add this setting! ! !
         build = vim.fn.has("win32") ~= 0
@@ -162,6 +126,47 @@ return {
                 },
                 ft = { "Avante" },
             },
+        },
+        opts = {
+            provider   = "openrouter",
+            -- auto_suggestions_provider = "openrouter",
+            providers  = {
+                openrouter = {
+                    __inherited_from = "openai",
+                    disable_tools = true,
+                    endpoint = "https://openrouter.ai/api/v1",
+                    api_key_name = "OPENROUTER_API_KEY",
+                    model = "tngtech/deepseek-r1t2-chimera:free",
+                    -- model = "deepseek/deepseek-chat-v3-0324:free",
+                },
+            },
+            behaviour  = {
+                -- auto_suggestions = false,
+                enable_cursor_planning_mode = true, -- enable cursor planning mode!
+            },
+            suggestion = {
+                -- debounce = 100,
+            },
+            -- provider = "deepseek",
+            -- vendors = {
+            -- 	deepseek = {
+            -- 		__inherited_from = "openai",
+            -- 		api_key_name = "DEEPSEEK_API_KEY",
+            -- 		endpoint = "https://api.deepseek.com",
+            -- 		model = "deepseek-chat",
+            -- 	},
+            -- },
+            -- The system_prompt type supports both a string and a function that returns a string. Using a function here allows dynamically updating the prompt with mcphub
+            -- system_prompt = function()
+            -- 	local hub = require("mcphub").get_hub_instance()
+            -- 	return hub:get_active_servers_prompt()
+            -- end,
+            -- -- The custom_tools type supports both a list and a function that returns a list. Using a function here prevents requiring mcphub before it's loaded
+            -- custom_tools = function()
+            -- 	return {
+            -- 		require("mcphub.extensions.avante").mcp_tool(),
+            -- 	}
+            -- end,
         },
     }
 }

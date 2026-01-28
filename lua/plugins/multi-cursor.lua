@@ -18,8 +18,8 @@ return {
         map({ "n", "v" }, "<C-d>", function() mc.matchAddCursor(1) end, { desc = "Add cursor by match" })
         map({ "n", "v" }, "<M-d>", function() mc.matchSkipCursor(1) end, { desc = "Skip cursor by match" })
 
-        map({ "n", "v" }, "<c-k>", function() mc.matchAddCursor(-1) end, { desc = "Add cursor by match (reverse)" })
-        map({ "n", "v" }, "<M-k>", function() mc.matchSkipCursor(-1) end, { desc = "Skip cursor by match (reverse)" })
+        map({ "n", "v" }, "<c-e>", function() mc.matchAddCursor(-1) end, { desc = "Add cursor by match (reverse)" })
+        map({ "n", "v" }, "<M-e>", function() mc.matchSkipCursor(-1) end, { desc = "Skip cursor by match (reverse)" })
 
         -- 使用 Control + 左键单击添加和删除光标。
         map("n", "<c-leftmouse>", mc.handleMouse, { desc = "Add cursor with mouse" })

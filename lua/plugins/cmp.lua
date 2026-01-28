@@ -14,7 +14,37 @@ return {
                 end
             },
             "fang2hou/blink-copilot",
-            'Kaiser-Yang/blink-cmp-avante'
+            {
+                'Kaiser-Yang/blink-cmp-avante',
+                opts = {
+                    kind_icons = {
+                        Avante         = "󰚩",
+                        AvanteCmd      = "",
+                        AvanteMention  = "",
+                        AvanteShortcut = '',
+                    },
+                    avante = {
+                        command = {
+                            get_kind_name = function(_)
+                                return 'AvanteCmd'
+                            end
+                        },
+                        mention = {
+                            get_kind_name = function(_)
+                                return 'AvanteMention'
+                            end
+                        },
+                        shortcut = {
+                            get_kind_name = function(_)
+                                return 'AvanteShortcut'
+                            end
+                        }
+                    }
+                },
+                config = function(_, opts)
+                    require('blink-cmp-avante').new(opts)
+                end
+            },
         },
         -- use a release tag to download pre-built binaries
         version = '1.*',
@@ -42,7 +72,7 @@ return {
                 preset = 'none',
                 ['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation' },
                 ['<C-l>'] = { 'show', 'show_documentation', 'hide_documentation' },
-                ['<C-e>'] = { 'hide', 'fallback' },
+                -- ['<C-e>'] = { 'hide', 'fallback' },
                 ['<C-]>'] = { 'hide', 'fallback' },
                 ['<CR>'] = { 'select_and_accept', 'fallback' },
 
@@ -181,6 +211,7 @@ return {
                     },
                     avante = {
                         module = 'blink-cmp-avante',
+                        score_offset = 95,
                         name = 'Avante',
                         opts = {
                             -- options for blink-cmp-avante

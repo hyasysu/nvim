@@ -21,7 +21,7 @@ end
 
 local get_dependencies = function()
     local dependencies = { 'nvim-tree/nvim-web-devicons' }
-    if require("core.options").ai_assistant == "copilot.lua" then
+    if require("core.options").ai_assistant.copilot_lua.enabled then
         table.insert(dependencies, "AndreM222/copilot-lualine")
     end
     return dependencies
@@ -386,6 +386,10 @@ return {
                     "dapui_scopes",
                     "dapui_breakpoints",
                     "dapui_stacks",
+                    winbar = {
+                        "neo-tree",
+                        "NvimTree",
+                    }
                 },
                 -- disable_filetypes = {
                 --     winbar = {
