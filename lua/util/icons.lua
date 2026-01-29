@@ -126,6 +126,8 @@ local M = {
             Drop              = "󰁚",
             SwitchOff         = "󰨙",
             Tools             = "",
+            Expand            = "󰬪",
+            ExpandCube        = "󰧚",
         },
         diagnostics = {
             General = "󰒡",

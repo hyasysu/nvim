@@ -395,7 +395,7 @@ return {
             function()
                 return "Nav"
             end,
-            icon = get_icon("ui", "Drop"),
+            icon = get_icon("ui", "Expand"),
             cond = function()
                 return vim.bo.buftype == ''
             end,

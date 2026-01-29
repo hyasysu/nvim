@@ -30,18 +30,26 @@ map({ 'v', 'n', 'i', 't' }, '<C-S-h>', [[<Cmd>wincmd H<CR>]], { desc = "Move win
 map({ 'v', 'n', 'i', 't' }, '<C-S-j>', [[<Cmd>wincmd J<CR>]], { desc = "Move window to bottom" })
 map({ 'v', 'n', 'i', 't' }, '<C-S-k>', [[<Cmd>wincmd K<CR>]], { desc = "Move window to top" })
 map({ 'v', 'n', 'i', 't' }, '<C-S-l>', [[<Cmd>wincmd L<CR>]], { desc = "Move window to right" })
+
 map({ 'v', 'n', 'i', 't' }, '<M-r>', [[<Cmd>wincmd r<CR>]], { desc = "Rotate windows" })
 map({ 'v', 'n', 'i', 't' }, '<M-x>', [[<Cmd>wincmd x<CR>]], { desc = "Swap windows" })
 map({ 'v', 'n', 'i', 't' }, '<M-s>', [[<Cmd>wincmd s<CR>]], { desc = "Split window horizontally" })
 map({ 'v', 'n', 'i', 't' }, '<M-v>', [[<Cmd>wincmd v<CR>]], { desc = "Split window vertically" })
+
 map({ 'v', 'n', 'i', 't' }, '<M-=>', [[<Cmd>wincmd +<CR>]], { desc = "Increase window height" })
 map({ 'v', 'n', 'i', 't' }, '<M-->', [[<Cmd>wincmd -<CR>]], { desc = "Decrease window height" })
 map({ 'v', 'n', 'i', 't' }, '<M-,>', [[<Cmd>wincmd <Lt><CR>]], { desc = "Decrease window width" })
 map({ 'v', 'n', 'i', 't' }, '<M-.>', [[<Cmd>wincmd ><CR>]], { desc = "Increase window width" })
+
+map({ 'v', 'n', 'i', 't' }, '<M-Up>', [[<Cmd>wincmd +<CR>]], { desc = "Increase window height" })
+map({ 'v', 'n', 'i', 't' }, '<M-Down>', [[<Cmd>wincmd -<CR>]], { desc = "Decrease window height" })
+map({ 'v', 'n', 'i', 't' }, '<M-Left>', [[<Cmd>wincmd <Lt><CR>]], { desc = "Decrease window width" })
+map({ 'v', 'n', 'i', 't' }, '<M-Right>', [[<Cmd>wincmd ><CR>]], { desc = "Increase window width" })
+
 map({ 'v', 'n', 'i', 't' }, '<M-q>', [[<Cmd>wincmd q<CR>]], { desc = "Close current window" })
 
 map('n', '<Esc>', function() require("util").escape_to_normal_with_nohls() end,
-{ noremap = true, desc = "Clear search highlighting" })
+    { noremap = true, desc = "Clear search highlighting" })
 map('t', '<Esc>', [[<C-\><C-n>]], { noremap = true, desc = "Exit terminal mode" })
 
 -- Notify
