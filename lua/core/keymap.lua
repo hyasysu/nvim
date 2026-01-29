@@ -52,6 +52,11 @@ map('n', '<Esc>', function() require("util").escape_to_normal_with_nohls() end,
     { noremap = true, desc = "Clear search highlighting" })
 map('t', '<Esc>', [[<C-\><C-n>]], { noremap = true, desc = "Exit terminal mode" })
 
+-- GitHub Copilot
+map('n', '<leader>go', ':Copilot<CR>', { silent = true })
+map('n', '<leader>ge', ':Copilot enable<CR>', { silent = true })
+map('n', '<leader>gD', ':Copilot disable<CR>', { silent = true })
+
 -- Notify
 map({ "n" }, "<Leader>uD", function() require("notify").dismiss { pending = true, silent = true } end,
     { desc = "Dismiss notifications", })
