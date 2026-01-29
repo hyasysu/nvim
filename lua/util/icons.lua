@@ -128,6 +128,7 @@ local M = {
             Tools             = "",
             Expand            = "󰬪",
             ExpandCube        = "󰧚",
+            Overseer          = "",
         },
         diagnostics = {
             General = "󰒡",

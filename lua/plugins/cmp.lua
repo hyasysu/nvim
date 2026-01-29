@@ -100,7 +100,8 @@ return {
                 completion = {
                     menu = {
                         auto_show = function(ctx)
-                            return vim.fn.getcmdtype() == ':'
+                            return false;
+                            -- return vim.fn.getcmdtype() == ':'
                             -- enable for inputs as well, with:
                             -- or vim.fn.getcmdtype() == '@'
                         end,

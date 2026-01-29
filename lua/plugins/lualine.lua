@@ -437,6 +437,22 @@ return {
             end,
         }
 
+        local compile_run_section_component = {
+            function()
+                return "Run"
+            end,
+            icon = get_icon("ui", "Run"),
+            cond = function()
+                return vim.bo.buftype == '' and vim.bo.filetype ~= '' and
+                    require("custom_plugins.compile_run").filetype_map_func[vim.bo.filetype] ~= nil
+            end,
+            on_click = function(n, mouse)
+                if (n == 1) then
+                    require("custom_plugins.compile_run").compileRun()
+                end
+            end,
+        }
+
         if require("core.options").nerd_fonts then
             -- diagnostics.symbols = { error = icons.diagnostics.Error, warn = icons.diagnostics.Warning, info = icons.diagnostics.Information, hint = icons.diagnostics.Question }
             branch.icon = get_icon("git", "Branch")
@@ -497,7 +513,7 @@ return {
             sections = {
                 lualine_a = { 'mode' },
                 lualine_b = { opencode, branch, diagnostics },
-                lualine_c = { filename, switch_winbar_section_component, 'copilot' },
+                lualine_c = { filename, switch_winbar_section_component, compile_run_section_component, 'copilot' },
                 lualine_x = { encoding, 'filetype', lsp_status, venv_component },
                 lualine_y = { 'searchcount', 'quickfix' },
                 lualine_z = { switch_tabstop_component, 'progress', 'location' },

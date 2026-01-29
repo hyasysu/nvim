@@ -56,6 +56,14 @@ map('t', '<Esc>', [[<C-\><C-n>]], { noremap = true, desc = "Exit terminal mode" 
 map({ "n" }, "<Leader>uD", function() require("notify").dismiss { pending = true, silent = true } end,
     { desc = "Dismiss notifications", })
 
+-- Quickfix and Location list
+map({ "n" }, "<Leader>xq", "<Cmd>copen<CR>", { desc = "Quickfix List" })
+map({ "n" }, "<Leader>xl", "<Cmd>lopen<CR>", { desc = "Location List" })
+
+-- Code Runner
+map({ "n" }, "<Leader>rr", function() require("custom_plugins.compile_run").compileRun() end,
+    { silent = true, desc = "Compile and Run" })
+
 -- LSP, default `gra`
 map({ "n", "x" }, "<Leader>la", function() vim.lsp.buf.code_action() end, { desc = "LSP code action" })
 map({ "n" }, "<Leader>lA", function() vim.lsp.buf.code_action { context = { only = { "source" }, diagnostics = {} } } end,

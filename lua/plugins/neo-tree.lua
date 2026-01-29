@@ -8,7 +8,7 @@ return {
     keys = {
         { "<leader>e", "<cmd>Neotree toggle<CR>", desc = "Toggle NeoTree" },
         {
-            "<Leader>o",
+            "<Leader>n",
             function()
                 if vim.bo.filetype == "neo-tree" then
                     vim.cmd.wincmd "p"

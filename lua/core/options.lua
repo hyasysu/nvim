@@ -100,7 +100,24 @@ vim.opt.laststatus = 3       -- Always show the status line
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 
-vim.opt.formatoptions:remove({ "c", "r", "o" }) -- Do not continue comments on new lines
+-- vim.opt.formatoptions:remove({ "c", "r", "o" }) -- Do not continue comments on new lines
+-- vim.cmd [[
+-- augroup disable_formatoptions_cro
+-- autocmd!
+-- autocmd BufEnter * setlocal formatoptions-=cro
+-- augroup end
+-- ]]
+
+vim.api.nvim_create_augroup("disable_formatoptions_cro", { clear = true })
+
+vim.api.nvim_create_autocmd("BufEnter", {
+    group = "disable_formatoptions_cro",
+    pattern = "*",
+    callback = function()
+        -- Do not continue comments on new lines
+        vim.opt.formatoptions:remove({ "c", "r", "o" })
+    end
+})
 
 -- ,globals,options,localoptions
 vim.o.sessionoptions = "buffers,curdir,folds,help,tabpages,winsize,winpos,terminal"
@@ -113,6 +130,8 @@ local default_opts = {
     enable_signature_help = false,
     enable_inlay_hint = true,
     enable_clipboard = true,
+    enable_noice = false,
+    enable_neotest = false,
     ai_assistant = {
         copilot = {
             enabled = false,
