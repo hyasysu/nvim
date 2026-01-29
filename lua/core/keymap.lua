@@ -40,7 +40,8 @@ map({ 'v', 'n', 'i', 't' }, '<M-,>', [[<Cmd>wincmd <Lt><CR>]], { desc = "Decreas
 map({ 'v', 'n', 'i', 't' }, '<M-.>', [[<Cmd>wincmd ><CR>]], { desc = "Increase window width" })
 map({ 'v', 'n', 'i', 't' }, '<M-q>', [[<Cmd>wincmd q<CR>]], { desc = "Close current window" })
 
-map('n', '<Esc>', [[<Cmd>nohls<CR><Esc>]], { noremap = true, desc = "Clear search highlighting" })
+map('n', '<Esc>', function() require("util").escape_to_normal_with_nohls() end,
+{ noremap = true, desc = "Clear search highlighting" })
 map('t', '<Esc>', [[<C-\><C-n>]], { noremap = true, desc = "Exit terminal mode" })
 
 -- Notify

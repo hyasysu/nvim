@@ -1,5 +1,11 @@
 local M = {}
 
+-- Escape to normal mode and clear hlsearch
+function M.escape_to_normal_with_nohls()
+    vim.cmd("nohls")
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), "n", true)
+end
+
 --- A table to manage ToggleTerm terminals created by the user, indexed by the command run and then the instance number
 ---@type table<string,table<integer,table>>
 M.user_terminals = {}
