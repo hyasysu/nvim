@@ -17,11 +17,11 @@ M.filetype_map_func = {
     end,
     c = function()
         split()
-        vim.cmd("term gcc % -o %< && ./%< && rm %<")
+        vim.cmd("term gcc '%' -o '%<' && .'/%<' && rm '%<'")
     end,
     cpp = function()
         split()
-        vim.cmd("term g++ % -o %< && ./%< && rm %<")
+        vim.cmd("term g++ '%' -o '%<' && .'/%<' && rm '%<'")
     end,
     javascript = function()
         split()
