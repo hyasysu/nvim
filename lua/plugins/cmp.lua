@@ -97,6 +97,7 @@ return {
             },
 
             cmdline = {
+                keymap = { preset = 'cmdline' },
                 completion = {
                     menu = {
                         auto_show = function(ctx)

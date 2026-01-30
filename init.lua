@@ -9,4 +9,6 @@ require("core.options")
 require("core.keymap")
 require("core.lazy")
 
+require("custom_plugins")
+
 require("util.theme_manager").setup_colorscheme()
