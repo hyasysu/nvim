@@ -13,6 +13,9 @@ map("i", "<C-Insert>", "<Esc>\"+yya", { silent = true, desc = "Copy to system cl
 map({ "n", "v" }, "<S-Insert>", "\"+p", { silent = true, desc = "Paste from system clipboard" })
 map("i", "<S-Insert>", "<C-r>+", { silent = true, desc = "Paste from system clipboard" })
 
+map({ "n" }, "<C-p>", 'viw"_dP', { silent = true, desc = "Paste without overwriting clipboard" })
+map({ "v" }, "<C-p>", '"_dP', { silent = true, desc = "Paste without overwriting clipboard" })
+
 -- map({ "i", "n" }, "<C-a>", "<Cmd>normal! ggVG<CR>", { silent = true, desc = "Select all" })
 
 if not pcall(require, 'tmux') then
