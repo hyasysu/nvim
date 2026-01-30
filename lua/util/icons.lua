@@ -129,6 +129,7 @@ local M = {
             Expand            = "󰬪",
             ExpandCube        = "󰧚",
             Overseer          = "",
+            Copilot           = "",
         },
         diagnostics = {
             General = "󰒡",

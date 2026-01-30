@@ -207,7 +207,7 @@ return {
                         score_offset = 100,
                         async = true,
                         opts = {
-                            kind_icon = "",
+                            kind_icon = require("util.icons").get_icon("ui", "Copilot"),
                             kind_hl = "DevIconCopilot",
                         },
                     },
