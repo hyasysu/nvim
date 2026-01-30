@@ -105,6 +105,10 @@ vim.opt.splitright = true
 -- to set project-specific settings. Be cautious as this can pose security risks.
 vim.o.exrc = true
 
+-- Disable potentially unsafe commands in project-specific configurations
+-- Will close `shell` `autocmd` `!` `read` `write` commands in local .nvim.lua or .exrc files
+vim.o.secure = true
+
 -- vim.opt.formatoptions:remove({ "c", "r", "o" }) -- Do not continue comments on new lines
 -- vim.cmd [[
 -- augroup disable_formatoptions_cro
