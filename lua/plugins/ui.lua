@@ -45,14 +45,31 @@ return {
     },
     {
         "theniceboy/nvim-deus",
-        lazy = false,
-        priority = 1000,
-    },
-    {
-        "glepnir/zephyr-nvim",
+        event = "VeryLazy",
     },
     {
         "shaunsingh/nord.nvim",
+        event = "VeryLazy",
     },
-    { "catppuccin/nvim", name = "catppuccin", priority = 1000 }
+    {
+        "catppuccin/nvim",
+        name = "catppuccin",
+        event = "VeryLazy",
+    },
+    {
+        "sainnhe/gruvbox-material",
+        event = "VeryLazy",
+        config = function()
+            -- Optionally configure and load the colorscheme
+            -- directly inside the plugin declaration.
+            vim.g.gruvbox_material_enable_italic = true
+            vim.g.gruvbox_material_background = "medium"
+            vim.g.gruvbox_material_better_performance = 1
+            vim.g.gruvbox_material_current_word = "high contrast background"
+        end,
+    },
+    {
+        "hyasysu/zephyr-nvim",
+        event = "VeryLazy",
+    },
 }
