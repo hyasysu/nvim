@@ -448,7 +448,11 @@ return {
             end,
             on_click = function(n, mouse)
                 if (n == 1) then
-                    require("custom_plugins.compile_run").compileRun()
+                    if mouse == "l" then
+                        require("custom_plugins.compile_run").compileRun()
+                    elseif (mouse == "r") then
+                        vim.cmd [[OverseerRun]]
+                    end
                 end
             end,
         }
