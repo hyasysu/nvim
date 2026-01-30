@@ -13,6 +13,10 @@ map("i", "<C-Insert>", "<Esc>\"+yya", { silent = true, desc = "Copy to system cl
 map({ "n", "v" }, "<S-Insert>", "\"+p", { silent = true, desc = "Paste from system clipboard" })
 map("i", "<S-Insert>", "<C-r>+", { silent = true, desc = "Paste from system clipboard" })
 
+map("i", "jk", "<Esc>", { silent = true, desc = "Exit insert mode" })
+map("i", "jh", "<Left>", { silent = true, desc = "Move left one character" })
+map("i", "jl", "<Right>", { silent = true, desc = "Move right one character" })
+
 map({ "n" }, "<C-p>", 'viw"_dP', { silent = true, desc = "Paste without overwriting clipboard" })
 map({ "v" }, "<C-p>", '"_dP', { silent = true, desc = "Paste without overwriting clipboard" })
 
