@@ -18,18 +18,22 @@ M.filetype_map_func = {
     c = function()
         split()
         vim.cmd("term gcc '%' -o '%<' && .'/%<' && rm '%<'")
+        vim.cmd('startinsert!')
     end,
     cpp = function()
         split()
         vim.cmd("term g++ '%' -o '%<' && .'/%<' && rm '%<'")
+        vim.cmd('startinsert!')
     end,
     javascript = function()
         split()
         vim.cmd("term node %")
+        vim.cmd('startinsert!')
     end,
     lua = function()
         split()
         vim.cmd("term luajit %")
+        vim.cmd('startinsert!')
     end,
     tex = function()
         vim.cmd(":VimtexCompile")
@@ -37,10 +41,12 @@ M.filetype_map_func = {
     python = function()
         split()
         vim.cmd("term python3 %")
+        vim.cmd('startinsert!')
     end,
     sh = function()
         split()
         vim.cmd("term bash %")
+        vim.cmd('startinsert!')
     end,
 }
 
