@@ -100,6 +100,11 @@ vim.opt.laststatus = 3       -- Always show the status line
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 
+-- Allow project-specific configurations
+-- You can place a .nvim.lua or .exrc file in the root of your project
+-- to set project-specific settings. Be cautious as this can pose security risks.
+vim.o.exrc = true
+
 -- vim.opt.formatoptions:remove({ "c", "r", "o" }) -- Do not continue comments on new lines
 -- vim.cmd [[
 -- augroup disable_formatoptions_cro
