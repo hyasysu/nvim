@@ -6,6 +6,7 @@ map({ "n" }, "<C-q>", "<cmd>qa<CR>", { desc = "Quit Neovim" })
 map({ "n" }, "<leader>q", "<cmd>wqa!<CR>", { desc = "Force quit Neovim" })
 
 map({ "i", "n", "v", "s" }, "<C-s>", "<Cmd>w<CR>", { desc = "Save file", silent = true })
+map({ "i", "n", "v", "s" }, "<D-s>", "<Cmd>w<CR>", { desc = "Save file", silent = true })
 
 -- Ctrl+Insert Copy; Shift+Insert Paste
 map({ "n", "v" }, "<C-Insert>", "\"+y", { silent = true, desc = "Copy to system clipboard" })
