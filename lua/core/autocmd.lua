@@ -212,3 +212,51 @@ vim.api.nvim_create_autocmd("User", {
         vim.defer_fn(ensure_normal_mode, 1000)
     end,
 })
+
+-- MarkdownAutoCmds
+
+local markdown_group = vim.api.nvim_create_augroup("MarkdownAutoCmds", { clear = true })
+
+-- Function if filetype is markdown, and buftype is '' then enable render-markdown.nvim and disable markview.nvim
+local function markdown_ensure_right_plugins(args)
+    if vim.bo.filetype == "markdown" then
+        if vim.bo.buftype == "" then
+            -- Enable render-markdown.nvim
+            local ok, render_markdown = pcall(require, "render-markdown.core.manager")
+            if ok and render_markdown then
+                render_markdown.set_buf(args.buf, true)
+            end
+
+            -- Disable markview.nvim
+            local ok2, markview = pcall(require, "markview")
+            if ok2 and markview then
+                vim.schedule(function()
+                    markview.actions.disable(args.buf)
+                end)
+            end
+        elseif vim.bo.buftype == "nofile" then
+            -- Disable render-markdown.nvim
+            local ok, render_markdown = pcall(require, "render-markdown.core.manager")
+            if ok and render_markdown then
+                vim.schedule(function()
+                    render_markdown.set_buf(args.buf, false)
+                end)
+            end
+
+            -- Enable markview.nvim
+            local ok2, markview = pcall(require, "markview")
+            if ok2 and markview then
+                vim.schedule(function()
+                    markview.actions.enable(args.buf)
+                end)
+            end
+        end
+    end
+end
+
+vim.api.nvim_create_autocmd({ "FileType" }, {
+    group = markdown_group,
+    pattern = "markdown",
+    desc = "Enable render-markdown.nvim and disable markview.nvim for markdown files",
+    callback = markdown_ensure_right_plugins,
+})

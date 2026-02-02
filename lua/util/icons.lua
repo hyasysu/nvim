@@ -130,6 +130,8 @@ local M = {
             ExpandCube        = "󰧚",
             Overseer          = "",
             Copilot           = "",
+            Cursor            = "󰆿",
+            Markdown          = "",
         },
         diagnostics = {
             General = "󰒡",

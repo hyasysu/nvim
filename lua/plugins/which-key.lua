@@ -15,6 +15,8 @@ return {
             { "<leader>f", group = "Find",           icon = get_icon("ui", "Search", 1) },
             { "<leader>g", group = "Git/Copilot",    icon = get_icon("git", "Git", 1) },
             { "<leader>l", group = "LSP",            icon = get_icon("ui", "ActiveLSP", 1) },
+            { "<leader>m", group = "MultiCursor",    icon = get_icon("ui", "Cursor", 1) },
+            { "<leader>M", group = "Markdown",       icon = get_icon("ui", "Markdown", 1) },
             { "<leader>o", group = "Overseer",       icon = get_icon("ui", "Overseer", 1) },
             { "<leader>r", group = "CodeRun",        icon = get_icon("ui", "Run", 1) },
             { "<leader>s", group = "Session",        icon = get_icon("ui", "Session", 1) },

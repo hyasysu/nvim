@@ -4,6 +4,7 @@ return {
     "akinsho/bufferline.nvim",
     event = { "BufReadPost", "BufNewFile" },
     -- dependencies = { "famiu/bufdelete.nvim" },
+    dependencies = { "folke/snacks.nvim" },
     opts = {
         options = {
             buffer_close_icon = plain and 'x' or nil,  -- Close icon for each buffer
@@ -29,7 +30,8 @@ return {
             },
 
             close_command = function(bufnum)
-                require('bufdelete').bufdelete(bufnum, true)
+                -- require('bufdelete').bufdelete(bufnum, true)
+                Snacks.bufdelete(bufnum)
             end,
             diagnostics = "nvim_lsp",
             diagnostics_indicator = function(count, level, diagnostics_dict, context)
