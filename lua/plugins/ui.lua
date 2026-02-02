@@ -72,4 +72,17 @@ return {
         "hyasysu/zephyr-nvim",
         event = "VeryLazy",
     },
+    {
+        "folke/tokyonight.nvim",
+        event = "VeryLazy",
+        opts = {},
+    },
+    {
+        "rebelot/kanagawa.nvim",
+        event = "VeryLazy",
+    },
+    {
+        "ellisonleao/gruvbox.nvim",
+        event = "VeryLazy",
+    }
 }
