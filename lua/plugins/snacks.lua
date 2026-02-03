@@ -79,7 +79,8 @@ return {
                     { icon = " ", key = "g", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
                     { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
                     { icon = " ", key = "c", desc = "Config", action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})" },
-                    { icon = " ", key = "s", desc = "Restore Session", section = "session" },
+                    { icon = " ", key = "s", desc = "Restore Session", action = ":lua require('persistence').load()" },
+                    { icon = " ", key = "S", desc = "Select Session", action = ":lua require('persistence').select()" },
                     { icon = "󰒲 ", key = "L", desc = "Lazy", action = ":Lazy", enabled = package.loaded.lazy ~= nil },
                     { icon = " ", key = "q", desc = "Quit", action = ":qa" },
                 },
@@ -125,12 +126,170 @@ return {
         },
     },
     keys = {
+        -- lazygit
+        { "<leader>gg", function() require('snacks').lazygit() end,                     desc = "Open LazyGit" },
+
+        -- picker use <leader>F prefix (telescope use <leader>f)
+        { "<leader>Ff", function() Snacks.picker.smart() end,                           desc = "Smart find file" },
+        { "<leader>Fo", function() Snacks.picker.recent() end,                          desc = "Find recent file" },
+        { "<leader>Fw", function() Snacks.picker.grep() end,                            desc = "Find content" },
+        { "<leader>Fh", function() Snacks.picker.help() end,                            desc = "Find in help" },
+        { "<leader>Fl", function() Snacks.picker.picker_layouts() end,                  desc = "Find picker layout" },
+        { "<leader>Fb", function() Snacks.picker.buffers({ sort_lastused = true }) end, desc = "Find buffers" },
+        { "<leader>Fk", function() Snacks.picker.keymaps({ hl = true }) end,            desc = "Find keymap" },
+        { "<leader>Fm", function() Snacks.picker.marks() end,                           desc = "Find mark" },
+        { "<leader>Fn", function() Snacks.picker.notifications() end,                   desc = "Find notification" },
+        { "<leader>Fr", function() Snacks.picker.lsp_references() end,                  desc = "Find lsp references" },
+        { "<leader>FS", function() Snacks.picker.lsp_workspace_symbols() end,           desc = "Find workspace symbol" },
         {
-            "<leader>gg",
+            "<leader>Fs",
             function()
-                require('snacks').lazygit()
+                local bufnr = vim.api.nvim_get_current_buf()
+                local clients = vim.lsp.get_clients({ bufnr = bufnr })
+
+                local function has_lsp_symbols()
+                    for _, client in ipairs(clients) do
+                        if client.server_capabilities.documentSymbolProvider then
+                            return true
+                        end
+                    end
+                    return false
+                end
+
+                if has_lsp_symbols() then
+                    Snacks.picker.lsp_symbols({
+                        tree = true,
+                        -- filter = {
+                        --     default = {
+                        --         "Function",
+                        --         "Method",
+                        --         "Class",
+                        --     }
+                        -- }
+                    })
+                else
+                    Snacks.picker.treesitter()
+                end
             end,
-            desc = "Open LazyGit"
+            desc = "Find symbol in current buffer"
+        },
+        { "<leader>Fi", function() Snacks.picker.icons() end,                                    desc = "Find icon" },
+        { "<leader>FI", function() Snacks.picker.lsp_incoming_calls() end,                       desc = "Find incoming calls" },
+        { "<leader>FO", function() Snacks.picker.lsp_outgoing_calls({ tree = true }) end,        desc = "Find outgoing calls" },
+        { "<leader>FT", function() Snacks.picker.lsp_type_definitions() end,                     desc = "Find type definitions" },
+        { "<leader>FB", function() Snacks.picker.lines() end,                                    desc = "Find lines in current buffer" },
+        { "<leader>Fd", function() Snacks.picker.diagnostics_buffer() end,                       desc = "Find diagnostic in current buffer" },
+        { "<leader>FH", function() Snacks.picker.highlights() end,                               desc = "Find highlight" },
+        { "<leader>Fc", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config"), }) end, desc = "Find nvim config file" },
+        { "<leader>F/", function() Snacks.picker.search_history() end,                           desc = "Find search history" },
+        { "<leader>Fj", function() Snacks.picker.jumps() end,                                    desc = "Find jump" },
+        -- {
+        --     "<leader>FN",
+        --     function()
+        --         Snacks.picker.todo_comments({ keywords = { "NOTE" }, layout = "select", buffers = true })
+        --     end,
+        --     desc = "Find todo"
+        -- },
+        -- {
+        --     "<leader>Ft",
+        --     function()
+        --         if vim.bo.filetype == "markdown" then
+        --             Snacks.picker.grep_buffers({
+        --                 finder = "grep",
+        --                 format = "file",
+        --                 prompt = " ",
+        --                 search = "^\\s*- \\[ \\]",
+        --                 regex = true,
+        --                 live = false,
+        --                 args = { "--no-ignore" },
+        --                 on_show = function()
+        --                     vim.cmd.stopinsert()
+        --                 end,
+        --                 buffers = false,
+        --                 supports_live = false,
+        --                 layout = "ivy",
+        --             })
+        --         else
+        --             Snacks.picker.todo_comments({ keywords = { "TODO", "FIX", "FIXME", "HACK" }, layout = "select", buffers = true })
+        --         end
+        --     end,
+        --     desc = "Find todo"
+        -- },
+        { "<leader>FF", function() Snacks.picker.lines({ search = "FCN=" }) end, desc = "Jump to line" },
+        { "<leader>FK", function() Snacks.image.hover() end,                     desc = "Display image in hover" },
+        {
+            "<leader>FT",
+            function()
+                local function get_tabs()
+                    local tabs = {}
+                    local tabpages = vim.api.nvim_list_tabpages()
+                    for i, tabpage in ipairs(tabpages) do
+                        local wins = vim.api.nvim_tabpage_list_wins(tabpage)
+                        local cur_win = vim.api.nvim_tabpage_get_win(tabpage)
+                        local buf = vim.api.nvim_win_get_buf(cur_win)
+                        local name = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(buf), ":t")
+                        if name == "" then
+                            name = "[No Name]"
+                        end
+
+                        local preview_lines = {}
+                        table.insert(preview_lines, ("Tab %d: %d window%s"):format(i, #wins, #wins == 1 and "" or "s"))
+                        table.insert(preview_lines, ("%-6s %-8s %s"):format("WinID", "Buf#", "File"))
+                        table.insert(preview_lines, string.rep("-", 40))
+                        for _, win in ipairs(wins) do
+                            local win_buf = vim.api.nvim_win_get_buf(win)
+                            local bufname = vim.api.nvim_buf_get_name(win_buf)
+                            if bufname == "" then
+                                bufname = "[No Name]"
+                            end
+                            bufname = vim.fn.fnamemodify(bufname, ":~:.") -- relative to cwd, or ~
+                            local win_marker = (win == cur_win) and "->" or "  "
+                            table.insert(preview_lines, ("%s %-6d %-8d %s"):format(win_marker, win, win_buf, bufname))
+                        end
+                        if #wins == 0 then
+                            table.insert(preview_lines, "No windows in tab")
+                        end
+
+                        table.insert(tabs, {
+                            idx = i,
+                            text = ("Tab %d: %s"):format(i, name),
+                            tabnr = i,
+                            tabpage = tabpage,
+                            preview = {
+                                text = table.concat(preview_lines, "\n"),
+                                ft = "text",
+                            },
+                        })
+                    end
+                    return tabs
+                end
+
+                local items = get_tabs()
+                Snacks.picker({
+                    title = "Tabs",
+                    items = items,
+                    format = "text",
+                    confirm = function(picker, item)
+                        picker:close()
+                        vim.cmd(("tabnext %d"):format(item.tabnr))
+                    end,
+                    preview = "preview",
+                    actions = {
+                        close_tab = function(picker, item)
+                            picker:close()
+                            vim.cmd(("tabclose %d"):format(item.tabnr))
+                        end,
+                    },
+                    win = {
+                        input = {
+                            keys = {
+                                ["d"] = "close_tab",
+                            },
+                        },
+                    },
+                })
+            end,
+            desc = "Display image in hover"
         },
     },
 }

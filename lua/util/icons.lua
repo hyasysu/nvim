@@ -85,6 +85,7 @@ local M = {
             Close             = "",
             NewFile           = "",
             Search            = "",
+            Search2           = "",
             Lightbulb         = "",
             Project           = "",
             Dashboard         = "",
