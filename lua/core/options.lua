@@ -141,6 +141,7 @@ local default_opts = {
     enable_clipboard = true,
     enable_noice = false,
     enable_neotest = false,
+    lualine_winbar_show = false,
     ai_assistant = {
         copilot = {
             enabled = false,

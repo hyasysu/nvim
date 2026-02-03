@@ -48,10 +48,10 @@ local function switch_tabstop()
     end)
 end
 
-local lualine_winbar_enabled = false
 local function switch_winbar()
-    lualine_winbar_enabled = not lualine_winbar_enabled
-    if lualine_winbar_enabled then
+    require('core.options').lualine_winbar_show = not require('core.options').lualine_winbar_show
+    local lualine_winbar_show = require('core.options').lualine_winbar_show
+    if lualine_winbar_show then
         require('lualine').hide({
             place = { 'winbar' }, -- The segment this change applies to.
             unhide = true,        -- whether to re-enable lualine again/
@@ -412,7 +412,7 @@ return {
             end,
             icon = get_icon("ui", "SwitchOff"),
             cond = function()
-                return vim.bo.buftype == '' and not lualine_winbar_enabled
+                return vim.bo.buftype == '' and not require('core.options').lualine_winbar_show
             end,
             on_click = function(n, mouse)
                 if (n == 1) then
@@ -571,13 +571,5 @@ return {
         }
 
         require 'lualine'.setup(opts)
-        if not lualine_winbar_enabled then
-            vim.defer_fn(function()
-                require('lualine').hide({
-                    place = { 'winbar' }, -- The segment this change applies to.
-                    unhide = false,       -- whether to re-enable lualine again/
-                })
-            end, 100)
-        end
     end,
 }
