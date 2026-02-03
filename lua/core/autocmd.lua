@@ -143,6 +143,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
 --     end
 -- end
 local function show_dashboard()
+    -- Vim 启动时先Disable Copilot
+    vim.schedule(function()
+        vim.cmd [[Copilot disable]]
+    end)
+
     -- 只有在没有传递参数给neovim时才考虑session和dashboard
     if vim.fn.argc() == 0 then
         -- 检查persistence.nvim是否可用
