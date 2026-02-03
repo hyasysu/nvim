@@ -25,6 +25,7 @@ return {
             { "<leader>v", group = "venv",           icon = get_icon("ui", "Venv", 1) },
             { "<leader>w", group = "Tools",          icon = get_icon("ui", "Tools", 1) },
             { "<leader>x", group = "Quickfix/Lists", icon = get_icon("ui", "List", 1) },
+            { "<leader>y", group = "Copy",           icon = get_icon("ui", "Copy", 1) },
             { "gr",        group = "LSP",            icon = get_icon("ui", "ActiveLSP", 1) },
         }, {
             mode = { "n", "v", "i", "t" },

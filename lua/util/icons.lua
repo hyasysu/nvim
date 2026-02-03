@@ -132,6 +132,7 @@ local M = {
             Copilot           = "",
             Cursor            = "󰆿",
             Markdown          = "",
+            Copy              = "󰈢",
         },
         diagnostics = {
             General = "󰒡",
