@@ -64,6 +64,20 @@ local function switch_winbar()
     end
 end
 
+local function get_cmake()
+    local default_cmake = {
+        is_cmake_project = function() return false end,
+    }
+    if not require('core.options').lualine_winbar_show then
+        return default_cmake
+    end
+    local found_cmake, cmake = pcall(require, "cmake-tools")
+    if not found_cmake then
+        cmake = default_cmake
+    end
+    return cmake
+end
+
 return {
     'nvim-lualine/lualine.nvim',
     event = { "BufReadPost", "BufNewFile" },
@@ -73,24 +87,18 @@ return {
         { "<leader>wt", switch_tabstop, desc = "Change Tabstop" },
     },
     config = function(_, opts)
-        local found_cmake, cmake = pcall(require, "cmake-tools")
-        if not found_cmake then
-            cmake = {
-                is_cmake_project = function() return false end,
-            }
-        end
         local get_icon = require("util.icons").get_icon
         local cmake_component = {
             preset_or_build_type = {
                 function()
-                    if cmake.has_cmake_preset() then
-                        local b_preset = cmake.get_build_preset()
+                    if get_cmake().has_cmake_preset() then
+                        local b_preset = get_cmake().get_build_preset()
                         if not b_preset then
                             return get_icon("cmake", "Build")
                         end
                         return get_icon("cmake", "Build") .. string.format(" [%s]", b_preset)
                     else
-                        local b_type = cmake.get_build_type()
+                        local b_type = get_cmake().get_build_type()
                         if not b_type then
                             return get_icon("cmake", "Build")
                         end
@@ -98,18 +106,18 @@ return {
                     end
                 end,
                 cond = function()
-                    return cmake.is_cmake_project() and (
+                    return get_cmake().is_cmake_project() and (
                         vim.bo.buftype == '' or vim.bo.buftype == 'quickfix')
                 end,
                 on_click = function(n, mouse)
                     if (n == 1) then
                         if (mouse == "l") then
-                            cmake.generate({}, cmake_generate_callback)
+                            get_cmake().generate({}, cmake_generate_callback)
                         elseif (mouse == "r") then
-                            if cmake.has_cmake_preset() then
-                                cmake.select_build_preset()
+                            if get_cmake().has_cmake_preset() then
+                                get_cmake().select_build_preset()
                             else
-                                cmake.select_build_type()
+                                get_cmake().select_build_type()
                             end
                         end
                     end
@@ -117,7 +125,7 @@ return {
             },
             build_target = {
                 function()
-                    local b_target = cmake.get_build_target()
+                    local b_target = get_cmake().get_build_target()
                     if not b_target then
                         return get_icon("cmake", "Target")
                     end
@@ -127,40 +135,41 @@ return {
                     return get_icon("cmake", "Target") .. string.format(" [%s]", b_target)
                 end,
                 cond = function()
-                    return cmake.is_cmake_project() and vim.bo.buftype == ''
+                    return get_cmake().is_cmake_project() and vim.bo.buftype == ''
                 end,
                 on_click = function(n, mouse)
                     if (n == 1) then
                         if (mouse == "l") then
-                            local b_target = cmake.get_build_target()
+                            local b_target = get_cmake().get_build_target()
                             if not b_target then
-                                local l_target = cmake.get_launch_target()
+                                local l_target = get_cmake().get_launch_target()
                                 if l_target then
-                                    cmake.build({
+                                    get_cmake().build({
                                         target = l_target,
                                     }, cmake_build_callback)
                                     return
                                 end
-                                cmake.build({
+                                get_cmake().build({
                                     target = 'all',
                                 }, cmake_build_callback)
                             else
-                                cmake.build({}, cmake_build_callback)
+                                get_cmake().build({}, cmake_build_callback)
                             end
                         elseif (mouse == "r") then
-                            cmake.select_build_target()
+                            get_cmake().select_build_target()
                         end
                     end
                 end
             },
             kit = {
                 function()
-                    local kit = cmake.get_kit()
+                    local kit = get_cmake().get_kit()
                     return "[" .. (kit and kit or "X") .. "]"
                 end,
                 icon = get_icon("cmake", "CMake"),
                 cond = function()
-                    return cmake.is_cmake_project() and not cmake.has_cmake_preset() and cmake.get_kit() ~= nil and
+                    return get_cmake().is_cmake_project() and not get_cmake().has_cmake_preset() and
+                        get_cmake().get_kit() ~= nil and
                         vim.bo.buftype == ''
                 end,
                 on_click = function(n, mouse)
@@ -176,12 +185,12 @@ return {
                     return get_icon("cmake", "Reset")
                 end,
                 cond = function()
-                    return cmake.is_cmake_project() and vim.bo.buftype == ''
+                    return get_cmake().is_cmake_project() and vim.bo.buftype == ''
                 end,
                 on_click = function(n, mouse)
                     if (n == 1) then
                         if (mouse == "l") then
-                            cmake.clean(cmake_clean_callback)
+                            get_cmake().clean(cmake_clean_callback)
                         end
                     end
                 end
@@ -191,12 +200,12 @@ return {
                     return get_icon("cmake", "Debug")
                 end,
                 cond = function()
-                    return cmake.is_cmake_project() and vim.bo.buftype == ''
+                    return get_cmake().is_cmake_project() and vim.bo.buftype == ''
                 end,
                 on_click = function(n, mouse)
                     if (n == 1) then
                         if (mouse == "l") then
-                            if cmake.debug == nil then
+                            if get_cmake().debug == nil then
                                 vim.notify(
                                     "CMake debug function not found. Please check the `dap` is already installed.",
                                     vim.log.levels.WARN,
@@ -206,50 +215,50 @@ return {
                                     })
                                 return
                             end
-                            local l_target = cmake.get_launch_target()
+                            local l_target = get_cmake().get_launch_target()
                             if not l_target then
-                                local b_target = cmake.get_build_target()
+                                local b_target = get_cmake().get_build_target()
                                 if b_target then
-                                    cmake.debug {
+                                    get_cmake().debug {
                                         target = b_target,
                                     }
                                     return
                                 end
                             end
-                            cmake.debug {}
+                            get_cmake().debug {}
                         elseif (mouse == "r") then
-                            cmake.select_launch_target()
+                            get_cmake().select_launch_target()
                         end
                     end
                 end
             },
             run = {
                 function()
-                    local l_target = cmake.get_launch_target()
+                    local l_target = get_cmake().get_launch_target()
                     if not l_target then
                         return get_icon("cmake", "Run")
                     end
                     return get_icon("cmake", "Run") .. string.format(" [%s]", l_target)
                 end,
                 cond = function()
-                    return cmake.is_cmake_project() and vim.bo.buftype == ''
+                    return get_cmake().is_cmake_project() and vim.bo.buftype == ''
                 end,
                 on_click = function(n, mouse)
                     if (n == 1) then
                         if (mouse == "l") then
-                            local l_target = cmake.get_launch_target()
+                            local l_target = get_cmake().get_launch_target()
                             if not l_target then
-                                local b_target = cmake.get_build_target()
+                                local b_target = get_cmake().get_build_target()
                                 if b_target then
-                                    cmake.run {
+                                    get_cmake().run {
                                         target = b_target,
                                     }
                                     return
                                 end
                             end
-                            cmake.run {}
+                            get_cmake().run {}
                         elseif (mouse == "r") then
-                            cmake.select_launch_target()
+                            get_cmake().select_launch_target()
                         end
                     end
                 end
@@ -382,6 +391,9 @@ return {
         local venv_component = {
             'venv-selector',
             -- icon = get_icon("ui", "Python"),
+            cond = function()
+                return vim.bo.buftype == '' and vim.bo.filetype == 'python'
+            end,
             on_click = function(n, mouse)
                 if (n == 1) then
                     if (mouse == "l") then

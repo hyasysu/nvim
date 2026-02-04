@@ -46,7 +46,7 @@ return {
                     local display_name = filename:gsub("%%", "/")
 
                     -- 尝试提取分支信息
-                    local dir, branch = unpack(vim.split(filename, "%%", { plain = true, maxsplit = 1 }))
+                    local dir, branch = table.unpack(vim.split(filename, "%%", { plain = true, maxsplit = 1 }))
                     dir = dir:gsub("%%", "/")
                     if jit.os:find("Windows") then
                         dir = dir:gsub("^(%w)/", "%1:/")

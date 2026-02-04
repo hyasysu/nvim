@@ -44,7 +44,8 @@ end
 
 return {
     "Civitasv/cmake-tools.nvim",
-    ft = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
+    -- ft = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
+    lazy = true,
     opts = {
         cmake_build_options = { "-j", get_jobs_number() },
     },
