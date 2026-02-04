@@ -134,6 +134,7 @@ local M = {
             Cursor            = "󰆿",
             Markdown          = "",
             Copy              = "󰈢",
+            Clipboard         = "",
         },
         diagnostics = {
             General = "󰒡",

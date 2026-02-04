@@ -228,8 +228,6 @@ map({ "n" }, "<Leader>/", "gcc", { remap = true, desc = "Toggle comment line" })
 map({ "x" }, "<Leader>/", "gc", { remap = true, desc = "Toggle comment" })
 map({ "n" }, "<C-_>", "gcc", { remap = true, desc = "Toggle comment line" })
 map({ "x" }, "<C-_>", "gc", { remap = true, desc = "Toggle comment" })
-
-if vim.fn.has("mac") == 1 then
-    map({ "n" }, "<C-/>", "gcc", { remap = true, desc = "Toggle comment line" })
-    map({ "x" }, "<C-/>", "gc", { remap = true, desc = "Toggle comment" })
-end
+-- kitty need
+map({ "n" }, "<C-/>", "gcc", { remap = true, desc = "Toggle comment line" })
+map({ "x" }, "<C-/>", "gc", { remap = true, desc = "Toggle comment" })
