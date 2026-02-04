@@ -29,7 +29,10 @@ return {
         lazygit = {
             enabled = true,
         },
-        image = {},
+        image = {
+            enabled = true,
+            doc = { enabled = true, inline = false, float = true, max_width = 80, max_height = 20 },
+        },
         bigfile = {
             notify = true,            -- show notification when big file detected
             size = 1.5 * 1024 * 1024, -- 1.5MB
