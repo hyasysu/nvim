@@ -151,7 +151,7 @@ local default_opts = {
             start_with_disable = true, -- Copilot Disable 节省token
         },
         avante = {
-            enabled = true,
+            enabled = false,
         },
         codecompanion = {
             enabled = false,

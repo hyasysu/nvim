@@ -7,7 +7,20 @@ local current_treesitter = {
         -- event = { "BufReadPost", "BufNewFile", "BufWritePre", "VeryLazy" },
         lazy = false,
         -- cmd = { "TSUpdate", "TSInstall", "TSLog", "TSUninstall" },
-        build = ':TSUpdate',
+        -- build = ':TSUpdate',
+        build = function(plugin)
+            -- 只在插件安装后执行构建
+            vim.notify('Building nvim-treesitter...', vim.log.levels.INFO)
+
+            -- 手动添加插件路径到 package.path
+            local plugin_path = vim.fn.stdpath('data') .. '/lazy/' .. plugin.name
+            vim.notify('Plugin path: ' .. plugin_path, vim.log.levels.INFO)
+            package.path = package.path .. ';' .. plugin_path .. '/lua/?.lua'
+            package.path = package.path .. ';' .. plugin_path .. '/lua/?/init.lua'
+
+            local TS = require("nvim-treesitter")
+            TS.update(nil, { summary = true })
+        end,
         -- build = function()
         --     -- 不知道为啥会报错(not found nvim-treesitter.install)
         --     vim.defer_fn(function()
@@ -25,6 +38,13 @@ local current_treesitter = {
             require("lazy.core.loader").add_to_rtp(plugin)
             pcall(require, "nvim-treesitter.query_predicates")
         end,
+        opts = {
+            ensure_installed = {
+                "c",
+                "cpp",
+                "bash",
+            }
+        }
     },
     {
         "nvim-treesitter/nvim-treesitter-textobjects",
