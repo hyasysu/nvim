@@ -268,10 +268,13 @@ vim.api.nvim_create_autocmd("ColorScheme", {
     callback = function()
         if not require('core.options').lualine_winbar_show then
             vim.defer_fn(function()
-                require('lualine').hide({
-                    place = { 'winbar' }, -- The segment this change applies to.
-                    unhide = false,       -- whether to re-enable lualine again/
-                })
+                local ok, lualine = pcall(require, 'lualine')
+                if ok and lualine then
+                    require('lualine').hide({
+                        place = { 'winbar' }, -- The segment this change applies to.
+                        unhide = false,   -- whether to re-enable lualine again/
+                    })
+                end
             end, 100)
         end
     end,
@@ -279,9 +282,9 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 
 -- LSP - blink.cmp
 vim.api.nvim_create_autocmd('InsertEnter', {
-    group = vim.api.nvim_create_augroup('blink_capabilities', {clear = true}),
+    group = vim.api.nvim_create_augroup('blink_capabilities', { clear = true }),
     once = true,
-    callback = function ()
+    callback = function()
         -- Set default capabilities for all LSP servers
         if require("core.options").cmp == "blink" and require("util").is_available('blink.cmp') then
             vim.notify("Configuring blink.cmp capabilities to all LSP servers", vim.log.levels.INFO,
@@ -292,4 +295,3 @@ vim.api.nvim_create_autocmd('InsertEnter', {
         end
     end,
 })
-
