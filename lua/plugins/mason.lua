@@ -43,6 +43,9 @@ return {
     {
         "mason-org/mason.nvim",
         opts_extend = { "ensure_installed" },
-        opts = { ensure_installed = { "tree-sitter-cli" } },
+        opts = { ensure_installed = {} },
+        dependencies = {
+            { "mason-org/mason-registry" },
+        },
     },
 }

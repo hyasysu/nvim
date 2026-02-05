@@ -4,7 +4,8 @@
 local current_treesitter = {
     {
         'nvim-treesitter/nvim-treesitter',
-        lazy = false,
+        event = { "BufReadPost", "BufNewFile", "BufWritePre", "VeryLazy" },
+        cmd = { "TSUpdate", "TSInstall", "TSLog", "TSUninstall" },
         build = ':TSUpdate',
         init = function(plugin)
             -- PERF: add nvim-treesitter queries to the rtp and it's custom query predicates early
