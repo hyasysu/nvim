@@ -148,6 +148,7 @@ local default_opts = {
         },
         copilot_lua = {
             enabled = true,
+            start_with_disable = true, -- Copilot Disable 节省token
         },
         avante = {
             enabled = true,

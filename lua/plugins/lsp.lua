@@ -109,16 +109,38 @@ return {
         "neovim/nvim-lspconfig",
         event = "VeryLazy",
         config = function()
+            -- vim.api.nvim_create_autocmd('LspAttach', {
+            --     group = vim.api.nvim_create_augroup('lsp-attach', { clear = true }),
+            --     callback = function(event)
+            --         local client = vim.lsp.get_client_by_id(event.data.client_id)
+            --         -- Highlight words under cursor
+            --         if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) and vim.bo.filetype ~= 'bigfile' then
+            --             local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight',
+            --                 { clear = false })
+            --             vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+            --                 buffer = event.buf,
+            --                 group = highlight_augroup,
+            --                 callback = vim.lsp.buf.document_highlight,
+            --             })
+            --
+            --             vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
+            --                 buffer = event.buf,
+            --                 group = highlight_augroup,
+            --                 callback = vim.lsp.buf.clear_references,
+            --             })
+            --
+            --             vim.api.nvim_create_autocmd('LspDetach', {
+            --                 group = vim.api.nvim_create_augroup('kickstart-lsp-detach', { clear = true }),
+            --                 callback = function(event2)
+            --                     vim.lsp.buf.clear_references()
+            --                     vim.api.nvim_clear_autocmds { group = 'kickstart-lsp-highlight', buffer = event2.buf }
+            --                     -- vim.cmd 'setl foldexpr <'
+            --                 end,
+            --             })
+            --         end
+            --     end
+            -- })
             vim.lsp.inlay_hint.enable(require("core.options").enable_inlay_hint)
-
-            -- Set default capabilities for all LSP servers
-            if require("core.options").cmp == "blink" and require("util").is_available('blink.cmp') then
-                vim.notify("Configuring blink.cmp capabilities to all LSP servers", vim.log.levels.INFO,
-                    { icon = require("util.icons").get_icon("ui", "ActiveLSP"), title = "LSP" })
-                vim.lsp.config('*', {
-                    capabilities = require('blink.cmp').get_lsp_capabilities(),
-                })
-            end
         end
     },
     {

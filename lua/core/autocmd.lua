@@ -143,11 +143,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
 --     end
 -- end
 local function show_dashboard()
-    -- Vim 启动时先Disable Copilot
-    vim.schedule(function()
-        vim.cmd [[Copilot disable]]
-    end)
-
     -- 只有在没有传递参数给neovim时才考虑session和dashboard
     if vim.fn.argc() == 0 then
         -- 检查persistence.nvim是否可用
@@ -281,3 +276,20 @@ vim.api.nvim_create_autocmd("ColorScheme", {
         end
     end,
 })
+
+-- LSP - blink.cmp
+vim.api.nvim_create_autocmd('InsertEnter', {
+    group = vim.api.nvim_create_augroup('blink_capabilities', {clear = true}),
+    once = true,
+    callback = function ()
+        -- Set default capabilities for all LSP servers
+        if require("core.options").cmp == "blink" and require("util").is_available('blink.cmp') then
+            vim.notify("Configuring blink.cmp capabilities to all LSP servers", vim.log.levels.INFO,
+                { icon = require("util.icons").get_icon("ui", "ActiveLSP"), title = "LSP" })
+            vim.lsp.config('*', {
+                capabilities = require('blink.cmp').get_lsp_capabilities(),
+            })
+        end
+    end,
+})
+

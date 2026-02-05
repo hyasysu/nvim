@@ -2,6 +2,7 @@ return {
     {
         "Saghen/blink.cmp",
         enabled = require("core.options").cmp == "blink",
+        lazy = true,
         event = "InsertEnter",
         -- optional: provides snippets for the snippet source
         dependencies = {

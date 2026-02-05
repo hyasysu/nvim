@@ -22,16 +22,27 @@ return {
     },
     {
         "zbirenbaum/copilot.lua",
+        lazy = true,
         event = "VeryLazy",
         enabled = require("core.options").ai_assistant.copilot_lua.enabled,
         cmd = "Copilot",
         opts = {
 
-        }
+        },
+        config = function(_, opts)
+            require("copilot").setup(opts)
+            -- Vim 启动时先Disable Copilot
+            if require('core.options').ai_assistant.copilot_lua.start_with_disable then
+                vim.schedule(function()
+                    vim.cmd [[Copilot disable]]
+                end)
+            end
+        end
     },
     {
         "olimorris/codecompanion.nvim",
         enabled = require("core.options").ai_assistant.codecompanion.enabled,
+        lazy = true,
         dependencies = {
             "nvim-lua/plenary.nvim",
             "nvim-treesitter/nvim-treesitter",
@@ -79,7 +90,7 @@ return {
     {
         "yetone/avante.nvim",
         enabled = require("core.options").ai_assistant.avante.enabled,
-        event = "VeryLazy",
+        lazy = true,
         version = false, -- Never set this value to "*"! Never!
         -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
         -- ⚠️ must add this setting! ! !

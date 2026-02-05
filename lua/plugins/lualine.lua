@@ -389,8 +389,21 @@ return {
         }
 
         local venv_component = {
-            'venv-selector',
-            -- icon = get_icon("ui", "Python"),
+            -- 'venv-selector',  -- 不使用默认搭配的，这样会导致其余文件类型也加载venv插件
+            function()
+                local venv_path = require("venv-selector").venv()
+                if not venv_path or venv_path == "" then
+                    return ""
+                end
+
+                local venv_name = vim.fn.fnamemodify(venv_path, ":t")
+                if not venv_name then
+                    return ""
+                end
+
+                return venv_name
+            end,
+            icon = get_icon("ui", "Python"),
             cond = function()
                 return vim.bo.buftype == '' and vim.bo.filetype == 'python'
             end,
@@ -424,7 +437,8 @@ return {
             end,
             icon = get_icon("ui", "SwitchOff"),
             cond = function()
-                return vim.bo.buftype == '' and not require('core.options').lualine_winbar_show
+                return vim.fn.winwidth(0) > 50 and vim.bo.buftype == '' and
+                    not require('core.options').lualine_winbar_show
             end,
             on_click = function(n, mouse)
                 if (n == 1) then
