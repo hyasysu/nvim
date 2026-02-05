@@ -204,7 +204,7 @@ local function ensure_normal_mode()
     end
 end
 
--- 监听 session 加载完成事件
+-- 监听 session 加载完成事件(当session包含terminal时，加载完后进入insert)
 vim.api.nvim_create_autocmd("User", {
     pattern = "PersistenceLoadPost",
     desc = "Ensure normal mode after loading session",
