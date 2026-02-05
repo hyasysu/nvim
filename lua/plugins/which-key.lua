@@ -29,6 +29,8 @@ return {
             { "<leader>x", group = "Quickfix/Lists",      icon = get_icon("ui", "List", 1) },
             { "<leader>y", group = "Copy",                icon = get_icon("ui", "Copy", 1) },
             { "gr",        group = "LSP",                 icon = get_icon("ui", "ActiveLSP", 1) },
+            { "<M-m>i",        group = "TS Swap next",        icon = get_icon("ui", "SwapNext", 1) },
+            { "<M-m>a",        group = "TS Swap previous",    icon = get_icon("ui", "SwapPre", 1) },
         }, {
             mode = { "n", "v", "i", "t" },
         })
