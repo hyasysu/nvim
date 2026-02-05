@@ -6,7 +6,13 @@ local current_treesitter = {
         'nvim-treesitter/nvim-treesitter',
         event = { "BufReadPost", "BufNewFile", "BufWritePre", "VeryLazy" },
         cmd = { "TSUpdate", "TSInstall", "TSLog", "TSUninstall" },
-        build = ':TSUpdate',
+        -- build = ':TSUpdate',
+        build = function()
+            vim.schedule_wrap(function()
+                local TS = require("nvim-treesitter")
+                TS.update(nil, { summary = true })
+            end)
+        end,
         init = function(plugin)
             -- PERF: add nvim-treesitter queries to the rtp and it's custom query predicates early
             -- This is needed because a bunch of plugins no longer `require("nvim-treesitter")`, which
