@@ -19,6 +19,7 @@ local current_treesitter = {
     },
     {
         "nvim-treesitter/nvim-treesitter-textobjects",
+        lazy = true,
         branch = "main",
         init = function()
             -- Disable entire built-in ftplugin mappings to avoid conflicts.
