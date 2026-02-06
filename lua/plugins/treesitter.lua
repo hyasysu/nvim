@@ -4,32 +4,22 @@
 local current_treesitter = {
     {
         'nvim-treesitter/nvim-treesitter',
-        -- event = { "BufReadPost", "BufNewFile", "BufWritePre", "VeryLazy" },
         lazy = false,
         branch = "main",
         version = false, -- last release is way too old and doesn't work on Windows
         -- cmd = { "TSUpdate", "TSInstall", "TSLog", "TSUninstall" },
-        build = ':TSUpdate',
-        -- build = function(plugin)
-        --     -- 只在插件安装后执行构建
-        --     vim.notify('Building nvim-treesitter...', vim.log.levels.INFO)
+        -- build = ':TSUpdate', -- 不知道为啥会报错(not found nvim-treesitter.install)
+        build = function(plugin)
+            -- 只在插件安装后执行构建
+            -- 手动添加插件路径到 package.path, 这样可以找到`nvim-treesitter.install`
+            -- 这个只有插件更新时才会进入，因此不用担心每次neovim启动后的package.path都会收到影响
+            local plugin_path = vim.fn.stdpath('data') .. '/lazy/' .. plugin.name
+            package.path = package.path .. ';' .. plugin_path .. '/lua/?.lua'
+            package.path = package.path .. ';' .. plugin_path .. '/lua/?/init.lua'
 
-        --     -- 手动添加插件路径到 package.path
-        --     local plugin_path = vim.fn.stdpath('data') .. '/lazy/' .. plugin.name
-        --     vim.notify('Plugin path: ' .. plugin_path, vim.log.levels.INFO)
-        --     package.path = package.path .. ';' .. plugin_path .. '/lua/?.lua'
-        --     package.path = package.path .. ';' .. plugin_path .. '/lua/?/init.lua'
-
-        --     local TS = require("nvim-treesitter")
-        --     TS.update(nil, { summary = true })
-        -- end,
-        -- build = function()
-        --     -- 不知道为啥会报错(not found nvim-treesitter.install)
-        --     vim.defer_fn(function()
-        --         local TS = require("nvim-treesitter")
-        --         TS.update(nil, { summary = true })
-        --     end, 2000)
-        -- end,
+            local TS = require("nvim-treesitter")
+            TS.update(nil, { summary = true })
+        end,
         init = function(plugin)
             -- PERF: add nvim-treesitter queries to the rtp and it's custom query predicates early
             -- This is needed because a bunch of plugins no longer `require("nvim-treesitter")`, which
@@ -40,13 +30,40 @@ local current_treesitter = {
             require("lazy.core.loader").add_to_rtp(plugin)
             pcall(require, "nvim-treesitter.query_predicates")
         end,
+        opts_extend = { "ensure_installed" },
         opts = {
             ensure_installed = {
                 "c",
                 "cpp",
                 "bash",
             }
-        }
+        },
+        config = function(_, opts)
+            local TS = require("nvim-treesitter")
+
+            -- some quick sanity checks
+            if not TS.get_installed then
+                return vim.notify("Please use `:Lazy` and update `nvim-treesitter`", vim.log.levels.ERROR)
+            elseif type(opts.ensure_installed) ~= "table" then
+                return vim.notify("`nvim-treesitter` opts.ensure_installed must be a table", vim.log.levels.ERROR)
+            end
+
+            -- setup treesitter
+            TS.setup(opts)
+
+            local ts_util = require("util.treesitter")
+            -- install missing parsers
+            local install = vim.tbl_filter(function(lang)
+                return not ts_util.have(lang)
+            end, opts.ensure_installed or {})
+            if #install > 0 then
+                ts_util.build(function()
+                    TS.install(install, { summary = true }):await(function()
+                        ts_util.get_installed(true) -- refresh the installed langs
+                    end)
+                end)
+            end
+        end
     },
     {
         "nvim-treesitter/nvim-treesitter-textobjects",
@@ -237,7 +254,13 @@ local current_treesitter = {
             -- vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t_expr, { expr = true })
             -- vim.keymap.set({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T_expr, { expr = true })
         end,
-    }
+    },
+    -- Automatically add closing tags for HTML and JSX
+    {
+        "windwp/nvim-ts-autotag",
+        event = { "BufReadPost", "BufNewFile", "BufWritePre" },
+        opts = {},
+    },
 }
 
 
