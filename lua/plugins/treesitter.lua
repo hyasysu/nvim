@@ -18,7 +18,16 @@ local current_treesitter = {
             package.path = package.path .. ';' .. plugin_path .. '/lua/?/init.lua'
 
             local TS = require("nvim-treesitter")
-            TS.update(nil, { summary = true })
+            if not TS.get_installed then
+                vim.notify("Please restart Neovim and run `:TSUpdate` to use the `nvim-treesitter` **main** branch.",
+                    vim.log.levels.ERROR)
+                return
+            end
+            -- TS.update(nil, { summary = true })
+            local ts_util = require("util.treesitter")
+            ts_util.build(function()
+                TS.update(nil, { summary = true })
+            end)
         end,
         init = function(plugin)
             -- PERF: add nvim-treesitter queries to the rtp and it's custom query predicates early
