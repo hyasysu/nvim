@@ -527,6 +527,17 @@ return {
             branch.icon = ''
         end
 
+        -- local navic_winbar_component = {
+        --     function()
+        --         return require("nvim-navic").get_location()
+        --     end,
+        --     cond = function()
+        --         local ok, navic = pcall(require, "nvim-navic")
+        --         return ok and navic and navic.is_available()
+        --     end,
+        --     color_correction = "dynamic",
+        -- }
+
         local opts = {
             options = {
                 theme = 'auto',
