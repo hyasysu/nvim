@@ -100,6 +100,9 @@ vim.opt.laststatus = 3       -- Always show the status line
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 
+-- folding
+require 'core.folding'
+
 -- Allow project-specific configurations
 -- You can place a .nvim.lua or .exrc file in the root of your project
 -- to set project-specific settings. Be cautious as this can pose security risks.

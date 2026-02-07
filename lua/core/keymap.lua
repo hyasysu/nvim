@@ -231,3 +231,6 @@ map({ "x" }, "<C-_>", "gc", { remap = true, desc = "Toggle comment" })
 -- kitty need
 map({ "n" }, "<C-/>", "gcc", { remap = true, desc = "Toggle comment line" })
 map({ "x" }, "<C-/>", "gc", { remap = true, desc = "Toggle comment" })
+
+map({ "n", "x" }, "<leader>cr", function() vim.lsp.codelens.run() end, { desc = "Run Codelens", })
+map({ "n" }, "<leader>cR", function() vim.lsp.codelens.refresh() end, { desc = "Refresh & Display Codelens", })
