@@ -10,12 +10,13 @@ local current_treesitter = {
         -- cmd = { "TSUpdate", "TSInstall", "TSLog", "TSUninstall" },
         -- build = ':TSUpdate', -- 不知道为啥会报错(not found nvim-treesitter.install)
         build = function(plugin)
-            -- 只在插件安装后执行构建
-            -- 手动添加插件路径到 package.path, 这样可以找到`nvim-treesitter.install`
-            -- 这个只有插件更新时才会进入，因此不用担心每次neovim启动后的package.path都会收到影响
-            local plugin_path = vim.fn.stdpath('data') .. '/lazy/' .. plugin.name
-            package.path = package.path .. ';' .. plugin_path .. '/lua/?.lua'
-            package.path = package.path .. ';' .. plugin_path .. '/lua/?/init.lua'
+            -- Execute the build only after the plugin is installed
+            -- Manually add the plugin path to package.pathl to find `nvim-treesitter.install`
+            -- Reason: Because the `core/autocmd.lua` will use `core/options.lua`
+            -- And if load autocmd first in the `init.lua`, then the build will failed.
+            -- local plugin_path = vim.fn.stdpath('data') .. '/lazy/' .. plugin.name
+            -- package.path = package.path .. ';' .. plugin_path .. '/lua/?.lua'
+            -- package.path = package.path .. ';' .. plugin_path .. '/lua/?/init.lua'
 
             local TS = require("nvim-treesitter")
             if not TS.get_installed then
@@ -23,7 +24,6 @@ local current_treesitter = {
                     vim.log.levels.ERROR)
                 return
             end
-            -- TS.update(nil, { summary = true })
             local ts_util = require("util.treesitter")
             ts_util.build(function()
                 TS.update(nil, { summary = true })

@@ -4,8 +4,10 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
-require("core.autocmd")
 require("core.options")
+-- Because in the autocmd will use optsions.lua, should load the options first
+-- If not, then `nvim-treesitter` will failed to build
+require("core.autocmd")
 require("core.keymap")
 require("core.lazy")
 
