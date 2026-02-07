@@ -260,38 +260,3 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     desc = "Enable render-markdown.nvim and disable markview.nvim for markdown files",
     callback = markdown_ensure_right_plugins,
 })
-
--- lualine autocmd on ColorScheme
-local lualine_winbar_group = vim.api.nvim_create_augroup("lualine_group", { clear = true })
-vim.api.nvim_create_autocmd("ColorScheme", {
-    group = lualine_winbar_group,
-    callback = function()
-        if not require('core.options').lualine_winbar_show then
-            vim.defer_fn(function()
-                local ok, lualine = pcall(require, 'lualine')
-                if ok and lualine then
-                    require('lualine').hide({
-                        place = { 'winbar' }, -- The segment this change applies to.
-                        unhide = false,   -- whether to re-enable lualine again/
-                    })
-                end
-            end, 100)
-        end
-    end,
-})
-
--- LSP - blink.cmp
-vim.api.nvim_create_autocmd('InsertEnter', {
-    group = vim.api.nvim_create_augroup('blink_capabilities', { clear = true }),
-    once = true,
-    callback = function()
-        -- Set default capabilities for all LSP servers
-        if require("core.options").cmp == "blink" and require("util").is_available('blink.cmp') then
-            vim.notify("Configuring blink.cmp capabilities to all LSP servers", vim.log.levels.INFO,
-                { icon = require("util.icons").get_icon("ui", "ActiveLSP"), title = "LSP" })
-            vim.lsp.config('*', {
-                capabilities = require('blink.cmp').get_lsp_capabilities(),
-            })
-        end
-    end,
-})

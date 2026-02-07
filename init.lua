@@ -5,7 +5,7 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
 require("core.options")
--- Because in the autocmd will use optsions.lua, should load the options first
+-- The `autocmd.lua` cannot use optsions.lua.
 -- If not, then `nvim-treesitter` will failed to build
 require("core.autocmd")
 require("core.keymap")

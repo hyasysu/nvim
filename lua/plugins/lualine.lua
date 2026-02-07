@@ -87,6 +87,24 @@ return {
         { "<leader>wt", switch_tabstop, desc = "Change Tabstop" },
     },
     config = function(_, opts)
+        -- lualine autocmd on ColorScheme
+        vim.api.nvim_create_autocmd("ColorScheme", {
+            group = vim.api.nvim_create_augroup("lualine_group", { clear = true }),
+            callback = function()
+                if not require('core.options').lualine_winbar_show then
+                    vim.defer_fn(function()
+                        local ok, lualine = pcall(require, 'lualine')
+                        if ok and lualine then
+                            require('lualine').hide({
+                                place = { 'winbar' }, -- The segment this change applies to.
+                                unhide = false, -- whether to re-enable lualine again/
+                            })
+                        end
+                    end, 100)
+                end
+            end,
+        })
+
         local get_icon = require("util.icons").get_icon
         local cmake_component = {
             preset_or_build_type = {

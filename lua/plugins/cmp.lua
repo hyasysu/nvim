@@ -232,7 +232,26 @@ return {
             -- See the fuzzy documentation for more information
             fuzzy = { implementation = "prefer_rust_with_warning" }
         },
-        opts_extend = { "sources.default" }
+        opts_extend = { "sources.default" },
+        config = function(_, opts)
+            -- LSP - blink.cmp
+            vim.api.nvim_create_autocmd('InsertEnter', {
+                group = vim.api.nvim_create_augroup('blink_capabilities', { clear = true }),
+                once = true,
+                callback = function()
+                    -- Set default capabilities for all LSP servers
+                    if require("core.options").cmp == "blink" and require("util").is_available('blink.cmp') then
+                        vim.notify("Configuring blink.cmp capabilities to all LSP servers", vim.log.levels.INFO,
+                            { icon = require("util.icons").get_icon("ui", "ActiveLSP"), title = "LSP" })
+                        vim.lsp.config('*', {
+                            capabilities = require('blink.cmp').get_lsp_capabilities(),
+                        })
+                    end
+                end,
+            })
+
+            require("blink.cmp").setup(opts)
+        end
     },
     {
         'hrsh7th/nvim-cmp',
