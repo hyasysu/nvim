@@ -449,9 +449,10 @@ return {
 
         local switch_tabstop_component = {
             function()
-                local expandtab = vim.bo.expandtab and "Spaces:" or "Tab:"
+                local expandtab = vim.bo.expandtab and "SPC:" or "Tab:"
                 local tabstop = vim.bo.tabstop
-                return string.format("%s%d", expandtab, tabstop)
+                local shiftWidth = vim.bo.shiftwidth
+                return string.format("%s%d/%d", expandtab, tabstop, shiftWidth)
             end,
             cond = function()
                 return vim.bo.buftype == ''

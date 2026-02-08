@@ -68,6 +68,9 @@ return {
         "neovim/nvim-lspconfig",
         event = "VeryLazy",
         opts_extend = { "servers.*.keys" },
+        dependencies = {
+            { "folke/neoconf.nvim", lazy = true, opts = {} },
+        },
         opts = function()
             ---@class PluginLspOpts
             local ret = {
