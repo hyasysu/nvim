@@ -539,7 +539,7 @@ return {
         --     color_correction = "dynamic",
         -- }
 
-        local opts = {
+        local local_opts = {
             options = {
                 theme = 'auto',
                 -- component_separators = '', -- not require("core.options").nerd_fonts and '' or nil,
@@ -608,6 +608,7 @@ return {
             },
         }
 
+        opts = vim.tbl_deep_extend("force", opts, local_opts)
         require 'lualine'.setup(opts)
     end,
 }
