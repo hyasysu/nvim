@@ -202,7 +202,7 @@ local current_treesitter = {
             swap_map("<M-m>an", false, "@number.inner")
 
             ---@param key string
-            ---@param direction string
+            ---@param direction "goto_next_start" | "goto_next_end" | "goto_previous_start" | "goto_previous_end"
             ---@param query_string string
             ---@param query_group string
             local function move_map(key, direction, query_string, query_group)
