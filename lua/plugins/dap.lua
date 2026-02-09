@@ -2,19 +2,39 @@ local function set_breakpoint()
     local ok, persistence_bp = pcall(require, "persistent-breakpoints.api")
     if ok and persistence_bp then
         persistence_bp.toggle_breakpoint()
+        vim.notify("Successed set_breakpoint", vim.log.levels.INFO)
     else
         require("dap").toggle_breakpoint()
     end
 end
 
 local function set_conditional_breakpoint()
+    vim.ui.input({ prompt = "[Condition]> " }, function(condition)
+        if condition then
+            require("dap").set_breakpoint(condition)
+            local ok, persistence_bp = pcall(require, "persistent-breakpoints.api")
+            if ok and persistence_bp then
+                persistence_bp.breakpoints_changed_in_current_buffer()
+            end
+        end
+    end)
+end
+
+local function set_log_point()
     local ok, persistence_bp = pcall(require, "persistent-breakpoints.api")
     if ok and persistence_bp then
-        persistence_bp.set_conditional_breakpoint()
+        persistence_bp.set_log_point()
     else
-        vim.ui.input({ prompt = "Condition: " }, function(condition)
-            if condition then require("dap").set_breakpoint(condition) end
-        end)
+        require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
+    end
+end
+
+local function clear_all_breakpoints()
+    local ok, persistence_bp = pcall(require, "persistent-breakpoints.api")
+    if ok and persistence_bp then
+        persistence_bp.clear_all_breakpoints()
+    else
+        require("dap").clear_breakpoints()
     end
 end
 
@@ -22,54 +42,32 @@ return {
     "mfussenegger/nvim-dap",
     lazy = true,
     keys = {
-        { "<F5>",       function() require("dap").continue() end,      desc = "Debugger: Start",                             mode = { "n" } },
-        { "<F17>",      function() require("dap").terminate() end,     desc = "Debugger: Stop (Shift+F5)",                   mode = { "n" } }, -- Shift+F5
-        { "<F21>",      set_conditional_breakpoint,                    desc = "Debugger: Conditional Breakpoint (Shift+F9)", mode = { "n" } }, -- Shift+F9
-        { "<F29>",      function() require("dap").restart_frame() end, desc = "Debugger: Restart (Control+F5)",              mode = { "n" } }, -- Control+F5
-        { "<F6>",       function() require("dap").pause() end,         desc = "Debugger: Pause",                             mode = { "n" } },
-        { "<F9>",       set_breakpoint,                                desc = "Debugger: Toggle Breakpoint",                 mode = { "n" } },
-        { "<F10>",      function() require("dap").step_over() end,     desc = "Debugger: Step Over",                         mode = { "n" } },
-        { "<F11>",      function() require("dap").step_into() end,     desc = "Debugger: Step Into",                         mode = { "n" } },
-        { "<F23>",      function() require("dap").step_out() end,      desc = "Debugger: Step Out (Shift+F11)",              mode = { "n" } }, -- Shift+F11
+        { "<F5>",       function() require("dap").continue() end,      desc = "Debugger: Start",                mode = { "n" } },
+        { "<F17>",      function() require("dap").terminate() end,     desc = "Debugger: Stop (Shift+F5)",      mode = { "n" } },              -- Shift+F5
+        { "<F29>",      function() require("dap").restart_frame() end, desc = "Debugger: Restart (Control+F5)", mode = { "n" } },              -- Control+F5
+        { "<F6>",       function() require("dap").pause() end,         desc = "Debugger: Pause",                mode = { "n" } },
+        { "<F10>",      function() require("dap").step_over() end,     desc = "Debugger: Step Over",            mode = { "n" } },
+        { "<F11>",      function() require("dap").step_into() end,     desc = "Debugger: Step Into",            mode = { "n" } },
+        { "<F23>",      function() require("dap").step_out() end,      desc = "Debugger: Step Out (Shift+F11)", mode = { "n" } },              -- Shift+F11
 
-        { "<Leader>db", set_breakpoint,                                desc = "Toggle Breakpoint (F9)",                      mode = { "n" } },
-        { "<Leader>dB", set_conditional_breakpoint,                    desc = "Conditional Breakpoint (S-F9)",               mode = { "n" } },
-        {
-            "<Leader>dC",
-            function()
-                local ok, persistence_bp = pcall(require, "persistent-breakpoints.api")
-                if ok and persistence_bp then
-                    persistence_bp.clear_all_breakpoints()
-                else
-                    require("dap").clear_breakpoints()
-                end
-            end,
-            desc = "Clear Breakpoints",
-            mode = { "n" }
-        },
-        { "<Leader>dc", function() require("dap").continue() end,      desc = "Start/Continue (F5)",      mode = { "n" } },
-        { "<Leader>di", function() require("dap").step_into() end,     desc = "Step Into (F11)",          mode = { "n" } },
-        { "<Leader>do", function() require("dap").step_over() end,     desc = "Step Over (F10)",          mode = { "n" } },
-        { "<Leader>dO", function() require("dap").step_out() end,      desc = "Step Out (S-F11)",         mode = { "n" } },
-        { "<Leader>dq", function() require("dap").close() end,         desc = "Close Session",            mode = { "n" } },
-        { "<Leader>dQ", function() require("dap").terminate() end,     desc = "Terminate Session (S-F5)", mode = { "n" } },
-        { "<Leader>dp", function() require("dap").pause() end,         desc = "Pause (F6)",               mode = { "n" } },
-        { "<Leader>dr", function() require("dap").restart_frame() end, desc = "Restart (C-F5)",           mode = { "n" } },
-        { "<Leader>dR", function() require("dap").repl.toggle() end,   desc = "Toggle REPL",              mode = { "n" } },
-        { "<Leader>ds", function() require("dap").run_to_cursor() end, desc = "Run To Cursor",            mode = { "n" } },
-        {
-            "<Leader>dl",
-            function()
-                local ok, persistence_bp = pcall(require, "persistent-breakpoints.api")
-                if ok and persistence_bp then
-                    persistence_bp.set_log_point()
-                else
-                    require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
-                end
-            end,
-            desc = "Set Log Point",
-            mode = { "n" }
-        },
+        -- Set on `persistent-breakpoints.nvim`
+        -- { "<F9>",       set_breakpoint,                                desc = "Debugger: Toggle Breakpoint",                 mode = { "n" } },
+        -- { "<F21>",      set_conditional_breakpoint,                    desc = "Debugger: Conditional Breakpoint (Shift+F9)", mode = { "n" } }, -- Shift+F9
+        -- { "<Leader>db", set_breakpoint,                                desc = "Toggle Breakpoint (F9)",                      mode = { "n" } },
+        -- { "<Leader>dB", set_conditional_breakpoint,                    desc = "Conditional Breakpoint (S-F9)",               mode = { "n" } },
+        -- { "<Leader>dC", clear_all_breakpoints,                         desc = "Clear Breakpoints",                           mode = { "n" } },
+
+        { "<Leader>dc", function() require("dap").continue() end,      desc = "Start/Continue (F5)",            mode = { "n" } },
+        { "<Leader>di", function() require("dap").step_into() end,     desc = "Step Into (F11)",                mode = { "n" } },
+        { "<Leader>do", function() require("dap").step_over() end,     desc = "Step Over (F10)",                mode = { "n" } },
+        { "<Leader>dO", function() require("dap").step_out() end,      desc = "Step Out (S-F11)",               mode = { "n" } },
+        { "<Leader>dq", function() require("dap").close() end,         desc = "Close Session",                  mode = { "n" } },
+        { "<Leader>dQ", function() require("dap").terminate() end,     desc = "Terminate Session (S-F5)",       mode = { "n" } },
+        { "<Leader>dp", function() require("dap").pause() end,         desc = "Pause (F6)",                     mode = { "n" } },
+        { "<Leader>dr", function() require("dap").restart_frame() end, desc = "Restart (C-F5)",                 mode = { "n" } },
+        { "<Leader>dR", function() require("dap").repl.toggle() end,   desc = "Toggle REPL",                    mode = { "n" } },
+        { "<Leader>ds", function() require("dap").run_to_cursor() end, desc = "Run To Cursor",                  mode = { "n" } },
+        { "<Leader>dl", set_log_point,                                 desc = "Set Log Point",                  mode = { "n" } },
     },
     dependencies = {
         {
@@ -129,7 +127,14 @@ return {
         },
         {
             "Weissle/persistent-breakpoints.nvim",
-            lazy = true,
+            event = { "BufReadPost" },
+            keys = {
+                { "<F9>",       set_breakpoint,             desc = "Debugger: Toggle Breakpoint",                 mode = { "n" } },
+                { "<F21>",      set_conditional_breakpoint, desc = "Debugger: Conditional Breakpoint (Shift+F9)", mode = { "n" } }, -- Shift+F9
+                { "<Leader>db", set_breakpoint,             desc = "Toggle Breakpoint (F9)",                      mode = { "n" } },
+                { "<Leader>dB", set_conditional_breakpoint, desc = "Conditional Breakpoint (S-F9)",               mode = { "n" } },
+                { "<Leader>dC", clear_all_breakpoints,      desc = "Clear Breakpoints",                           mode = { "n" } },
+            },
             opts = {
                 load_breakpoints_event = { "BufReadPost" },
             },

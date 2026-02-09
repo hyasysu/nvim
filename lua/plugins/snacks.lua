@@ -33,6 +33,16 @@ return {
             enabled = true,
             doc = { enabled = true, inline = false, float = true, max_width = 80, max_height = 20 },
         },
+
+        -- configure `vim.ui.input`
+        input = { enabled = true, },
+
+        -- configure notifier
+        notifier = {},
+
+        -- configure picker and `vim.ui.select`
+        picker = { ui_select = true },
+
         bigfile = {
             notify = true,            -- show notification when big file detected
             size = 1.5 * 1024 * 1024, -- 1.5MB
@@ -84,8 +94,8 @@ return {
                     { icon = " ", key = "c", desc = "Config", action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})" },
                     { icon = " ", key = "s", desc = "Restore Session", action = ":lua require('persistence').load()" },
                     { icon = " ", key = "S", desc = "Select Session", action = ":lua require('persistence').select()" },
-                    { icon = "󰒲 ", key = "L", desc = "Lazy", action = ":Lazy", enabled = package.loaded.lazy ~= nil },
-                    { icon = " ", key = "q", desc = "Quit", action = ":qa" },
+                    { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy", enabled = package.loaded.lazy ~= nil },
+                    { icon = " ", key = "<C-q>", desc = "Quit", action = ":qa" },
                 },
                 -- Used by the `header` section
                 --                 header = [[

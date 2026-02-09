@@ -145,6 +145,17 @@ vim.api.nvim_create_autocmd('LspAttach', {
 local function show_dashboard()
     -- 只有在没有传递参数给neovim时才考虑session和dashboard
     if vim.fn.argc() == 0 then
+        if vim.bo.filetype == "lazy" then
+            vim.api.nvim_create_autocmd("WinClosed", {
+                pattern = tostring(vim.api.nvim_get_current_win()),
+                once = true,
+                callback = function()
+                    vim.schedule(show_dashboard)
+                end
+            })
+            return
+        end
+
         -- 检查persistence.nvim是否可用
         local has_persistence, persistence = pcall(require, "persistence")
         local has_session = false
@@ -165,15 +176,15 @@ local function show_dashboard()
             end
         end
 
-        vim.schedule(function()
-            -- 使用pcall安全地调用dashboard
-            if Snacks and Snacks.dashboard then
-                Snacks.dashboard()
-            else
-                -- 后备方案，比如显示一个空缓冲区或者什么都不做
-                print("No session found and Snacks.dashboard not available")
-            end
-        end)
+        -- vim.schedule(function()
+        --     -- 使用pcall安全地调用dashboard
+        --     if Snacks and Snacks.dashboard then
+        --         Snacks.dashboard()
+        --     else
+        --         -- 后备方案，比如显示一个空缓冲区或者什么都不做
+        --         print("No session found and Snacks.dashboard not available")
+        --     end
+        -- end)
     end
 end
 

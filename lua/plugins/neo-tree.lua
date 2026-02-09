@@ -73,6 +73,26 @@ return {
                 },
             },
             commands = {
+                find_files_in_dir = function(state)
+                    local node = state.tree:get_node()
+                    local path = node.type == "file" and node:get_parent_id() or node:get_id()
+                    require("snacks").picker.files { cwd = path }
+                end,
+                find_all_files_in_dir = function(state)
+                    local node = state.tree:get_node()
+                    local path = node.type == "file" and node:get_parent_id() or node:get_id()
+                    require("snacks").picker.files { cwd = path, hidden = true, ignored = true }
+                end,
+                find_words_in_dir = function(state)
+                    local node = state.tree:get_node()
+                    local path = node.type == "file" and node:get_parent_id() or node:get_id()
+                    require("snacks").picker.grep { cwd = path }
+                end,
+                find_all_words_in_dir = function(state)
+                    local node = state.tree:get_node()
+                    local path = node.type == "file" and node:get_parent_id() or node:get_id()
+                    require("snacks").picker.grep { cwd = path, hidden = true, ignored = true }
+                end,
                 system_open = function(state)
                     (vim.ui.open)(state.tree:get_node():get_id())
                 end,
@@ -153,7 +173,7 @@ return {
             },
             filesystem = {
                 follow_current_file = { enabled = true },
-                filtered_items = { hide_gitignored = git_available },
+                -- filtered_items = { hide_gitignored = git_available },
                 hijack_netrw_behavior = "open_current",
                 use_libuv_file_watcher = vim.fn.has "win32" ~= 1,
                 filtered_items = {
@@ -161,7 +181,17 @@ return {
                     hide_dotfiles = false,
                     hide_gitignored = false,
                     hide_hidden = false,
-                }
+                },
+                window = {
+                    mappings = {
+                        f = { "show_help", nowait = false, config = { title = "Find Files", prefix_key = "f" } },
+                        ["f/"] = "filter_on_submit",
+                        ff = "find_files_in_dir",
+                        fF = "find_all_files_in_dir",
+                        fw = vim.fn.executable "rg" == 1 and "find_words_in_dir" or nil,
+                        fW = vim.fn.executable "rg" == 1 and "find_all_words_in_dir" or nil,
+                    },
+                },
             },
         })
 
