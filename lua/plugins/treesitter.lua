@@ -4,10 +4,11 @@
 local current_treesitter = {
     {
         'nvim-treesitter/nvim-treesitter',
-        lazy = false,
+        -- lazy = false,
         branch = "main",
+        event = { "BufReadPost", "BufNewFile", "BufWritePre", "VeryLazy" },
         version = false, -- last release is way too old and doesn't work on Windows
-        -- cmd = { "TSUpdate", "TSInstall", "TSLog", "TSUninstall" },
+        cmd = { "TSUpdate", "TSInstall", "TSLog", "TSUninstall" },
         -- build = ':TSUpdate', -- 不知道为啥会报错(not found nvim-treesitter.install)
         build = function(plugin)
             -- Execute the build only after the plugin is installed
@@ -76,7 +77,7 @@ local current_treesitter = {
     },
     {
         "nvim-treesitter/nvim-treesitter-textobjects",
-        lazy = true,
+        event = "VeryLazy",
         branch = "main",
         init = function()
             -- Disable entire built-in ftplugin mappings to avoid conflicts.
