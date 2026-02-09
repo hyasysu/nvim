@@ -31,7 +31,7 @@
   "markview.nvim": { "branch": "main", "commit": "9e852c299351fc2110e763edc7fc899358ee112e" },
   "mason-lspconfig.nvim": { "branch": "main", "commit": "ae609525ddf01c153c39305730b1791800ffe4fe" },
   "mason-nvim-dap.nvim": { "branch": "main", "commit": "9a10e096703966335bd5c46c8c875d5b0690dade" },
-  "mason-registry": { "branch": "main", "commit": "c3e4364fbe69dbc4eef60be6f8c23684e8aaf949" },
+  "mason-registry": { "branch": "main", "commit": "19058c05b977ab8521a86c8a1ceea50aab984377" },
   "mason.nvim": { "branch": "main", "commit": "44d1e90e1f66e077268191e3ee9d2ac97cc18e65" },
   "mini.nvim": { "branch": "main", "commit": "8c40d95931cbe6138391af9180e59439ed2e69df" },
   "move.nvim": { "branch": "master", "commit": "25884244f17195e57760c538be19d1473c0cbef5" },
