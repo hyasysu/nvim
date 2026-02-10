@@ -32,6 +32,7 @@ map({ "n" }, "<leader>lz", "<cmd>Lspsaga finder<CR>", { desc = "Lspsags referenc
 map({ "n" }, "<leader>lZ", "<cmd>Lspsaga finder def+ref+imp+tyd+dec<CR>",
 { desc = "Lspsags references and implementation" })
 map({ "n" }, "<F60>", "<cmd>Lspsaga finder def+ref+imp+tyd+dec<CR>", { desc = "Lspsags references and implementation" })
+map({ "n" }, "<M-F12>", "<cmd>Lspsaga finder def+ref+imp+tyd+dec<CR>", { desc = "Lspsags references and implementation" })
 
 -- map({ "n", "v" }, "gy", "<cmd>Telescope lsp_type_definitions<CR>", { desc = 'Goto type definition' })
 map({ "n", "v" }, "grt", function() Snacks.picker.lsp_type_definitions() end, { desc = 'Goto type definition' })
