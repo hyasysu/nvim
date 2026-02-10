@@ -231,6 +231,32 @@ local markdown_group = vim.api.nvim_create_augroup("MarkdownAutoCmds", { clear =
 -- Function if filetype is markdown, and buftype is '' then enable render-markdown.nvim and disable markview.nvim
 local function markdown_ensure_right_plugins(args)
     if vim.bo.filetype == "markdown" then
+        -- 检查是否为 Markview 窗口
+        -- Markview 窗口通常是普通窗口，不是浮动窗口
+        local win_id = vim.api.nvim_get_current_win()
+        local win_config = vim.api.nvim_win_get_config(win_id)
+
+        -- lsp hover is floating window
+        -- 浮动窗口通常有 relative 设置
+        if win_config.relative and win_config.relative ~= "" then
+            -- Disable render-markdown.nvim
+            local ok, render_markdown = pcall(require, "render-markdown.core.manager")
+            if ok and render_markdown then
+                vim.schedule(function()
+                    render_markdown.set_buf(args.buf, false)
+                end)
+            end
+
+            -- Disable markview.nvim
+            local ok2, markview = pcall(require, "markview")
+            if ok2 and markview then
+                vim.schedule(function()
+                    markview.actions.disable(args.buf)
+                end)
+            end
+            return
+        end
+
         if vim.bo.buftype == "" then
             -- Enable render-markdown.nvim
             local ok, render_markdown = pcall(require, "render-markdown.core.manager")
@@ -270,4 +296,40 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     pattern = "markdown",
     desc = "Enable render-markdown.nvim and disable markview.nvim for markdown files",
     callback = markdown_ensure_right_plugins,
+})
+
+
+-- close some filetypes with <q>
+vim.api.nvim_create_autocmd("FileType", {
+    group = vim.api.nvim_create_augroup("close_with_q", { clear = true }),
+    pattern = {
+        "PlenaryTestPopup",
+        "checkhealth",
+        "dbout",
+        "gitsigns-blame",
+        "grug-far",
+        "help",
+        "lspinfo",
+        "neotest-output",
+        "neotest-output-panel",
+        "neotest-summary",
+        "notify",
+        "qf",
+        "spectre_panel",
+        "startuptime",
+        "tsplayground",
+    },
+    callback = function(event)
+        vim.bo[event.buf].buflisted = false
+        vim.schedule(function()
+            vim.keymap.set("n", "q", function()
+                vim.cmd("close")
+                pcall(vim.api.nvim_buf_delete, event.buf, { force = true })
+            end, {
+                buffer = event.buf,
+                silent = true,
+                desc = "Quit buffer",
+            })
+        end)
+    end,
 })

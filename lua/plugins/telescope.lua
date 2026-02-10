@@ -94,7 +94,7 @@ return {
         end,
         keys = {
             {
-                "<leader>fg",
+                "<leader>Fg",
                 function()
                     if vim.fn.executable "rg" == 1 then
                         require('telescope').extensions.live_grep_args.live_grep_args()
@@ -106,7 +106,7 @@ return {
                 desc = "Advanced Live Grep"
             },
             {
-                "<Leader>fw",
+                "<leader>Fw",
                 function()
                     if vim.fn.executable "rg" == 1 then
                         require("telescope.builtin").live_grep()
@@ -118,7 +118,7 @@ return {
                 desc = "Find words"
             },
             {
-                "<Leader>fW",
+                "<leader>FW",
                 function()
                     if vim.fn.executable "rg" == 1 then
                         require("telescope.builtin").live_grep {
@@ -131,24 +131,24 @@ return {
                 mode = { "n" },
                 desc = "Find words in all files",
             },
-            { "<leader>ff", function() require("telescope.builtin").find_files() end,  mode = { "n" }, desc = "Find files" },
+            { "<leader>Ff", function() require("telescope.builtin").find_files() end,  mode = { "n" }, desc = "Find files" },
             {
-                "<leader>fF",
+                "<leader>FF",
                 function() require("telescope.builtin").find_files { hidden = false, no_ignore = true } end,
                 mode = { "n" },
                 desc = "Find all files",
             },
 
-            { "<leader>fb", function() require("telescope.builtin").buffers() end,     mode = { "n" }, desc = "Find buffers" },
-            { "<leader>fc", function() require("telescope.builtin").grep_string() end, mode = { "n" }, desc = "Find word under cursor" },
-            { "<leader>fC", function() require("telescope.builtin").commands() end,    mode = { "n" }, desc = "Find commands" },
+            { "<leader>Fb", function() require("telescope.builtin").buffers() end,     mode = { "n" }, desc = "Find buffers" },
+            { "<leader>Fc", function() require("telescope.builtin").grep_string() end, mode = { "n" }, desc = "Find word under cursor" },
+            { "<leader>FC", function() require("telescope.builtin").commands() end,    mode = { "n" }, desc = "Find commands" },
 
-            { "<Leader>fh", function() require("telescope.builtin").help_tags() end,   mode = { "n" }, desc = "Find help" },
-            { "<Leader>fk", function() require("telescope.builtin").keymaps() end,     mode = { "n" }, desc = "Find keymaps" },
-            { "<Leader>fM", function() require("telescope.builtin").man_pages() end,   mode = { "n" }, desc = "Find man pages" },
-            { "<Leader>fm", function() require("telescope.builtin").marks() end,       mode = { "n" }, desc = "Find marks" },
+            { "<leader>Fh", function() require("telescope.builtin").help_tags() end,   mode = { "n" }, desc = "Find help" },
+            { "<leader>Fk", function() require("telescope.builtin").keymaps() end,     mode = { "n" }, desc = "Find keymaps" },
+            { "<leader>FM", function() require("telescope.builtin").man_pages() end,   mode = { "n" }, desc = "Find man pages" },
+            { "<leader>Fm", function() require("telescope.builtin").marks() end,       mode = { "n" }, desc = "Find marks" },
             {
-                "<Leader>fn",
+                "<leader>Fn",
                 function()
                     if require("util").is_available "nvim-notify" then
                         require("telescope").extensions.notify.notify()
@@ -159,23 +159,11 @@ return {
                 mode = { "n" },
                 desc = "Find notifications"
             },
-            { "<Leader>fo", function() require("telescope.builtin").oldfiles() end,                                                    mode = { "n" }, desc = "Find history" },
-            { "<Leader>fr", function() require("telescope.builtin").registers() end,                                                   mode = { "n" }, desc = "Find registers" },
-            { "<Leader>ft", function() require("telescope.builtin").colorscheme { enable_preview = true, ignore_builtins = true } end, mode = { "n" }, desc = "Find themes" },
+            { "<leader>Fo", function() require("telescope.builtin").oldfiles() end,                                                    mode = { "n" }, desc = "Find history" },
+            { "<leader>Fr", function() require("telescope.builtin").registers() end,                                                   mode = { "n" }, desc = "Find registers" },
+            { "<leader>Ft", function() require("telescope.builtin").colorscheme { enable_preview = true, ignore_builtins = true } end, mode = { "n" }, desc = "Find themes" },
 
-            { "<Leader>lD", function() require("telescope.builtin").diagnostics() end,                                                 mode = { "n" }, desc = "Search diagnostics" },
-            {
-                "<Leader>ls",
-                function()
-                    if require("util").is_available "aerial.nvim" then
-                        require("telescope").extensions.aerial.aerial()
-                    else
-                        require("telescope.builtin").lsp_document_symbols()
-                    end
-                end,
-                mode = { "n" },
-                desc = "Search symbols",
-            },
+            { "<Leader>lD", function() require("telescope.builtin").diagnostics() end,                                                 mode = { "n" }, desc = "Search diagnostics" }, 
         },
     },
     {

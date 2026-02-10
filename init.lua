@@ -9,6 +9,7 @@ require("core.options")
 -- If not, then `nvim-treesitter` will failed to build
 require("core.autocmd")
 require("core.keymap")
+require("core.lsp")
 require("core.lazy")
 
 require("custom_plugins")

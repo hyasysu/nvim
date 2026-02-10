@@ -186,20 +186,20 @@ return {
         -- lazygit
         { "<leader>gg", function() require('snacks').lazygit() end,                     desc = "Open LazyGit" },
 
-        -- picker use <leader>F prefix (telescope use <leader>f)
-        { "<leader>Ff", function() Snacks.picker.smart() end,                           desc = "Smart find file" },
-        { "<leader>Fo", function() Snacks.picker.recent() end,                          desc = "Find recent file" },
-        { "<leader>Fw", function() Snacks.picker.grep() end,                            desc = "Find content" },
-        { "<leader>Fh", function() Snacks.picker.help() end,                            desc = "Find in help" },
-        { "<leader>Fl", function() Snacks.picker.picker_layouts() end,                  desc = "Find picker layout" },
-        { "<leader>Fb", function() Snacks.picker.buffers({ sort_lastused = true }) end, desc = "Find buffers" },
-        { "<leader>Fk", function() Snacks.picker.keymaps({ hl = true }) end,            desc = "Find keymap" },
-        { "<leader>Fm", function() Snacks.picker.marks() end,                           desc = "Find mark" },
-        { "<leader>Fn", function() Snacks.picker.notifications() end,                   desc = "Find notification" },
-        { "<leader>Fr", function() Snacks.picker.lsp_references() end,                  desc = "Find lsp references" },
-        { "<leader>FS", function() Snacks.picker.lsp_workspace_symbols() end,           desc = "Find workspace symbol" },
+        -- picker use <leader>f prefix (telescope use <leader>f)
+        { "<leader>ff", function() Snacks.picker.smart() end,                           desc = "Smart find file" },
+        { "<leader>fo", function() Snacks.picker.recent() end,                          desc = "Find recent file" },
+        { "<leader>fw", function() Snacks.picker.grep() end,                            desc = "Find content" },
+        { "<leader>fh", function() Snacks.picker.help() end,                            desc = "Find in help" },
+        { "<leader>fl", function() Snacks.picker.picker_layouts() end,                  desc = "Find picker layout" },
+        { "<leader>fb", function() Snacks.picker.buffers({ sort_lastused = true }) end, desc = "Find buffers" },
+        { "<leader>fk", function() Snacks.picker.keymaps({ hl = true }) end,            desc = "Find keymap" },
+        { "<leader>fm", function() Snacks.picker.marks() end,                           desc = "Find mark" },
+        { "<leader>fn", function() Snacks.picker.notifications() end,                   desc = "Find notification" },
+        { "<leader>fr", function() Snacks.picker.lsp_references() end,                  desc = "Find lsp references" },
+        { "<leader>fS", function() Snacks.picker.lsp_workspace_symbols() end,           desc = "Find workspace symbol" },
         {
-            "<leader>Fs",
+            "<leader>fs",
             function()
                 local bufnr = vim.api.nvim_get_current_buf()
                 local clients = vim.lsp.get_clients({ bufnr = bufnr })
@@ -230,25 +230,25 @@ return {
             end,
             desc = "Find symbol in current buffer"
         },
-        { "<leader>Fi", function() Snacks.picker.icons() end,                                    desc = "Find icon" },
-        { "<leader>FI", function() Snacks.picker.lsp_incoming_calls() end,                       desc = "Find incoming calls" },
-        { "<leader>FO", function() Snacks.picker.lsp_outgoing_calls({ tree = true }) end,        desc = "Find outgoing calls" },
-        { "<leader>FT", function() Snacks.picker.lsp_type_definitions() end,                     desc = "Find type definitions" },
-        { "<leader>FB", function() Snacks.picker.lines() end,                                    desc = "Find lines in current buffer" },
-        { "<leader>Fd", function() Snacks.picker.diagnostics_buffer() end,                       desc = "Find diagnostic in current buffer" },
-        { "<leader>FH", function() Snacks.picker.highlights() end,                               desc = "Find highlight" },
-        { "<leader>Fc", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config"), }) end, desc = "Find nvim config file" },
-        { "<leader>F/", function() Snacks.picker.search_history() end,                           desc = "Find search history" },
-        { "<leader>Fj", function() Snacks.picker.jumps() end,                                    desc = "Find jump" },
+        { "<leader>fI", function() Snacks.picker.icons() end,                                    desc = "Find icon" },
+        { "<leader>fi", function() Snacks.picker.lsp_incoming_calls() end,                       desc = "Find incoming calls" },
+        { "<leader>fO", function() Snacks.picker.lsp_outgoing_calls({ tree = true }) end,        desc = "Find outgoing calls" },
+        { "<leader>fT", function() Snacks.picker.lsp_type_definitions() end,                     desc = "Find type definitions" },
+        { "<leader>fB", function() Snacks.picker.lines() end,                                    desc = "Find lines in current buffer" },
+        { "<leader>fd", function() Snacks.picker.diagnostics_buffer() end,                       desc = "Find diagnostic in current buffer" },
+        { "<leader>fH", function() Snacks.picker.highlights() end,                               desc = "Find highlight" },
+        { "<leader>fc", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config"), }) end, desc = "Find nvim config file" },
+        { "<leader>f/", function() Snacks.picker.search_history() end,                           desc = "Find search history" },
+        { "<leader>fj", function() Snacks.picker.jumps() end,                                    desc = "Find jump" },
         -- {
-        --     "<leader>FN",
+        --     "<leader>fN",
         --     function()
         --         Snacks.picker.todo_comments({ keywords = { "NOTE" }, layout = "select", buffers = true })
         --     end,
         --     desc = "Find todo"
         -- },
         -- {
-        --     "<leader>Ft",
+        --     "<leader>ft",
         --     function()
         --         if vim.bo.filetype == "markdown" then
         --             Snacks.picker.grep_buffers({
@@ -272,10 +272,10 @@ return {
         --     end,
         --     desc = "Find todo"
         -- },
-        { "<leader>FF", function() Snacks.picker.lines({ search = "FCN=" }) end,                 desc = "Jump to line" },
-        { "<leader>FK", function() Snacks.image.hover() end,                                     desc = "Display image in hover" },
+        { "<leader>fF", function() Snacks.picker.lines({ search = "FCN=" }) end,                 desc = "Jump to line" },
+        { "<leader>fK", function() Snacks.image.hover() end,                                     desc = "Display image in hover" },
         {
-            "<leader>FT",
+            "<leader>fT",
             function()
                 local function get_tabs()
                     local tabs = {}

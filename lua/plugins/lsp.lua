@@ -308,5 +308,29 @@ return {
     {
         "jakemason/ouroboros",
         event = "VeryLazy",
-    }
+    },
+    {
+        'nvimdev/lspsaga.nvim',
+        config = function()
+            require('lspsaga').setup({
+                ui = {
+                    -- code_action = '>',
+                },
+                lightbulb = {
+                    enable = false,
+                    virtual_text = false,
+                },
+                finder = {
+                    methods = {
+                        tyd = 'textDocument/typeDefinition',
+                        dec = 'textDocument/declaration'
+                    }
+                }
+            })
+        end,
+        dependencies = {
+            'nvim-treesitter/nvim-treesitter', -- optional
+            'nvim-tree/nvim-web-devicons',     -- optional
+        }
+    },
 }
