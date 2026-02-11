@@ -333,3 +333,51 @@ vim.api.nvim_create_autocmd("FileType", {
         end)
     end,
 })
+
+vim.api.nvim_create_augroup('IrreplaceableWindows', { clear = true })
+vim.api.nvim_create_autocmd('BufWinEnter', {
+    group = 'IrreplaceableWindows',
+    pattern = '*',
+    callback = function()
+        local filetypes = { 'OverseerList', 'neo-tree' }
+        local buftypes = { 'nofile', 'terminal' }
+        if vim.tbl_contains(buftypes, vim.bo.buftype) and vim.tbl_contains(filetypes, vim.bo.filetype) then
+            vim.cmd 'set winfixbuf'
+        end
+    end,
+})
+
+
+local function func_on_window(window_name, myfunc)
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+        local buf = vim.api.nvim_win_get_buf(win)
+        local ft = vim.api.nvim_get_option_value('filetype', { buf = buf })
+        if ft == window_name then
+            myfunc()
+            break
+        end
+    end
+end
+
+vim.api.nvim_create_autocmd('VimResized', {
+    pattern = '*',
+    callback = function()
+        -- File buffers
+        vim.cmd 'wincmd =' -- Equalize window sizes
+
+        -- DAP UI
+        func_on_window('dapui_stacks', function()
+            require 'dapui'.open({ reset = true })
+        end)
+    end,
+})
+
+-- wrap and check for spell in text filetypes
+vim.api.nvim_create_autocmd("FileType", {
+    group = vim.api.nvim_create_augroup("wrap_spell", { clear = true }),
+    pattern = { "gitcommit", "markdown" },
+    callback = function()
+        vim.opt_local.wrap = true
+        vim.opt_local.spell = false
+    end,
+})
