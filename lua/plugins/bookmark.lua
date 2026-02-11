@@ -4,7 +4,7 @@ return -- Using lazy.nvim
     event = "BufReadPost",
     opts = {
         -- Storage location
-        save_file = vim.fn.expand("$HOME") .. "/fusen_marks.json",
+        save_file = vim.fn.stdpath("data") .. "/fusen_marks.json",
 
         -- Mark appearance
         mark = {
@@ -59,7 +59,7 @@ return -- Using lazy.nvim
         enabled = true,
     },
     keys = {
-        { '<leader>fm',         "<cmd>Telescope fusen marks<CR>",                  desc = "Find fusen marks" },
+        { '<leader>fm',         "<cmd>Telescope fusen marks<CR>",             desc = "Find fusen marks" },
 
         { '<leader><leader>mm', function() require("fusen").add_mark() end,   desc = "fusen add mark" },
         { '<leader><leader>mc', function() require("fusen").clear_mark() end, desc = "fusen delete mark at current line" },
