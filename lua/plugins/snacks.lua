@@ -34,7 +34,7 @@ return {
                         { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2 }):map("<leader>uc")
                     Snacks.toggle.treesitter():map("<leader>uT")
                     Snacks.toggle.option("background", { off = "light", on = "dark", name = "Dark Background" }):map(
-                    "<leader>ub")
+                        "<leader>ub")
                     Snacks.toggle.inlay_hints():map("<leader>uh")
                     Snacks.toggle.indent():map("<leader>ug")
                     Snacks.toggle.dim():map("<leader>uz")
@@ -266,7 +266,10 @@ return {
             { "<leader>fP", function() Snacks.picker.lazy() end,                                    desc = "Search for Plugin Spec" },
             { "<leader>fq", function() Snacks.picker.qflist() end,                                  desc = "Quickfix List" },
 
-            { "<leader>fr", function() Snacks.picker.resume() end,                                  desc = "Resume" },
+            { "<leader>fR", function() Snacks.picker.resume() end,                                  desc = "Resume" },
+
+            { "<leader>fr", function() Snacks.rename.rename_file() end,                             desc = "Rename File" },
+            { "<leader>R",  function() Snacks.rename.rename_file() end,                             desc = "Rename File" },
 
             { "<leader>fu", function() Snacks.picker.undo() end,                                    desc = "Undo History" },
             { "<leader>ft", function() Snacks.picker.colorschemes() end,                            desc = "Colorschemes" },

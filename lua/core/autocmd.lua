@@ -236,9 +236,12 @@ local function markdown_ensure_right_plugins(args)
         local win_id = vim.api.nvim_get_current_win()
         local win_config = vim.api.nvim_win_get_config(win_id)
 
+        -- vim.notify('config: ' .. vim.inspect(win_config), vim.log.levels.DEBUG)
+
         -- lsp hover is floating window
         -- 浮动窗口通常有 relative 设置
         if win_config.relative and win_config.relative ~= "" then
+            vim.api.nvim_set_option_value('conceallevel', 0, { win = win_id })
             -- Disable render-markdown.nvim
             local ok, render_markdown = pcall(require, "render-markdown.core.manager")
             if ok and render_markdown then
@@ -251,7 +254,7 @@ local function markdown_ensure_right_plugins(args)
             local ok2, markview = pcall(require, "markview")
             if ok2 and markview then
                 vim.schedule(function()
-                    markview.actions.disable(args.buf)
+                    markview.actions.enable(args.buf)
                 end)
             end
             return
@@ -375,9 +378,30 @@ vim.api.nvim_create_autocmd('VimResized', {
 -- wrap and check for spell in text filetypes
 vim.api.nvim_create_autocmd("FileType", {
     group = vim.api.nvim_create_augroup("wrap_spell", { clear = true }),
-    pattern = { "gitcommit", "markdown" },
+    pattern = { "text", "plaintex", "typst", "gitcommit", "markdown" },
     callback = function()
         vim.opt_local.wrap = true
         vim.opt_local.spell = false
+    end,
+})
+
+-- Fix conceallevel for json files
+vim.api.nvim_create_autocmd({ "FileType" }, {
+    group = vim.api.nvim_create_augroup("json_conceal", { clear = true }),
+    pattern = { "json", "jsonc", "json5" },
+    callback = function()
+        vim.opt_local.conceallevel = 0
+    end,
+})
+
+-- Auto create dir when saving a file, in case some intermediate directory does not exist
+vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+    group = vim.api.nvim_create_augroup("auto_create_dir", { clear = true }),
+    callback = function(event)
+        if event.match:match("^%w%w+:[\\/][\\/]") then
+            return
+        end
+        local file = vim.uv.fs_realpath(event.match) or event.match
+        vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
     end,
 })
