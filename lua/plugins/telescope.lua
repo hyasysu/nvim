@@ -1,19 +1,5 @@
 return {
     {
-        "rcarriga/nvim-notify",
-        events = { "VimEnter" },
-        enabled = not require("core.options").disable_notify,
-        config = function()
-            local notify = require("notify")
-            vim.notify = notify
-            notify.setup {
-                background_colour = "#202020",
-                timeout = 2000,
-                stages = "fade_in_slide_out",
-            }
-        end
-    },
-    {
         "nvim-telescope/telescope.nvim",
         cmd = "Telescope",
         dependencies = {
@@ -148,7 +134,7 @@ return {
             { "<leader>FM", function() require("telescope.builtin").man_pages() end,   mode = { "n" }, desc = "Find man pages" },
             { "<leader>Fm", function() require("telescope.builtin").marks() end,       mode = { "n" }, desc = "Find marks" },
             {
-                "<leader>Fn",
+                "<leader>fn",
                 function()
                     if require("util").is_available "nvim-notify" then
                         require("telescope").extensions.notify.notify()
@@ -157,13 +143,13 @@ return {
                     end
                 end,
                 mode = { "n" },
-                desc = "Find notifications"
+                desc = "Find notifications(Telescope)"
             },
             { "<leader>Fo", function() require("telescope.builtin").oldfiles() end,                                                    mode = { "n" }, desc = "Find history" },
             { "<leader>Fr", function() require("telescope.builtin").registers() end,                                                   mode = { "n" }, desc = "Find registers" },
             { "<leader>Ft", function() require("telescope.builtin").colorscheme { enable_preview = true, ignore_builtins = true } end, mode = { "n" }, desc = "Find themes" },
 
-            { "<Leader>lD", function() require("telescope.builtin").diagnostics() end,                                                 mode = { "n" }, desc = "Search diagnostics" }, 
+            { "<Leader>lD", function() require("telescope.builtin").diagnostics() end,                                                 mode = { "n" }, desc = "Search diagnostics" },
         },
     },
     {

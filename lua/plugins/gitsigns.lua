@@ -3,8 +3,11 @@ return {
     enabled = vim.fn.executable "git" == 1,
     event = { "BufReadPost", "BufNewFile", "BufWritePost" },
     keys = {
-        { "<leader>gl", function() require("gitsigns").blame_line() end,                                    mode = { "n" },           desc = "View Git blame" },
-        { "<leader>gL", function() require("gitsigns").blame_line { full = true } end,                      mode = { "n" },           desc = "View full Git blame" },
+        -- { "<leader>gl", function() require("gitsigns").blame_line() end,                                    mode = { "n" },           desc = "View Git blame" },
+        -- { "<leader>gL", function() require("gitsigns").blame_line { full = true } end,                      mode = { "n" },           desc = "View full Git blame" },
+        { "<leader>gl", function() Snacks.picker.git_log() end,                                             mode = { "n" },           desc = "View Git Log" },
+        { "<leader>gL", function() Snacks.git.blame_line() end,                                             mode = { "n" },           desc = "View Git blame line" },
+        { "<leader>gb", function() Snacks.picker.git_branches() end,                                        mode = { "n" },           desc = "View Git Branches" },
         { "<leader>gp", function() require("gitsigns").preview_hunk_inline() end,                           mode = { "n" },           desc = "Preview Git hunk" },
         { "<leader>gr", function() require("gitsigns").reset_hunk() end,                                    mode = { "n" },           desc = "Reset Git hunk" },
         { "<leader>gr", function() require("gitsigns").reset_hunk { vim.fn.line ".", vim.fn.line "v" } end, mode = { "v" },           desc = "Reset Git hunk", },
@@ -22,5 +25,7 @@ return {
 
         { "ig",         ":<C-U>Gitsigns select_hunk<CR>",                                                   mode = { "o", "x" },      desc = "inside Git hunk" },
     },
-    opts = {}
+    opts = {
+        current_line_blame = true, -- Toggle with `:Gitsigns toggle_current_line_blame`
+    },
 }

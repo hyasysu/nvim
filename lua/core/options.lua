@@ -136,7 +136,10 @@ vim.o.sessionoptions = "buffers,curdir,folds,help,tabpages,winsize,winpos,termin
 
 local default_opts = {
     nerd_fonts = true,
-    disable_notify = false,
+    notify = {
+        use_nvim_notify = true,
+        use_snacks = false,
+    },
     transparent_color = true,
     more_cpp_ftdetect = true,
     enable_signature_help = false,
