@@ -165,6 +165,7 @@ local M = {
             Clipboard         = "",
             SwapNext          = "󰓡",
             SwapPre           = "󰓢",
+            Menu              = '󰍜',
         },
         diagnostics = {
             General = "󰒡",

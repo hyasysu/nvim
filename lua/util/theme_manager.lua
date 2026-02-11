@@ -12,8 +12,8 @@ function M.setup_colorscheme()
                     local ok, lualine = pcall(require, 'lualine')
                     if ok and lualine then
                         require('lualine').hide({
-                            place = { 'winbar' },     -- The segment this change applies to.
-                            unhide = false,           -- whether to re-enable lualine again/
+                            place = { 'winbar' }, -- The segment this change applies to.
+                            unhide = false,       -- whether to re-enable lualine again/
                         })
                     end
                 end, 100)
@@ -23,6 +23,7 @@ function M.setup_colorscheme()
 
     -- All the themes have installed on plugins/ui.lua
     local theme = "vscode" -- Default theme
+    -- local theme = "visual_studio_code" -- Default theme
     -- if in macos, use catppuccin-mocha
     if vim.fn.has("mac") == 1 then
         theme = "catppuccin-mocha"

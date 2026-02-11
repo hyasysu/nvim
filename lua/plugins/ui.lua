@@ -84,5 +84,9 @@ return {
     {
         "ellisonleao/gruvbox.nvim",
         event = "VeryLazy",
+    },
+    {
+        "hyasysu/visual_studio_code",
+        event = "VeryLazy"
     }
 }

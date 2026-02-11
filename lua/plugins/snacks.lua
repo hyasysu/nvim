@@ -260,8 +260,8 @@ return {
             { "<leader>fk", function() Snacks.picker.keymaps({ hl = true }) end,                    desc = "Find keymap" },
 
             { "<leader>fO", function() Snacks.picker.loclist() end,                                 desc = "Location List" },
-            { "<leader>fm", function() Snacks.picker.marks() end,                                   desc = "Find mark" },
-            { "<leader>fM", function() Snacks.picker.man() end,                                     desc = "Man Pages" },
+            { "<leader>fM", function() Snacks.picker.marks() end,                                   desc = "Find mark" },
+            { "<leader>fn", function() Snacks.picker.man() end,                                     desc = "Man Pages" },
 
             { "<leader>fP", function() Snacks.picker.lazy() end,                                    desc = "Search for Plugin Spec" },
             { "<leader>fq", function() Snacks.picker.qflist() end,                                  desc = "Quickfix List" },
