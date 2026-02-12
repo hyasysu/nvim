@@ -15,7 +15,7 @@ return {
                 -- style = 'light'
 
                 -- Enable transparent background
-                transparent = true,
+                transparent = require('core.options').transparent_color,
 
                 -- Enable italic comment
                 italic_comments = true,
@@ -55,6 +55,27 @@ return {
         "catppuccin/nvim",
         name = "catppuccin",
         event = "VeryLazy",
+        opts = {
+            transparent = require('core.options').transparent_color,
+            integations = {
+                aerial = true,
+                blink_cmp = {
+                    style = 'bordered',
+                },
+                illuminate = {
+                    enabled = true,
+                    lsp = false
+                },
+                flash = true,
+                neotree = true,
+                which_key = true,
+                treesitter = true,
+                mason = true,
+                snacks = true,
+                notify = true,
+                gitsigns = true,
+            },
+        },
     },
     {
         "sainnhe/gruvbox-material",
