@@ -149,7 +149,7 @@ return {
             { "<leader>Fr", function() require("telescope.builtin").registers() end,                                                   mode = { "n" }, desc = "Find registers" },
             { "<leader>Ft", function() require("telescope.builtin").colorscheme { enable_preview = true, ignore_builtins = true } end, mode = { "n" }, desc = "Find themes" },
 
-            { "<Leader>lD", function() require("telescope.builtin").diagnostics() end,                                                 mode = { "n" }, desc = "Search diagnostics" },
+            { "<Leader>FD", function() require("telescope.builtin").diagnostics() end,                                                 mode = { "n" }, desc = "Search diagnostics" },
         },
     },
     {
