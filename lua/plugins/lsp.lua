@@ -313,6 +313,10 @@ return {
         'nvimdev/lspsaga.nvim',
         config = function()
             require('lspsaga').setup({
+                -- use `dropbar.nvim` plugin
+                symbol_in_winbar = {
+                    enable = false,
+                },
                 ui = {
                     -- code_action = '>',
                 },
