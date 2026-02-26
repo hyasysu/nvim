@@ -100,6 +100,8 @@ vim.opt.laststatus = 3       -- Always show the status line
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 
+vim.opt.fileencodings='ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,default,latin1'
+
 -- folding
 require 'core.folding'
 
