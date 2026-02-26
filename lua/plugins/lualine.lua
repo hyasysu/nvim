@@ -287,6 +287,11 @@ return {
                 if (n == 1) then
                     if (mouse == "l") then
                         vim.cmd [[Neotree toggle]]
+                    elseif mouse == "r" then
+                        -- 右键复制文件名（不含路径）
+                        local filename = vim.fn.expand("%:p")
+                        vim.fn.setreg('+', filename)                    -- 复制到系统剪贴板（+寄存器）
+                        vim.notify('Copied: ' .. filename, vim.log.levels.INFO) -- 可选提示
                     end
                 end
             end,
@@ -354,7 +359,7 @@ return {
         local aerial = {
             'aerial',
             cond = function()
-                return vim.bo.buftype == ''
+                return vim.bo.buftype == '' and require('core.options').lualine_winbar_show
             end,
             on_click = function(n, mouse)
                 if (n == 1) then

@@ -10,7 +10,7 @@ map({ "n" }, "<Leader>rr", function() require("custom_plugins.compile_run").comp
 
 
 map({ "n" }, "<leader>lo", "<Cmd>AerialToggle!<CR>", { desc = "Toggle Aerial" })
-map({ "n" }, "<leader>lO", "<Cmd>Lspsaga outline<CR>", { desc = "Toggle Aerial" })
+map({ "n" }, "<leader>lO", "<Cmd>Lspsaga outline<CR>", { desc = "Toggle Lspsaga Outline" })
 
 -- LSP, default `gra`
 map({ "n", "x" }, "<Leader>la", function() vim.lsp.buf.code_action() end, { desc = "LSP code action" })
