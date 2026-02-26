@@ -80,7 +80,7 @@ map({ 'v', 'n' }, '<F2>', function() return ":IncRename " .. vim.fn.expand("<cwo
     { expr = true, desc = 'Rename symbol' })
 map({ 'v', 'n' }, 'gN', function() return ":IncRename " end, { expr = true, desc = 'Rename symbol' })
 map({ "n" }, "grn", function() vim.lsp.buf.rename() end, { desc = "Rename current symbol" })
-map({ "n" }, "<leader>ln", "Lspsaga rename<CR>", { desc = "Rename current symbol" })
+map({ "n" }, "<leader>ln", "<cmd>Lspsaga rename<CR>", { desc = "Rename current symbol" })
 
 map({ "n", "v" }, "<leader>lR", "<cmd>LspStop | LspStart<CR>", { silent = true, desc = "Restart LSP" })
 
