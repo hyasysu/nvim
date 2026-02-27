@@ -1,0 +1,44 @@
+Language:        Cpp
+BasedOnStyle:  Microsoft
+#访问声明符缩进
+AccessModifierOffset: -4
+# Tab宽度, 建议4
+TabWidth:        4
+# 缩进宽度
+IndentWidth:     4
+# 设置最大行长度为
+ColumnLimit: 160
+# 不允许排序#include
+SortIncludes: Never
+# 指针对齐方式: Left, Right, Middle
+PointerAlignment: Left
+# 大括号换行，只有当BreakBeforeBraces设置为Custom时才有效
+BraceWrapping:
+  # class定义后面
+  AfterClass:      false
+  # 控制语句后面
+  AfterControlStatement: false
+  # enum定义后面
+  AfterEnum:       false
+  # 函数定义后面
+  AfterFunction:   false
+  # 命名空间定义后面
+  AfterNamespace:  false
+  # 结构体定义后面
+  AfterStruct:     false
+  # 联合体定义后面
+  AfterUnion:      false
+  # 在catch块之前换行
+  AfterObjCDeclaration: false
+  # 在else块之前换行
+  BeforeElse:      false
+  # 在catch块之前换行
+  BeforeCatch:     false
+  # 缩进大括号
+  IndentBraces:    false
+    # 分离空函数
+  SplitEmptyFunction: false
+  # 分离空语句
+  SplitEmptyRecord: false
+  # 分离空命名空间
+  SplitEmptyNamespace: false
