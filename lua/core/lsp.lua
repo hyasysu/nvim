@@ -12,7 +12,11 @@ map({ "n" }, "<Leader>rr", function() require("custom_plugins.compile_run").comp
 map({ "n" }, "<leader>lo", "<Cmd>AerialToggle!<CR>", { desc = "Toggle Aerial" })
 map({ "n" }, "<leader>lO", "<Cmd>Lspsaga outline<CR>", { desc = "Toggle Lspsaga Outline" })
 
+
+
 -- LSP, default `gra`
+map({ 'n', 'x' }, 'gra', function() vim.lsp.buf.code_action() end, { desc = 'vim.lsp.buf.code_action()' })
+map({ 'n', 'x' }, 'grA', "<cmd>Lspsaga code_action", { desc = 'Lspsaga code_action' })
 map({ "n", "x" }, "<Leader>la", function() vim.lsp.buf.code_action() end, { desc = "LSP code action" })
 map({ "n" }, "<Leader>lA", function() vim.lsp.buf.code_action { context = { only = { "source" }, diagnostics = {} } } end,
     { desc = "LSP source action", })
@@ -30,7 +34,7 @@ map({ "n", "v" }, "<leader>lr", lsp_references, { desc = "LSP references" })
 
 map({ "n" }, "<leader>lz", "<cmd>Lspsaga finder<CR>", { desc = "Lspsags references and implementation" })
 map({ "n" }, "<leader>lZ", "<cmd>Lspsaga finder def+ref+imp+tyd+dec<CR>",
-{ desc = "Lspsags references and implementation" })
+    { desc = "Lspsags references and implementation" })
 map({ "n" }, "<F60>", "<cmd>Lspsaga finder def+ref+imp+tyd+dec<CR>", { desc = "Lspsags references and implementation" })
 map({ "n" }, "<M-F12>", "<cmd>Lspsaga finder def+ref+imp+tyd+dec<CR>", { desc = "Lspsags references and implementation" })
 
