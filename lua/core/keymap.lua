@@ -8,6 +8,11 @@ map({ "n" }, "<leader>q", "<cmd>wqa!<CR>", { desc = "Force quit Neovim" })
 map({ "i", "n", "v", "s" }, "<C-s>", "<Cmd>w<CR>", { desc = "Save file", silent = true })
 map({ "i", "n", "v", "s" }, "<D-s>", "<Cmd>w<CR>", { desc = "Save file", silent = true })
 
+map('n', '<X1Mouse>', '<C-o>', { desc = 'Jump Backward' })
+map('n', '<X2Mouse>', '<C-i>', { desc = 'Jump Forward' })
+map({ 'i', 'v' }, '<X1Mouse>', '<Esc><C-o>', { desc = 'Jump Backward' })
+map({ 'i', 'v' }, '<X2Mouse>', '<Esc><C-i>', { desc = 'Jump Forward' })
+
 -- Ctrl+Insert Copy; Shift+Insert Paste
 map({ "n", "v" }, "<C-Insert>", "\"+y", { silent = true, desc = "Copy to system clipboard" })
 map("i", "<C-Insert>", "<Esc>\"+yya", { silent = true, desc = "Copy to system clipboard" })

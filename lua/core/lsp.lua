@@ -61,6 +61,8 @@ map({ "n", "v" }, "<leader>lU", function() vim.lsp.buf.typehierarchy("supertypes
 -- 查找符号定义
 -- map("n", "gd", "<cmd>Telescope lsp_definitions<CR>", { desc = 'Goto definition' })
 map("n", "gd", function() Snacks.picker.lsp_definitions() end, { desc = 'Goto definition' })
+map('n', '<C-LeftMouse>', function() Snacks.picker.lsp_definitions() end, { desc = 'Goto definition' })
+
 map("n", "<F12>", function() Snacks.picker.lsp_definitions() end, { desc = 'Goto definition' })
 -- 查找符号声明
 map("n", "gD", function() vim.lsp.buf.declaration() end, { desc = 'Goto declaration' })
