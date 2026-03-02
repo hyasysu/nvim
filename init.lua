@@ -11,6 +11,7 @@ require("core.autocmd")
 require("core.keymap")
 require("core.lsp")
 require("core.lazy")
+require("core.neovide")
 
 require("custom_plugins")
 
