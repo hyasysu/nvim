@@ -74,6 +74,14 @@ return {
             mode = { "n" },
             desc = "Close buffer"
         },
+        {
+            "<C-b>",
+            function()
+                Snacks.bufdelete.delete()
+            end,
+            mode = { "n" },
+            desc = "Close buffer"
+        },
         { "<leader>bd", "<cmd>BufferLineCloseOthers<cr>",          mode = { "n" }, desc = "Close other buffers" },
         { "<leader>bf", "<cmd>BufferLinePick<cr>",                 mode = { "n" }, desc = "Search and jump to buffer" },
 
