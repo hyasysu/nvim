@@ -42,3 +42,5 @@ BraceWrapping:
   SplitEmptyRecord: false
   # 分离空命名空间
   SplitEmptyNamespace: false
+# template 独立一行
+AlwaysBreakTemplateDeclarations: Yes
