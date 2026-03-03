@@ -12,6 +12,37 @@ ColumnLimit: 160
 SortIncludes: Never
 # 指针对齐方式: Left, Right, Middle
 PointerAlignment: Left
+# 开括号(开圆括号、开尖括号、开方括号)后的对齐: Align, DontAlign, AlwaysBreak(总是在开括号后换行)
+AlignAfterOpenBracket: Align
+# 连续赋值时，对齐所有等号
+AlignConsecutiveAssignments: false
+# 连续声明时，对齐所有声明的变量名
+AlignConsecutiveDeclarations: false
+# 转义的换行符左对齐: true, false
+AlignEscapedNewlinesLeft: true
+# 操作符的对齐: true, false
+AlignOperands:   true
+# 尾随注释的对齐: true, false
+AlignTrailingComments: true
+# 允许所有参数在声明时在下一行: true, false
+AllowAllParametersOfDeclarationOnNextLine: true
+# 允许短块在同一行: true, false
+AllowShortBlocksOnASingleLine: false
+# 允许短case标签在同一行: true, false
+AllowShortCaseLabelsOnASingleLine: false
+# 允许短函数在同一行: true, false
+AllowShortFunctionsOnASingleLine: All
+# 允许短if语句在同一行: true, false
+AllowShortIfStatementsOnASingleLine: true
+# 允许短循环语句在同一行: true, false
+AllowShortLoopsOnASingleLine: true
+# 定义返回类型后是否总是换行: None, All, TopLevel
+AlwaysBreakAfterDefinitionReturnType: None
+# 总是在返回类型后换行: None, All, TopLevel(顶级函数，不包括在类中的函数), 
+# AllDefinitions(所有的定义，不包括声明), TopLevelDefinitions(所有的顶级函数的定义)
+AlwaysBreakAfterReturnType: None
+# 总是在多行字符串前换行: true, false
+AlwaysBreakBeforeMultilineStrings: true
 # 大括号换行，只有当BreakBeforeBraces设置为Custom时才有效
 BraceWrapping:
   # class定义后面
