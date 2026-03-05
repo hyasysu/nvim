@@ -190,6 +190,8 @@ local M = {
             Delete = "",
             Reset = "",
             Target = "",
+            Clear = "󰗨",
+            Rebuild = "󰑓",
         },
         dap = {
             Debugger = "",

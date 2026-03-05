@@ -49,6 +49,41 @@ return {
     opts = {
         cmake_build_options = { "-j", get_jobs_number() },
     },
+    cmd = {
+        'CMakeGenerate',
+        'CMakeBuild',
+        'CMakeBuildCurrentFile',
+        'CMakeRun',
+        'CMakeRunCurrentFile',
+        'CMakeDebug',
+        'CMakeDebugCurrentFile',
+        'CMakeRunTest',
+        'CMakeLaunchArgs',
+        'CMakeSelectBuildType',
+        'CMakeSelectBuildTarget',
+        'CMakeSelectLaunchTarget',
+        'CMakeSelectKit',
+        'CMakeSelectConfigurePreset',
+        'CMakeSelectBuildPreset',
+        'CMakeSelectCwd',
+        'CMakeSelectBuildDir',
+        'CMakeOpenExecutor',
+        'CMakeOpenRunner',
+        'CMakeOpenCache',
+        'CMakeCloseExecutor',
+        'CMakeCloseRunner',
+        'CMakeInstall',
+        'CMakeClean',
+        'CMakeStopExecutor',
+        'CMakeStopRunner',
+        'CMakeQuickBuild',
+        'CMakeQuickRun',
+        'CMakeQuickDebug',
+        'CMakeShowTargetFiles',
+        'CMakeQuickStart',
+        'CMakeSettings',
+        'CMakeTargetSettings',
+    },
     config = function()
         require("cmake-tools").setup {
             cmake_command = "cmake",          -- thie is used to specify cmake command path
@@ -138,7 +173,7 @@ return {
                                 autos_croll = true,
                                 quit_on_exit = "success"
                             }
-                        }, -- options to pass into the `overseer.new_task` command
+                        },   -- options to pass into the `overseer.new_task` command
                         on_new_task = function(task)
                         end, -- a function that gets overseer.Task when it is created, before calling `task:start`
                     },

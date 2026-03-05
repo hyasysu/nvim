@@ -109,6 +109,12 @@ map({ 'v', 'n', 'i', 't' }, '<M-Right>', [[<Cmd>wincmd ><CR>]], { desc = "Increa
 
 map({ 'v', 'n', 'i', 't' }, '<M-q>', [[<Cmd>wincmd q<CR>]], { desc = "Close current window" })
 
+map({ 'n' }, '<leader>wc',
+    function()
+        for _, win in ipairs(vim.api.nvim_list_wins()) do if vim.api.nvim_win_get_config(win).relative ~= "" then vim
+                    .api.nvim_win_close(win, false) end end
+    end, { desc = 'Close all float windows' })
+
 map('n', '<Esc>', function() require("util").escape_to_normal_with_nohls() end,
     { noremap = true, desc = "Clear search highlighting" })
 map('t', '<Esc>', [[<C-\><C-n>]], { noremap = true, desc = "Exit terminal mode" })

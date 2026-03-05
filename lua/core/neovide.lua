@@ -1,5 +1,6 @@
 if vim.g.neovide then
-    vim.o.guifont = "DMMono Nerd Font,Maple Mono Normal NF,FiraCode Nerd Font:h13"
+    -- Maple Mono NF: on mac
+    vim.o.guifont = "DMMono Nerd Font,Maple Mono Normal NF,Maple Mono NF,FiraCode Nerd Font:h13"
 
     vim.g.neovide_title_background_color = string.format(
         "%x",

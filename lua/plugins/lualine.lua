@@ -78,6 +78,24 @@ local function get_cmake()
     return cmake
 end
 
+local function build_launch_target()
+    local b_target = get_cmake().get_build_target()
+    if not b_target then
+        local l_target = get_cmake().get_launch_target()
+        if l_target then
+            get_cmake().build({
+                target = l_target,
+            }, cmake_build_callback)
+            return
+        end
+        get_cmake().build({
+            target = 'all',
+        }, cmake_build_callback)
+    else
+        get_cmake().build({}, cmake_build_callback)
+    end
+end
+
 return {
     'nvim-lualine/lualine.nvim',
     event = { "BufReadPost", "BufNewFile" },
@@ -129,10 +147,13 @@ return {
                     if not b_target then
                         return get_icon("cmake", "Target")
                     end
+                    local str_target = ""
                     if type(b_target) == "table" then
-                        b_target = table.concat(b_target, ", ")
+                        str_target = table.concat(b_target, ", ")
+                    else
+                        str_target = b_target
                     end
-                    return get_icon("cmake", "Target") .. string.format(" [%s]", b_target)
+                    return get_icon("cmake", "Target") .. string.format(" [%s]", str_target)
                 end,
                 cond = function()
                     return get_cmake().is_cmake_project() and vim.bo.buftype == ''
@@ -140,21 +161,7 @@ return {
                 on_click = function(n, mouse)
                     if (n == 1) then
                         if (mouse == "l") then
-                            local b_target = get_cmake().get_build_target()
-                            if not b_target then
-                                local l_target = get_cmake().get_launch_target()
-                                if l_target then
-                                    get_cmake().build({
-                                        target = l_target,
-                                    }, cmake_build_callback)
-                                    return
-                                end
-                                get_cmake().build({
-                                    target = 'all',
-                                }, cmake_build_callback)
-                            else
-                                get_cmake().build({}, cmake_build_callback)
-                            end
+                            build_launch_target()
                         elseif (mouse == "r") then
                             get_cmake().select_build_target()
                         end
@@ -182,7 +189,7 @@ return {
             },
             clean = {
                 function()
-                    return get_icon("cmake", "Reset")
+                    return get_icon("cmake", "Clear")
                 end,
                 cond = function()
                     return get_cmake().is_cmake_project() and vim.bo.buftype == ''
@@ -191,6 +198,28 @@ return {
                     if (n == 1) then
                         if (mouse == "l") then
                             get_cmake().clean(cmake_clean_callback)
+                        end
+                    end
+                end
+            },
+            rebuild = {
+                function()
+                    return get_icon("cmake", "Rebuild")
+                end,
+                cond = function()
+                    return get_cmake().is_cmake_project() and vim.bo.buftype == ''
+                end,
+                on_click = function(n, mouse)
+                    if (n == 1) then
+                        if (mouse == "l") then
+                            get_cmake().clean(function(res)
+                                cmake_callback(res, "CMake Clean")
+                                if res.code ~= 0 then
+                                    return
+                                end
+                                vim.schedule(build_launch_target)
+                            end)
+                        elseif (mouse == "r") then
                         end
                     end
                 end
@@ -290,7 +319,7 @@ return {
                     elseif mouse == "r" then
                         -- 右键复制文件名（不含路径）
                         local filename = vim.fn.expand("%:p")
-                        vim.fn.setreg('+', filename)                    -- 复制到系统剪贴板（+寄存器）
+                        vim.fn.setreg('+', filename)                            -- 复制到系统剪贴板（+寄存器）
                         vim.notify('Copied: ' .. filename, vim.log.levels.INFO) -- 可选提示
                     end
                 end
@@ -600,7 +629,7 @@ return {
             tabline = {},
             winbar = {
                 lualine_a = { switch_winbar_component },
-                lualine_b = { cmake_component.preset_or_build_type, cmake_component.build_target, cmake_component.kit, cmake_component.clean },
+                lualine_b = { cmake_component.preset_or_build_type, cmake_component.build_target, cmake_component.kit, cmake_component.clean, cmake_component.rebuild },
                 lualine_c = { cmake_component.debug, cmake_component.run },
                 lualine_x = { aerial },
                 lualine_y = {},
