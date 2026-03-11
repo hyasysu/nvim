@@ -9,6 +9,7 @@ return {
         { "<Leader>tv", "<Cmd>ToggleTerm size=80 direction=vertical<CR>",   mode = { "n" },                desc = "ToggleTerm vertical split" }
     },
     opts = {
+        shell = vim.fn.executable("pwsh") == 1 and "pwsh" or vim.o.shell,
         size = 10,
         -- open_mapping = [[<C-\>]], -- Switch terminal with Ctrl-\
         hide_numbers = true,      -- hide the number column in toggleterm buffers
