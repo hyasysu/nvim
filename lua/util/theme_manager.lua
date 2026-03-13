@@ -22,8 +22,9 @@ function M.setup_colorscheme()
     })
 
     -- All the themes have installed on plugins/ui.lua
-    local theme = "vscode" -- Default theme
+    -- local theme = "vscode" -- Default theme
     -- local theme = "visual_studio_code" -- Default theme
+    local theme = "catppuccin-mocha"
     -- if in macos, use catppuccin-mocha
     if vim.fn.has("mac") == 1 then
         theme = "catppuccin-mocha"
