@@ -542,6 +542,19 @@ return {
             end,
         }
 
+        local progress_with_dismiss_notify = {
+            'progress',
+            on_click = function(n, mouse)
+                if (n == 1) then
+                    if (mouse == 'l') then
+                        require("notify").dismiss { pending = true, silent = true }
+                    elseif (mouse == 'r') then
+                        vim.cmd("normal! zz")
+                    end
+                end
+            end
+        }
+
         if require("core.options").nerd_fonts then
             -- diagnostics.symbols = { error = icons.diagnostics.Error, warn = icons.diagnostics.Warning, info = icons.diagnostics.Information, hint = icons.diagnostics.Question }
             branch.icon = get_icon("git", "Branch")
@@ -616,7 +629,7 @@ return {
                 lualine_c = { filename, switch_winbar_section_component, compile_run_section_component, copilot_component },
                 lualine_x = { encoding, 'filetype', lsp_status, venv_component },
                 lualine_y = { 'searchcount', 'quickfix' },
-                lualine_z = { switch_tabstop_component, 'progress', 'location' },
+                lualine_z = { switch_tabstop_component, progress_with_dismiss_notify, 'location' },
             },
             inactive_sections = {
                 lualine_a = {},
