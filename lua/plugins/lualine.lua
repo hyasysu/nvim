@@ -417,6 +417,10 @@ return {
                 if (n == 1) then
                     if (mouse == "l") then
                         vim.cmd [[LspInfo]]
+                    elseif (mouse == "r") then
+                        if vim.lsp.inlay_hint ~= nil then
+                            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+                        end
                     end
                 end
             end,
