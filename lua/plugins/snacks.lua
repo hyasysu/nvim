@@ -226,57 +226,58 @@ return {
         },
         keys = {
             -- lazygit
-            { "<leader>gg", function() require('snacks').lazygit() end,                             desc = "Open LazyGit" },
+            { "<leader>gg", function() require('snacks').lazygit() end,                                   desc = "Open LazyGit" },
 
             -- picker use <leader>f prefix (telescope use <leader>F)
-            { "<leader>ff", function() Snacks.picker.smart() end,                                   desc = "Smart find file" },
-            { "<leader>fb", function() Snacks.picker.buffers({ sort_lastused = true }) end,         desc = "Find buffers" },
-            { "<leader>fo", function() Snacks.picker.recent() end,                                  desc = "Find recent file" },
-            { "<leader>fc", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "Find nvim Config File" },
-            { "<leader>fF", function() Snacks.picker.files() end,                                   desc = "Find Files" },
-            { "<leader>fG", function() Snacks.picker.git_files() end,                               desc = "Find Git Files" },
-            { "<leader>fp", function() Snacks.picker.projects() end,                                desc = "Projects" },
+            { "<leader>ff", function() Snacks.picker.smart() end,                                         desc = "Smart find file" },
+            { "<leader>fb", function() Snacks.picker.buffers({ sort_lastused = true }) end,               desc = "Find buffers" },
+            { "<leader>fo", function() Snacks.picker.recent() end,                                        desc = "Find recent file" },
+            { "<leader>fc", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end,       desc = "Find nvim Config File" },
+            { "<leader>fF", function() Snacks.picker.files() end,                                         desc = "Find Files" },
+            { "<leader>fv", function() Snacks.picker.files({ cwd = vim.fn.input("Find files in ") }) end, desc = "Find Files in custom folder" },
+            { "<leader>fG", function() Snacks.picker.git_files() end,                                     desc = "Find Git Files" },
+            { "<leader>fp", function() Snacks.picker.projects() end,                                      desc = "Projects" },
 
             -- Grep
-            { "<leader>fw", function() Snacks.picker.grep() end,                                    desc = "Grep" },
-            { "<leader>fW", function() Snacks.picker.grep_word() end,                               desc = "Visual selection or word",         mode = { "n", "x" } },
-            { "<leader>fB", function() Snacks.picker.grep_buffers() end,                            desc = "Grep Open Buffers" },
-            { "<leader>fl", function() Snacks.picker.lines() end,                                   desc = "Buffer Lines" },
+            { "<leader>fw", function() Snacks.picker.grep() end,                                          desc = "Grep" },
+            { "<leader>fW", function() Snacks.picker.grep_word() end,                                     desc = "Visual selection or word",         mode = { "n", "x" } },
+            { "<leader>fB", function() Snacks.picker.grep_buffers() end,                                  desc = "Grep Open Buffers" },
+            { "<leader>fl", function() Snacks.picker.lines() end,                                         desc = "Buffer Lines" },
 
             -- Search
-            { '<leader>f"', function() Snacks.picker.registers() end,                               desc = "Registers" },
-            { '<leader>f/', function() Snacks.picker.search_history() end,                          desc = "Search History" },
-            { "<leader>fa", function() Snacks.picker.autocmds() end,                                desc = "Autocmds" },
-            { "<leader>f:", function() Snacks.picker.command_history() end,                         desc = "Command History" },
-            { "<leader>fC", function() Snacks.picker.commands() end,                                desc = "Commands" },
+            { '<leader>f"', function() Snacks.picker.registers() end,                                     desc = "Registers" },
+            { '<leader>f/', function() Snacks.picker.search_history() end,                                desc = "Search History" },
+            { "<leader>fa", function() Snacks.picker.autocmds() end,                                      desc = "Autocmds" },
+            { "<leader>f:", function() Snacks.picker.command_history() end,                               desc = "Command History" },
+            { "<leader>fC", function() Snacks.picker.commands() end,                                      desc = "Commands" },
 
-            { "<leader>fd", function() Snacks.picker.diagnostics() end,                             desc = "Diagnostics" },
-            { "<leader>fD", function() Snacks.picker.diagnostics_buffer() end,                      desc = "Find diagnostic in current buffer" },
-            { "<leader>fh", function() Snacks.picker.help() end,                                    desc = "Find in help" },
-            { "<leader>fH", function() Snacks.picker.highlights() end,                              desc = "Find highlight" },
+            { "<leader>fd", function() Snacks.picker.diagnostics() end,                                   desc = "Diagnostics" },
+            { "<leader>fD", function() Snacks.picker.diagnostics_buffer() end,                            desc = "Find diagnostic in current buffer" },
+            { "<leader>fh", function() Snacks.picker.help() end,                                          desc = "Find in help" },
+            { "<leader>fH", function() Snacks.picker.highlights() end,                                    desc = "Find highlight" },
 
-            { "<leader>fi", function() Snacks.picker.icons() end,                                   desc = "Find icon" },
-            { "<leader>fj", function() Snacks.picker.jumps() end,                                   desc = "Find jump" },
-            { "<leader>fk", function() Snacks.picker.keymaps({ hl = true }) end,                    desc = "Find keymap" },
+            { "<leader>fi", function() Snacks.picker.icons() end,                                         desc = "Find icon" },
+            { "<leader>fj", function() Snacks.picker.jumps() end,                                         desc = "Find jump" },
+            { "<leader>fk", function() Snacks.picker.keymaps({ hl = true }) end,                          desc = "Find keymap" },
 
-            { "<leader>fO", function() Snacks.picker.loclist() end,                                 desc = "Location List" },
-            { "<leader>fM", function() Snacks.picker.marks() end,                                   desc = "Find mark" },
+            { "<leader>fO", function() Snacks.picker.loclist() end,                                       desc = "Location List" },
+            { "<leader>fM", function() Snacks.picker.marks() end,                                         desc = "Find mark" },
             -- { "<leader>fm", function() Snacks.picker.man() end,                                     desc = "Man Pages" },
 
-            { "<leader>fP", function() Snacks.picker.lazy() end,                                    desc = "Search for Plugin Spec" },
-            { "<leader>fq", function() Snacks.picker.qflist() end,                                  desc = "Quickfix List" },
+            { "<leader>fP", function() Snacks.picker.lazy() end,                                          desc = "Search for Plugin Spec" },
+            { "<leader>fq", function() Snacks.picker.qflist() end,                                        desc = "Quickfix List" },
 
-            { "<leader>fR", function() Snacks.picker.resume() end,                                  desc = "Resume" },
+            { "<leader>fR", function() Snacks.picker.resume() end,                                        desc = "Resume" },
 
-            { "<leader>fr", function() Snacks.rename.rename_file() end,                             desc = "Rename File" },
-            { "<leader>R",  function() Snacks.rename.rename_file() end,                             desc = "Rename File" },
+            { "<leader>fr", function() Snacks.rename.rename_file() end,                                   desc = "Rename File" },
+            { "<leader>R",  function() Snacks.rename.rename_file() end,                                   desc = "Rename File" },
 
-            { "<leader>fu", function() Snacks.picker.undo() end,                                    desc = "Undo History" },
-            { "<leader>ft", function() Snacks.picker.colorschemes() end,                            desc = "Colorschemes" },
+            { "<leader>fu", function() Snacks.picker.undo() end,                                          desc = "Undo History" },
+            { "<leader>ft", function() Snacks.picker.colorschemes() end,                                  desc = "Colorschemes" },
 
-            { "<leader>fL", function() Snacks.picker.picker_layouts() end,                          desc = "Find picker layout" },
-            { "<leader>fN", function() Snacks.picker.notifications() end,                           desc = "Find notification(Snacks)" },
-            { "<leader>fS", function() Snacks.picker.lsp_workspace_symbols() end,                   desc = "Find workspace symbol" },
+            { "<leader>fL", function() Snacks.picker.picker_layouts() end,                                desc = "Find picker layout" },
+            { "<leader>fN", function() Snacks.picker.notifications() end,                                 desc = "Find notification(Snacks)" },
+            { "<leader>fS", function() Snacks.picker.lsp_workspace_symbols() end,                         desc = "Find workspace symbol" },
             {
                 "<leader>fs",
                 function()
