@@ -31,37 +31,6 @@ return {
                     },
                 },
             })
-
-            -- Configure diagnostics
-            vim.diagnostic.config({
-                underline = true,
-                virtual_text = false, -- Disable Neovim's default virtual text diagnostics
-                signs = {
-                    text = {
-                        [vim.diagnostic.severity.ERROR] = "",
-                        [vim.diagnostic.severity.WARN] = "",
-                        [vim.diagnostic.severity.HINT] = "󰌵",
-                        [vim.diagnostic.severity.INFO] = "󰋼"
-                    },
-                    texthl = {
-                        [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
-                        [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
-                        [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
-                        [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
-                    },
-                },
-                update_in_insert = false,
-                severity_sort = true,
-                float = {
-                    focused = false,
-                    style = "minimal",
-                    border = "rounded",
-                    source = true,
-                    header = "",
-                    prefix = "",
-                },
-                jump = vim.fn.has "nvim-0.11" == 1 and { float = true } or nil,
-            })
         end,
     },
     {
