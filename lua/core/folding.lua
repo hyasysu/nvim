@@ -82,9 +82,9 @@ vim.api.nvim_create_autocmd("BufReadPost", {
         -- 使用 schedule 延迟执行，确保在插件初始化完成后加载
         vim.defer_fn(function()
             -- silent! 避免在没有保存过 view 的新文件中报错
-            vim.notify("loadview", vim.log.levels.INFO)
+            vim.notify("Load flod view...", vim.log.levels.INFO)
             vim.cmd("silent! loadview")
-        end, 3000)
+        end, 5000)
     end,
 })
 -- vim.cmd [[

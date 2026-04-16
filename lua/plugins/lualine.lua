@@ -559,6 +559,27 @@ return {
             end
         }
 
+        local location_and_wrap = {
+            'location',
+            on_click = function(n, mouse)
+                if (n == 1) then
+                    if (mouse == 'l') then
+                        local is_wrapped = vim.opt.wrap:get()
+                        if not is_wrapped then
+                            vim.opt.wrap = true
+                            vim.opt.linebreak = true   -- 不在单词中间折行
+                            vim.opt.breakindent = true -- 折行后的行首会保持缩进对齐
+                            vim.notify("Wrap: ON (Visual Friendly)", vim.log.levels.INFO)
+                        else
+                            vim.opt.wrap = false
+                            vim.opt.linebreak = false
+                            vim.notify("Wrap: OFF", vim.log.levels.INFO)
+                        end
+                    end
+                end
+            end
+        }
+
         if require("core.options").nerd_fonts then
             -- diagnostics.symbols = { error = icons.diagnostics.Error, warn = icons.diagnostics.Warning, info = icons.diagnostics.Information, hint = icons.diagnostics.Question }
             branch.icon = get_icon("git", "Branch")
@@ -633,7 +654,7 @@ return {
                 lualine_c = { filename, switch_winbar_section_component, compile_run_section_component, copilot_component },
                 lualine_x = { encoding, 'filetype', lsp_status, venv_component },
                 lualine_y = { 'searchcount', 'quickfix' },
-                lualine_z = { switch_tabstop_component, progress_with_dismiss_notify, 'location' },
+                lualine_z = { switch_tabstop_component, progress_with_dismiss_notify, location_and_wrap },
             },
             inactive_sections = {
                 lualine_a = {},
