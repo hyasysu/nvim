@@ -62,3 +62,35 @@ function _G.custom_foldtext()
 end
 
 vim.opt.foldtext = 'v:lua.custom_foldtext()'
+
+local save_fold = vim.api.nvim_create_augroup("Persistent Folds", { clear = false })
+
+-- 1. 退出缓冲区时自动保存折叠状态
+vim.api.nvim_create_autocmd("BufWinLeave", {
+    group = save_fold,
+    pattern = "?*", -- 匹配所有有文件名的缓冲区
+    callback = function()
+        vim.cmd.mkview()
+    end,
+})
+
+-- 2. 进入缓冲区时自动加载折叠状态
+vim.api.nvim_create_autocmd("BufReadPost", {
+    group = save_fold,
+    pattern = "?*",
+    callback = function()
+        -- 使用 schedule 延迟执行，确保在插件初始化完成后加载
+        vim.defer_fn(function()
+            -- silent! 避免在没有保存过 view 的新文件中报错
+            vim.notify("loadview", vim.log.levels.INFO)
+            vim.cmd("silent! loadview")
+        end, 3000)
+    end,
+})
+-- vim.cmd [[
+-- augroup remember_folds
+-- autocmd!
+-- autocmd BufWinLeave * mkview
+-- autocmd BufWinEnter * silent! loadview
+-- augroup END
+-- ]]
