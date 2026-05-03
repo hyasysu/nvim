@@ -31,7 +31,7 @@ AllowShortBlocksOnASingleLine: false
 # 允许短case标签在同一行: true, false
 AllowShortCaseLabelsOnASingleLine: false
 # 允许短函数在同一行: true, false
-AllowShortFunctionsOnASingleLine: All
+AllowShortFunctionsOnASingleLine: Empty
 # 允许短if语句在同一行: true, false
 AllowShortIfStatementsOnASingleLine: true
 # 允许短循环语句在同一行: true, false
