@@ -43,6 +43,36 @@ function M.have(what, query)
     return true
 end
 
+---@return string?
+local function win_find_cl()
+    -- 现代 VS 的标准根目录
+    local base_path = "C:/Program Files/Microsoft Visual Studio"
+
+    -- 1. 首先：精准检查是否存在第 18 版 (优先使用)
+    -- 这里的第二个 * 代表 Community/Professional 等版本，第三个 * 代表 MSVC 内部版本号
+    local res_18 = vim.fn.globpath(base_path, "18/*/VC/Tools/MSVC/*/bin/Hostx64/x64/cl.exe", true, true)
+    if res_18 and #res_18 > 0 then
+        -- 考虑到你 18 里面装了 4 个编译器版本，#res_18 能保证拿到最后面（最新）的那个 14.51.36231
+        return res_18[#res_18]
+    end
+
+    -- 2. 其次：如果没找到 18，再精准检查 2022 版
+    local res_2022 = vim.fn.globpath(base_path, "2022/*/VC/Tools/MSVC/*/bin/Hostx64/x64/cl.exe", true, true)
+    if res_2022 and #res_2022 > 0 then
+        return res_2022[#res_2022]
+    end
+
+    -- 3. 垫底备份：如果 18 和 2022 都没有（比如你以后又装了新版 VS），再执行原本的模糊搜索
+    local pattern = "*/*/VC/Tools/MSVC/*/bin/Hostx64/x64/cl.exe"
+    local fallback_res = vim.fn.globpath(base_path, pattern, true, true)
+    if fallback_res and #fallback_res > 0 then
+        return fallback_res[#fallback_res]
+    end
+
+    -- 真的全都没有，返回 nil
+    return nil
+end
+
 ---@return boolean ok, lazyvim.util.treesitter.Health health
 function M.check()
     local is_win = vim.fn.has("win32") == 1
