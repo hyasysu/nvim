@@ -119,7 +119,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     callback = function(event)
         local client = vim.lsp.get_client_by_id(event.data.client_id)
         vim.notify("LSP attached " .. client.name .. ".", vim.log.levels.INFO,
-            { icon = require("util.icons").get_icon("ui", "ActiveLSP"), title = "LSP" })
+            { icon = require("util.icons").get_icon("ui", "ActiveLSP"), title = "LSP", timeout = 1000 })
     end
 })
 

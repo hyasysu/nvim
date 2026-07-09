@@ -9,6 +9,7 @@ return {
             background_colour = "#202020",
             timeout = 2000,
             stages = "fade_in_slide_out",
+            merge_duplicates = true,
         }
     end
 }
